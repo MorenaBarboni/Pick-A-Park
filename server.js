@@ -3,9 +3,12 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var passport = require('passport');
 
 //Database configuration
 require('./app/config/db');
+//Passport configuration
+require('./app/config/passport');
 
 // Import API routes
 var routesApi = require('./app/routes/routes');
@@ -22,6 +25,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Initialize Passport 
+app.use(passport.initialize());
 
 // API routes used when path starts with /api
 app.use('/api', routesApi);
