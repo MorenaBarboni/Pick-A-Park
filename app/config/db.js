@@ -4,6 +4,9 @@ var mongoose = require('mongoose');
 //Connection string
 var url = 'mongodb://localhost/pickapark';
 
+//Schemas
+require('../models/users');
+
 // Connect to Mongoose and set connection variable
 mongoose.connect(url, { useNewUrlParser: true });
 
