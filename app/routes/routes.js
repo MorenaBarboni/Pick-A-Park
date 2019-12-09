@@ -17,8 +17,9 @@ router.get('/', function (req, res) {
 });
 
 // Authentication and Registration API
-router.post("/users", ctrlAuth.register);
 router.post("/login", ctrlAuth.login);
+router.post("/users", ctrlAuth.register);
+router.get("/users", auth, ctrlAuth.verify);
 
 // Export API routes
 module.exports = router;

@@ -79,3 +79,16 @@ module.exports.register = function (req, res) {
     });
   }
 };
+
+//Verify access with token and returns user data
+module.exports.verify = function (req, res) {
+  if (!req.payload._id) {
+    res.status(401).json({
+      message: "You're not authorized to access this page"
+    });
+  } else {
+    User.findById(req.payload._id).exec(function (err, user) {
+      res.status(200).json(user);
+    });
+  }
+};
