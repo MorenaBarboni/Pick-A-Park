@@ -1,0 +1,93 @@
+//Initialize db with data
+var parkings = require('./app/models/parkings');
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/pickapark');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Failed connection to DB'));
+
+//Saves document in db. If the object already exixst, it updates it.
+parkings.update(
+    { id: 1 },
+    {
+        $set: {
+            city: "Camerino",
+            address: "Madonna delle Carceri",
+            coordinates: {
+                latitude: "43.139802",
+                longitude: "13.069174"
+            },
+            company: "Company1",
+            plate: null,
+            isFree: true,
+            handicap: false,
+            indoor: false,
+            price: 2.0,
+            isApproved: false,
+            isUsable: true
+        }
+    },
+    { upsert: true },
+    function (err) {
+        if (err) {
+            console.log(err);
+        }
+    }
+);
+
+
+parkings.update(
+    { id: 2 },
+    {
+        $set: {
+            city: "Camerino",
+            address: "Madonna delle Carceri",
+            coordinates: {
+                latitude: 43.139370,
+                longitude: 13.068363
+            },
+            company: "Company2",
+            plate: null,
+            isFree: true,
+            handicap: false,
+            indoor: false,
+            price: 2.0,
+            isApproved: false,
+            isUsable: true
+        }
+    },
+    { upsert: true },
+    function (err) {
+        if (err) {
+            console.log(err);
+        }
+    }
+);
+
+parkings.update(
+    { id: 3 },
+    {
+        $set: {
+            city: "Camerino",
+            address: "Madonna delle Carceri",
+            coordinates: {
+                latitude: 43.139285,
+                longitude: 43.139285
+            },
+            company: "Company3",
+            plate: null,
+            isFree: true,
+            handicap: false,
+            indoor: false,
+            price: 3.0,
+            isApproved: false,
+            isUsable: true
+        }
+    },
+    { upsert: true },
+    function (err) {
+        if (err) {
+            console.log(err);
+        }
+    }
+); 
