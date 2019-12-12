@@ -49,6 +49,12 @@ var parkingSchema = new mongoose.Schema({
     isUsable: {
         type: Boolean,
         default: true
-    },
-});
+    }
+},
+    {
+        versionKey: false
+    });
+
+
+
 const Parking = (module.exports = mongoose.model("Parking", parkingSchema));
