@@ -1,5 +1,6 @@
 //Initialize db with data
 var parkings = require('./app/models/parkings');
+var companies = require('./app/models/companies');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/pickapark');
@@ -7,7 +8,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Failed connection to DB'));
 
 //Saves document in db. If the object already exixst, it updates it.
-parkings.update(
+parkings.updateOne(
     { id: 1 },
     {
         $set: {
@@ -36,7 +37,7 @@ parkings.update(
 );
 
 
-parkings.update(
+parkings.updateOne(
     { id: 2 },
     {
         $set: {
@@ -64,7 +65,7 @@ parkings.update(
     }
 );
 
-parkings.update(
+parkings.updateOne(
     { id: 3 },
     {
         $set: {
@@ -74,7 +75,7 @@ parkings.update(
                 latitude: 43.139285,
                 longitude: 43.139285
             },
-            company: "Company3",
+            company: "Company1",
             plate: null,
             isFree: true,
             handicap: false,
@@ -82,6 +83,37 @@ parkings.update(
             price: 3.0,
             isApproved: false,
             isUsable: true
+        }
+    },
+    { upsert: true },
+    function (err) {
+        if (err) {
+            console.log(err);
+        }
+    }
+);
+
+companies.updateOne(
+    { name: "Company1" },
+    {
+        $set: {
+            name: "Company1"
+        }
+    },
+    { upsert: true },
+    function (err) {
+        if (err) {
+            console.log(err);
+        }
+    }
+);
+
+
+companies.updateOne(
+    { name: "Company2" },
+    {
+        $set: {
+            name: "Company2"
         }
     },
     { upsert: true },
