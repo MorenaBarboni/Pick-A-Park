@@ -33,19 +33,13 @@ module.exports.register = function (req, res) {
     user.company = req.body.company;
   }
   //Checks that email and password are valid.
-  //Checks that user is registering with "institutional" email
   user.setPassword(req.body.password);
   if (user.email == null || !user.password == null) {
     res.status(422);
     res.json({
       message: "emptyError",
     });
-  } else if (user.role === "Undefined" || !user.role) {
-    res.status(422);
-    res.json({
-      message: "invalidEmailError",
-    });
-  } else {
+  }  else {
     User.findOne({
       $or: [
         { email: user.email },
@@ -79,6 +73,7 @@ module.exports.register = function (req, res) {
     });
   }
 };
+
 
 //Verify access with token and returns user data
 module.exports.verify = function (req, res) {

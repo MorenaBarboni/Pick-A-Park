@@ -42,7 +42,7 @@
 
     //Register a new user
     register = function (user) {
-      return $http.post("/api/users", user);
+      return $http.post("/api/users", user).then(handleSuccess, handleError);
     };
 
     //Login
@@ -60,7 +60,19 @@
         }
       });
     };
-    
+
+    //Private functions to handle response
+    function handleSuccess(res) {
+      return res.data.content;
+    }
+
+    //undefined
+    function handleError(res) {
+      console.log("returned from service:" + res);
+      return res.data.message;
+
+    }
+
     return {
       saveToken: saveToken,
       getToken: getToken,

@@ -8,6 +8,7 @@ var auth = require("../config/auth");
 //Import backend controllers
 var ctrlAuth = require("../controllers/authentication");
 var ctrlParking = require("../controllers/parkings");
+var ctrlCompany = require("../controllers/companies");
 
 // Set default API response
 router.get('/', function (req, res) {
@@ -22,8 +23,13 @@ router.post("/login", ctrlAuth.login);
 router.post("/users", ctrlAuth.register);
 router.get("/users", auth, ctrlAuth.verify);
 
+//Parking Companies
+
+router.get("/companies", ctrlCompany.getCompanies);
+router.get("/companies/:name", ctrlCompany.getCompanyByName);
+
 //Parkings
-router.get("/parkings", auth, ctrlParking.getParkings);
+router.get("/companies/:name/parkings", auth, ctrlParking.getParkings);
 
 // Export API routes
 module.exports = router;

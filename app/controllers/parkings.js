@@ -9,7 +9,7 @@ module.exports.getParkings = function (req, res) {
       message: "You're not authorized to access this resource"
     });
   } else {
-    Parking.find({})
+    Parking.find({ company: req.params.name })
       .sort({ number: 1 })
       .exec(function (err, parkings) {
         if (!parkings.length) {
@@ -28,6 +28,4 @@ module.exports.getParkings = function (req, res) {
       });
   }
 };
-
-
 
