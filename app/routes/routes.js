@@ -30,6 +30,7 @@ router.get("/companies/:name", ctrlCompany.getCompanyByName);
 
 //Parkings
 router.get("/companies/:name/parkings", auth, ctrlParking.getParkings);
+router.get("/companies/:name/parkings/:id", auth, ctrlParking.getParkingById);
 
 // Export API routes
 module.exports = router;

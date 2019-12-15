@@ -29,3 +29,28 @@ module.exports.getParkings = function (req, res) {
   }
 };
 
+module.exports.getParkingById = function (req, res) {
+  if (!req.payload._id) {
+    res.status(401).json({
+      message: "You're not authorized to access this resource"
+    });
+  } else {
+    Parking.findOne({ company: req.params.name, id: req.params.id })
+      .sort({ number: 1 })
+      .exec(function (err, parking) {
+        if (!parking) {
+          res.status(404).json({
+            message: "The requested resource is not available"
+          });
+        } else {
+          res.status(200);
+          res.json({
+            code: "200",
+            status: "success",
+            message: "Resource successfully retrieved",
+            content: parking
+          });
+        }
+      });
+  }
+};
