@@ -1,0 +1,196 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pick a Park</title>
+    <meta name="description" content="Login - Register Template">
+    <meta name="author" content="Lorenzo Angelino aka MrLolok">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    
+    <style>
+        body {
+            background-color: #303641;
+        }
+    </style>
+</head>
+
+<body>
+
+  <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Home')">Home</button>
+    <button class="tablinks" onclick="openCity(event, 'Analitycs')">Analitycs</button>
+    <button class="tablinks" onclick="openCity(event, 'Statistics')">Statistics</button>
+  </div>
+  
+  <!-- Tab content -->
+  <div id="Home" class="tabcontent">
+    <h3>Home</h3>
+    <div class="row">
+      <div id="parcheggi">
+              <div id="title">
+                  <i class="material-icons lock">lock</i> Register
+              </div>
+              <table style="width:100%">
+                  <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Age</th>
+                    <th>Check</th>
+                  </tr>
+                  <tr>
+                    <td align="center">Jill</td>
+                    <td align="center">Smith</td>
+                    <td align="center">50</td>
+                    <td align="center"><a href="something" class="button1">Details</a></td>
+                  </tr>
+                  <tr>
+                    <td align="center">Eve</td>
+                    <td align="center">Jackson</td>
+                    <td align="center">94</td>
+                    <td align="center"><a href="something" class="button1">Details</a></td>
+                  </tr>
+                </table>
+             
+          </div>
+</div>
+
+
+<div class="row">
+      <div class="column" id="columnLeft">
+
+              <div id="parcheggi">
+                      <div id="title">
+                          <i class="material-icons lock">lock</i> Register
+                      </div>
+                      <table style="width:100%">
+                          <tr>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Age</th>
+                            <th>Check</th>
+                          </tr>
+                          <tr>
+                            <td align="center">Jill</td>
+                            <td align="center">Smith</td>
+                            <td align="center">50</td>
+                            <td align="center"><a href="something" class="button1">Details</a></td>
+                          </tr>
+                          <tr>
+                            <td align="center">Eve</td>
+                            <td align="center">Jackson</td>
+                            <td align="center">94</td>
+                            <td align="center"><a href="something" class="button1">Details</a></td>
+                          </tr>
+                        </table>
+                     
+                  </div>
+      </div>
+
+
+      <div class="column" id="columnRight">
+          
+              <div id="parcheggi">
+                      <div id="title">
+                          <i class="material-icons lock">lock</i> Register
+                      </div>
+                      <table style="width:100%">
+                          <tr>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Age</th>
+                          </tr>
+                          <tr>
+                            <td>Jill</td>
+                            <td>Smith</td>
+                            <td>50</td>
+                          </tr>
+                          <tr>
+                            <td>Eve</td>
+                            <td>Jackson</td>
+                            <td>94</td>
+                          </tr>
+                        </table>
+                     
+                  </div>
+      </div>
+</div>
+  </div>
+  
+  <div id="Analitycs" class="tabcontent">
+    <h3>Graph Example </h3>
+    <div id="chartContainer" style="height: auto; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<b>Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</b>
+  </div>
+  
+  <div id="Statistics" class="tabcontent">
+    <h3>Tokyo</h3>
+    <p>Tokyo is the capital of Japan.</p>
+  </div>
+
+
+  
+
+       <script> function openCity(evt, cityName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+      
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+      
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+      
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }</script>
+
+<script>
+  window.onload = function () {
+  
+  var chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    theme: "light2",
+    title:{
+      text: "Simple Line Chart"
+    },
+    axisY:{
+      includeZero: false
+    },
+    data: [{        
+      type: "line",       
+      dataPoints: [
+        { y: 450 },
+        { y: 414},
+        { y: 520, indexLabel: "highest",markerColor: "red", markerType: "triangle" },
+        { y: 460 },
+        { y: 450 },
+        { y: 500 },
+        { y: 480 },
+        { y: 480 },
+        { y: 410 , indexLabel: "lowest",markerColor: "DarkSlateGrey", markerType: "cross" },
+        { y: 500 },
+        { y: 480 },
+        { y: 510 }
+      ]
+    }]
+  });
+  chart.render();
+  
+  }
+  </script>
+
+
+</body>
+
+</html>
