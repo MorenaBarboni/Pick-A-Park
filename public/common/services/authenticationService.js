@@ -61,6 +61,16 @@
       });
     };
 
+    //Return user role from token
+    var getUserRole = function () {
+      var usr = tokenData();
+      if (usr) {
+        var loggedUserRole = usr.role;
+      } else
+        loggedUserRole = "err";
+      return loggedUserRole;
+    };
+
     //Private functions to handle response
     function handleSuccess(res) {
       return res.data.content;
@@ -80,7 +90,8 @@
       isLoggedIn: isLoggedIn,
       register: register,
       login: login,
-      getUser: getUser
+      getUser: getUser,
+      getUserRole: getUserRole
     };
   }
 })();
