@@ -48,12 +48,18 @@
                         .getUser()
                         .success(function (data) {
                             vm.user = data;
+                            console.log("utente:" + vm.user.username);
                         })
                         .error(function (e) {
                             console.log(e);
                         })
                         .then(function () {
-                            $location.path("homepage");
+                            if (vm.user.role == "Municipality")
+                                $location.path("municipality");
+                            else if (vm.user.role == "ParkingCompany")
+                                $location.path("parkingCompany");
+                            else if (vm.user.role == "Police")
+                                $location.path("municipalPolice");
                         });
                 });
         };
@@ -61,6 +67,10 @@
 
         //Register user and login to private area
         vm.onSubmitRegister = function () {
+
+            if (vm.registerData.role != "ParkingCompany") {
+                vm.registerData.company = null;
+            }
 
             authentication.register(vm.registerData).then(function (response) {
                 if (response === "existingEmailError") {
