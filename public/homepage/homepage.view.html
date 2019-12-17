@@ -2,24 +2,181 @@
 <html lang="it">
 
 <head>
+    <meta charset="UTF-8">
     <title>
         Home
     </title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="description" content="Login - Register Template">
+    <meta name="author" content="Lorenzo Angelino aka MrLolok">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../content/css/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- CSS -->
-    <link rel="stylesheet" href="../content/css/homepage.css">
+    <style>
+        body {
+            background-color: #303641;
+        }
+    </style>
 </head>
 
+
 <body>
-    <div class="container">
-        <div class="row panel-title title text-center">
-            <h3>
-                <strong> Pick-A-Park </strong> - homepage test</h3>
+
+    <div class="row">
+        <div class="column" id="columnLeft" style="height:80%;">
+            <div align="center">
+                <h1>Pick A Park</h1>
+                <h2>Log in or register to start</h2>
+            </div>
+
+            <!-- LOGIN FORM-->
+            <div id="container-login" style="width:80%">
+                <div id="title">
+                    <i class="material-icons lock">lock</i> Login
+                </div>
+
+                <form ng-submit="vm.onSubmitLogin()">
+                    <div class="input">
+                        <div class="input-addon">
+                            <i class="material-icons">email</i>
+                        </div>
+                        <input id="email" placeholder="Email" type="text" required class="validate" autocomplete="off"
+                            ng-model="vm.accessData.email">
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="input">
+                        <div class="input-addon">
+                            <i class="material-icons">vpn_key</i>
+                        </div>
+                        <input id="password" placeholder="Password" type="password" required class="validate"
+                            autocomplete="off" ng-model="vm.accessData.password">
+                    </div>
+
+                    <div class="remember-me">
+                        <input type="checkbox">
+                        <span style="color: #DDD">Remember Me</span>
+                    </div>
+
+                    <input type="submit" value="Log In" />
+                </form>
+
+                <div class="forgot-password">
+                    <a href="#">Forgot your password?</a>
+                </div>
+            </div>
         </div>
-        <br>
+
+        <!-- REGISTER FORM-->
+        <div class="column" id="columnRight" style="height:80%;">
+            <div id="container-register" style="width:80%;">
+                <div id="title">
+                    <i class="material-icons lock">lock</i> Register
+                </div>
+
+                <form ng-submit="vm.onSubmitRegister()">
+
+                    <div class=" input">
+                        <div class="input-addon">
+                            <i class="material-icons">perm_identity</i>
+                        </div>
+                        <input id="name" placeholder="Name" type="text" required class="validate" autocomplete="off"
+                            ng-model="vm.registerData.name">
+                    </div>
+
+                    <div class="input">
+                        <div class="input-addon">
+                            <i class="material-icons">perm_identity</i>
+                        </div>
+                        <input id="surname" placeholder="Surname" type="text" required class="validate"
+                            autocomplete="off" ng-model="vm.registerData.surname">
+                    </div>
+
+                    <div class="input">
+                        <div class="input-addon">
+                            <i class="material-icons">email</i>
+                        </div>
+                        <input id="email" placeholder="Email" type="email" required class="validate" autocomplete="off"
+                            ng-model="vm.registerData.email">
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="input">
+                        <div class="input-addon">
+                            <i class="material-icons">face</i>
+                        </div>
+                        <input id="username" placeholder="Username" type="text" required class="validate"
+                            autocomplete="off" ng-model="vm.registerData.username">
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="input">
+                        <div class="input-addon">
+                            <i class="material-icons">account_balance</i>
+                        </div>
+                        <div class="select-style">
+                            <select id="foo" ng-model="vm.registerData.role">
+                                <option value="" selected disabled hidden>Role</option>
+                                <option value="Municipality" selected="selected">Municipality</option>
+                                <option value="ParkingCompany">Parking Company</option>
+                                <option value="Police">Municipal Police</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="input" ng-show="vm.registerData.role === 'ParkingCompany'">
+                        <div class="input-addon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <div class="select-style">
+                            <select id="faa" ng-model="vm.registerData.company">
+                                <option value="" selected disabled hidden>Parking Company</option>
+                                <option ng-repeat="company in vm.companyNames" value="{{company}}">
+                                    {{company}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="input">
+                        <div class="input-addon">
+                            <i class="material-icons">vpn_key</i>
+                        </div>
+                        <input id="password" placeholder="Password" type="password" required class="validate"
+                            autocomplete="off" ng-model="vm.registerData.password">
+                    </div>
+
+                    <p id="demo"></p>
+
+
+                    <div class="remember-me">
+                        <input type="checkbox">
+                        <span style="color: #DDD">I accept Terms of Service</span>
+                    </div>
+
+
+
+
+                    <input type="submit" value="Register" />
+                </form>
+
+                <div class="privacy" style="margin-bottom: 3cm;">
+                    <a href="#">Privacy Policy</a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
-    </div>
+
 </body>
+
+</html>
