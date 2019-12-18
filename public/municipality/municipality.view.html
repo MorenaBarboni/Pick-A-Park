@@ -1,0 +1,107 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Municipality</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../content/css/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #303641;
+        }
+    </style>
+</head>
+
+<navigation></navigation>
+
+<div id="container-main">
+    <!-- Tab content -->
+    <div id="Home">
+        <h3>Municipality</h3>
+
+        <div class="row">
+            <div class="column" id="columnLeft">
+
+                <div id="parcheggi">
+                    <div id="title">
+                        Parkings
+                    </div>
+                    <table style="width:100%">
+                        <tr>
+                            <th>Company</th>
+                            <th>ID</th>
+                            <th>Via</th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="parking in vm.allParkings">
+                            <td>{{parking.company}}</td>
+                            <td>{{parking.id}}</td>
+                            <td>{{parking.city}}</td>
+                            <td><a class="button1" ng-click="vm.showParkingDetails(parking.id)">Details</a></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+
+            <div class="column" id="columnRight-municipality">
+
+                <div id="parcheggi">
+                    <div id="title">
+                        <i class="material-icons lock">description</i> Details
+                    </div>
+                    <ul class="list-group text-center">
+                        <li class="list-group-item list-group-item-success" ng-show="vm.parkingDetails != null">
+                            <strong>Parking {{vm.parkingDetails.id}} of {{vm.parkingDetails.company}}</strong>
+                        </li>
+                        <li class="list-group-item list-group-item-success" ng-show="vm.parkingDetails === null">
+                            <strong>Select a parking to show details</strong>
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Città: </strong> {{vm.parkingDetails.city}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Via: </strong>{{vm.parkingDetails.address}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Latitudine: </strong> {{vm.parkingDetails.coordinates.latitude}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Longitudine: </strong>{{vm.parkingDetails.coordinates.longitude}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Indoor: </strong> {{vm.parkingDetails.indoor}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Parcheggio Disabili: </strong> {{vm.parkingDetails.handicap}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Tariffa Oraria: </strong> {{vm.parkingDetails.price}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Approvato: </strong> {{vm.parkingDetails.isApproved}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Utilizzabile: </strong> {{vm.parkingDetails.isUsable}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Targa: </strong> {{vm.parkingDetails.plate}}
+                        </li>
+
+
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
