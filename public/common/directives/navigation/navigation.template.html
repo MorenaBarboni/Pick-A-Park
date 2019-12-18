@@ -1,0 +1,26 @@
+<head>
+  <link rel="stylesheet" href="../content/css/main.css">
+</head>
+
+<div class="navbar navbar-default">
+  <div class="container">
+    <div id="navbar-main" style="min-width: 1200px; max-height:60px;">
+      <ul class="nav navbar-nav">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Pick-a-Park</a>
+        </div>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <!-- Main Pages -->
+        <li ng-show="navvm.token.role === 'Municipality'"><a href="municipality">{{ navvm.token.role }}</a></li>
+        <li ng-show="navvm.token.role === 'ParkingCompany'"><a href="parking">{{ navvm.token.company }}</a></li>
+        <li ng-show="navvm.token.role === 'Police'"><a href="parking">{{ navvm.token.role }}</a></li>
+
+        <!--Logout -->
+        <li><a href="logout"><span class="glyphicon glyphicon-log-out"></span>&nbspLogout</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</div>
