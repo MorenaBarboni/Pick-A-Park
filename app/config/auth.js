@@ -1,6 +1,6 @@
 var jwt = require('express-jwt');
 module.exports = jwt({
-    secret: 'testSecret',
+    secret: process.env.secret,
     userProperty: 'payload'
 });
 

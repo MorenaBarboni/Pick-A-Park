@@ -1,9 +1,20 @@
+//Dotenv
+require('dotenv').config()
+
 //Initialize db with data
 var parkings = require('./app/models/parkings');
 var companies = require('./app/models/companies');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/pickapark');
+
+const Atlas_Uri = "mongodb+srv://morena:" + process.env.Atlas_Pass + "@cluster0-eshef.gcp.mongodb.net/test?retryWrites=true&w=majority";
+const local_Url = 'mongodb://localhost/pickapark';
+
+// Connect to Mongoose and set connection variable
+mongoose.connect(Atlas_Uri, { useNewUrlParser: true }, {
+  useMongoClient: true
+});
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Failed connection to DB'));
 
@@ -15,8 +26,8 @@ parkings.updateOne(
             city: "Camerino",
             address: "Madonna delle Carceri",
             coordinates: {
-                latitude: "43.139802",
-                longitude: "13.069174"
+                latitude: 43.139802,
+                longitude: 13.069174
             },
             company: "Company1",
             plate: null,
