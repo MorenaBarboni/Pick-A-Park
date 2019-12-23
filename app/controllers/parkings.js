@@ -54,3 +54,63 @@ module.exports.getParkingById = function (req, res) {
       });
   }
 };
+
+//Add new parking to company
+module.exports.newParking = function (req, res) {
+  var parking = new Parking();
+  parking.company = req.params.name;
+  parking.id = req.body.id;
+  parking.city = req.body.city;
+  parking.address = req.body.address;
+  parking.coordinates.latitude = req.body.latitude;
+  parking.coordinates.longitude = req.body.longitude;
+  parking.indoor = req.body.indoor;
+  parking.handicap = req.body.handicap;
+  parking.price = req.body.price;
+  parking.isUsable = true;
+  parking.isApproved = false;
+  parking.plate = null;
+  parking.isFree = true;
+
+  //Check that parking id is unique for the company
+  //Check that coordinates are unique
+  Parking.findOne({
+    $or: [
+      { id: parking.id, company: parking.company },
+      {
+        coordinates: {
+          latitude: parking.coordinates.latitude,
+          longitude: parking.coordinates.longitude
+        }
+      }
+    ]
+  }, function (err, data) {
+    if (data) {
+      if (data.id === parking.id && data.company === parking.company) {
+        res.status(422);
+        res.json({
+          code: "422",
+          message: "existingParkingError"
+        })
+      } else {
+        res.status(422);
+        res.json({
+          code: "422",
+          message: "existingCoordError",
+        });
+      }
+
+    } else {
+      parking.save(function (err) {
+        res.status(201);
+        res.json({
+          code: "201",
+          status: "success",
+          message: "Resource successfully created",
+          content: parking
+        });
+
+      });
+    }
+  })
+}

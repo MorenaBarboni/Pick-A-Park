@@ -15,12 +15,21 @@
         .then(handleSuccess, handleError);
     };
 
-
-
     //Get single parking
     getParking = function (name, id) {
       return $http
         .get("/api/companies/" + name + "/parkings/" + id, {
+          headers: {
+            Authorization: "Bearer " + authentication.getToken()
+          }
+        })
+        .then(handleSuccess, handleError);
+    };
+
+    //New parking
+    newParking = function (name, parking) {
+      return $http
+        .post("/api/companies/" + name + "/parkings", parking, {
           headers: {
             Authorization: "Bearer " + authentication.getToken()
           }
@@ -36,11 +45,13 @@
 
     function handleError(res) {
       console.log(res.data.message);
+      return res.data.message;
     }
 
     return {
       getParkings: getParkings,
-      getParking: getParking
+      getParking: getParking,
+      newParking: newParking
     };
   }
 })();
