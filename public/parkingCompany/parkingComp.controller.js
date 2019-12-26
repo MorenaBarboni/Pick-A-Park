@@ -50,6 +50,15 @@
             });
         };
 
+
+        //Delete parking request
+        vm.onSubmitDelete = function (id) {
+            parkingService.deleteParking(vm.user.company, id).then(function (response) {
+                window.alert("Richiesta eliminata con successo");
+                window.location.reload();
+            });
+        };
+
         function getUnapprovedParkings() {
             parkingService
                 .getParkings(vm.user.company)

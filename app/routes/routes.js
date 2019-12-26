@@ -32,6 +32,7 @@ router.get("/companies/:name", ctrlCompany.getCompanyByName);
 router.get("/companies/:name/parkings", auth, ctrlParking.getParkings);
 router.get("/companies/:name/parkings/:id", auth, ctrlParking.getParkingById);
 router.post("/companies/:name/parkings", auth, ctrlParking.newParking);
+router.delete("/companies/:name/parkings/:id", auth, ctrlParking.deleteParking);
 
 // Export API routes
 module.exports = router;

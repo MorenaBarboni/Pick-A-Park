@@ -37,9 +37,18 @@
         .then(handleSuccess, handleError);
     };
 
+    //Delete parking
+    deleteParking = function (name, id) {
+      return $http.delete("/api/companies/" + name + "/parkings/" + id, {
+        headers: {
+          Authorization: "Bearer " + authentication.getToken()
+        }
+      }).then(handleSuccess, handleError);
+    };
+
+
     //Private functions to handle response
     function handleSuccess(res) {
-      console.log("content" + res.data.content);
       return res.data.content;
     }
 
@@ -51,7 +60,8 @@
     return {
       getParkings: getParkings,
       getParking: getParking,
-      newParking: newParking
+      newParking: newParking,
+      deleteParking: deleteParking
     };
   }
 })();
