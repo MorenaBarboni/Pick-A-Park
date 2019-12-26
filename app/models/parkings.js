@@ -19,8 +19,8 @@ var parkingSchema = new mongoose.Schema({
         default: null
     },
     coordinates: {
-        latitude: { type: String, required: true },
-        longitude: { type: String, required: true }
+        latitude: { type: Number, required: true },
+        longitude: { type: Number, required: true }
     },
     isFree: {
         type: Boolean,
