@@ -47,6 +47,12 @@
     };
 
 
+    updateParking = function (company, updatedData) {
+      return $http
+        .patch("/api/parkings/" + company, updatedData).then(handleSuccess, handleError);
+    };
+
+
     //Private functions to handle response
     function handleSuccess(res) {
       return res.data.content;
@@ -61,7 +67,8 @@
       getParkings: getParkings,
       getParking: getParking,
       newParking: newParking,
-      deleteParking: deleteParking
+      deleteParking: deleteParking,
+      updateParking: updateParking
     };
   }
 })();

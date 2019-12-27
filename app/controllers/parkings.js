@@ -142,3 +142,42 @@ module.exports.deleteParking = function (req, res) {
     }
   );
 };
+
+
+//Patch parking by id (update price)
+module.exports.updateParking = function (req, res) {
+  Parking.findOneAndUpdate(
+    {
+      id: req.params.id,
+      company: req.params.name
+    },
+    {
+      $set: {
+        price: req.body.price,
+      }
+    },
+    {
+      new: true //returns updated document
+    },
+    function (err, parking) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (!parking) {
+          res.status(404).json({
+            code: 404,
+            message: "The resource is not available"
+          });
+        } else {
+          res.status(200);
+          res.json({
+            code: "200",
+            status: "success",
+            message: "Resource successfully updated",
+            content: parking
+          });
+
+        }
+      }
+    });
+};
