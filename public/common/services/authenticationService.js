@@ -21,7 +21,8 @@
         return {
           email: payload.email,
           username: payload.username,
-          role: payload.role
+          role: payload.role,
+          company: payload.company
         };
       }
     };

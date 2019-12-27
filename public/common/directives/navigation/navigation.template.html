@@ -13,9 +13,9 @@
       <ul class="nav navbar-nav navbar-right">
         <!-- Main Pages -->
         <li ng-show="navvm.token.role === 'Municipality'"><a href="municipality">{{ navvm.token.role }}</a></li>
-        <li ng-show="navvm.token.role === 'ParkingCompany'"><a href="parking">{{ navvm.token.company }}</a></li>
-        <li ng-show="navvm.token.role === 'Police'"><a href="parking">{{ navvm.token.role }}</a></li>
-
+        <li ng-show="navvm.token.role === 'ParkingCompany'"><a href="parkingCompany">{{ navvm.token.company }}</a></li>
+        <li ng-show="navvm.token.role === 'ParkingCompany'"><a href="parkingCompany/requests">Parking Requests</a></li>
+        <li ng-show="navvm.token.role === 'Police'"><a href="municipalPolice">{{ navvm.token.role }}</a></li>
         <!--Logout -->
         <li><a href="logout"><span class="glyphicon glyphicon-log-out"></span>&nbspLogout</a>
         </li>

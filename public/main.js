@@ -16,6 +16,11 @@
         controller: "parkingCompCtrl",
         controllerAs: "vm"
       })
+      .when("/parkingCompany/requests", {
+        templateUrl: "parkingCompany/pc.request.view.html",
+        controller: "parkingCompCtrl",
+        controllerAs: "vm"
+      })
       .when("/municipalPolice", {
         templateUrl: "police/police.view.html",
         controller: "policeCtrl",
@@ -54,11 +59,11 @@
           $location.path("/municipalPolice");
         else if (authentication.getUserRole() == "ParkingCompany")
           $location.path("/parkingCompany");
-      } else if ($location.path() === "/municipality" && (!authentication.isLoggedIn() || authentication.getUserRole() != "Municipality")) {
+      } else if ($location.path().startsWith("/municipality") && (!authentication.isLoggedIn() || authentication.getUserRole() != "Municipality")) {
         $location.path("/");
-      } else if ($location.path() === "/parkingCompany" && (!authentication.isLoggedIn() || authentication.getUserRole() != "ParkingCompany")) {
+      } else if ($location.path().startsWith("/parkingCompany") && (!authentication.isLoggedIn() || authentication.getUserRole() != "ParkingCompany")) {
         $location.path("/");
-      } else if ($location.path() === "/municipalPolice" && (!authentication.isLoggedIn() || authentication.getUserRole() != "Police")) {
+      } else if ($location.path().startsWith("/municipalPolice") && (!authentication.isLoggedIn() || authentication.getUserRole() != "Police")) {
         $location.path("/");
       }
     });
