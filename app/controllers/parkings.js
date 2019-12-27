@@ -114,3 +114,31 @@ module.exports.newParking = function (req, res) {
     }
   })
 }
+
+//Delete Parking
+module.exports.deleteParking = function (req, res) {
+  Parking.findOneAndRemove(
+    {
+      id: req.params.id,
+      company: req.params.name
+    },
+    function (err, parking) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (!parking) {
+          res.status(404).json({
+            code: 404,
+            message: "The resource is not available"
+          });
+        } else {
+          res.status(204).json({
+            code: "204",
+            status: "success",
+            message: "Resource successfully deleted",
+          });
+        }
+      }
+    }
+  );
+};
