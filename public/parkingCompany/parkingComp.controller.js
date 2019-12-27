@@ -2,13 +2,14 @@
 
     angular.module("pick-a-park").controller("parkingCompCtrl", parkingCompCtrl);
 
-    parkingCompCtrl.$inject = ["$http", "$window", "$location", "$scope", "authentication", "parkingService"];
-    function parkingCompCtrl($http, $window, $location, $scope, authentication, parkingService) {
+    parkingCompCtrl.$inject = ["$http", "$window", "$location", "$scope", "authentication", "parkingService", "companyService"];
+    function parkingCompCtrl($http, $window, $location, $scope, authentication, parkingService, companyService) {
 
         var vm = this;
 
         vm.user = {}; //Current user data
-        vm.unapprovedParkings = []
+        vm.unapprovedParkings = [];
+        vm.allParkingsComp = [];
 
 
         vm.newParking = {
@@ -32,7 +33,8 @@
                 .error(function (e) {
                     console.log(e);
                 }).then(function () {
-                    getUnapprovedParkings()
+                    getUnapprovedParkings();
+                    getAllParkingsComp();
                 })
         }
 
@@ -69,6 +71,19 @@
                         }
                     });
                 });
+        }
+
+        //See all parking spaces of the company
+
+        function getAllParkingsComp(){
+            console.log("controller vado");
+            parkingService
+                .getParkings(vm.user.company)
+                .then(function(result){
+                    result.forEach(parking => {
+                        vm.allParkingsComp.push(parking)});
+
+            });
         }
 
 

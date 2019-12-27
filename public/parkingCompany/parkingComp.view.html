@@ -22,12 +22,12 @@
 <div id="container-main">
     <!-- Tab content -->
     <div id="Home">
-        <h3>Parking Company</h3>
+        <h3>{{vm.user.company}}</h3>
         <div class="row">
             <div class="column" id="columnLeft">
                 <div id="parcheggiComp">
-                    <div id="titleComp">
-                        Parkings
+                    <div id="titleComp" align="center">
+                       <h4>Parkings</h3> 
                     </div>
                     <table style="width: 100%">
                         <tr>
@@ -36,14 +36,14 @@
                             <th>City</th>
                             <th></th>
                         </tr>
-                        <tr ng-repeat="parking in vm.allParkings"><!-- TODO method -->
+                        <tr ng-repeat="parking in vm.allParkingsComp"><!-- TODO method -->
                             <td>{{parking.id}}</td>
                             <td>{{parking.address}}</td>
                             <td>{{parking.city}}</td>
-                            <td><a class="button1" ng-click="vm.showParkingDetails(parking.id)" href="">Details</a></td><!-- TODO method -->
+                            <td><a class="button1" ng-click="vm.showParkingDetailsComp(parking.id)" href="">Details</a></td><!-- TODO method -->
                         </tr>
                     </table>
-
+                   
                     <form action="" method="PATCH" name="formPriceChange">
                     <input type="number" name="newPricePC" id="newPricePC" placeholder="Insert Price">
                     <a class="button1">Update Price</a>
@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="column" id="columnRight">
-                sessp
+             
             </div>
         </div>
 
