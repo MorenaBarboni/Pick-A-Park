@@ -22,10 +22,32 @@ a.button1 {
     transition: all 0.2s;
 }
 
+a.button1-delete {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.1em solid rgb(240, 130, 130);
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: small;
+    color: rgb(240, 130, 130);
+    text-align: center;
+    transition: all 0.2s;
+}
+
 a.button1:hover {
     color: #000000;
     background-color: #FFFFFF;
-    cursor:pointer;
+    cursor: pointer;
+}
+
+a.button1-delete:hover {
+    color: #FFFFFF;
+    background-color: rgb(240, 130, 130);
+    cursor: pointer;
 }
 
 @media all and (max-width::30em) {
@@ -64,6 +86,32 @@ a.button1:hover {
     text-align: center;
 }
 
+#container-requestParking {
+    background-color: #1D1F20;
+    position: relative;
+    top: 10%;
+    margin: auto;
+    margin-bottom: 30px;
+    margin-top: 2.5%;
+    width: 80%;
+    height: 650px;
+    border-radius: 0.35em;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#container-parkings {
+    background-color: #1D1F20;
+    position: relative;
+    top: 10%;
+    margin: 2.5%;
+    width: auto;
+    height: auto;
+    border-radius: 0.35em;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
 #parcheggi {
     background-color: #1D1F20;
     position: relative;
@@ -91,6 +139,33 @@ a.button1:hover {
     top: 2px;
 }
 
+.form-divider {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.hr {
+    color: #FFF;
+    background-color: #FFF;
+    border-radius: 5px;
+}
+
+.hr-label {
+    font-size: 13pt;
+    margin-bottom: 2px;
+    float: left;
+    margin-left: 12%;
+    display: block;
+}
+
+.hr-text {
+    margin-left: 35px;
+}
+
+.hr-icon {
+    float: left;
+}
+
 .input {
     margin: auto;
     width: 240px;
@@ -98,6 +173,22 @@ a.button1:hover {
     background-color: #373b3d;
     padding: 8px 0px;
     margin-top: 15px;
+}
+
+.input-small {
+    width: 190px;
+}
+
+.input-large {
+    width: 420px;
+}
+
+.input-left {
+    margin-left: 25%;
+}
+
+.input-right {
+    margin-right: 25%;
 }
 
 .input-addon {
@@ -112,6 +203,17 @@ input[type=checkbox] {
     cursor: pointer;
 }
 
+.checkbox {
+    margin-top: 5px;
+    margin-left: 10px 0;
+}
+
+.checkbox-right {
+    float: left;
+    margin-top: 10px;
+    margin-left: 25%;
+}
+
 input[type=text] {
     color: #949494;
     margin: 0;
@@ -119,6 +221,23 @@ input[type=text] {
     border: 1px solid #373b3d;
     padding: 6px 0px;
     border-radius: 3px;
+}
+
+input[type=number] {
+    color: #949494;
+    margin: 0;
+    background-color: #373b3d;
+    border: 1px solid #373b3d;
+    padding: 6px 0px;
+    border-radius: 3px;
+}
+
+.input-type-small {
+    width: 90px;
+}
+
+.input-type-large {
+    width: 300px;
 }
 
 input[type=text]:focus {
@@ -224,6 +343,11 @@ input[type=submit] {
     border-radius: 3px;
 }
 
+input[type=submit]:hover {
+    color: #373E4A;
+    background-color: #C1C3C6;
+}
+
 .register {
     margin: auto;
     padding: 16px 0;
@@ -254,7 +378,6 @@ input[type=submit] {
 
 #columnRight {
     width: 50%;
-    margin-top: 30px;
 }
 
 #columnRight-municipality {
@@ -348,10 +471,8 @@ table {
     width: 100%;
     margin: 0;
     box-sizing: border-box;
-}
-
-td {
-    text-align: center;
+    border-collapse: collapse;
+    border: 1px solid rgb(22, 24, 26)
 }
 
 td {
@@ -365,9 +486,57 @@ th {
     padding-bottom: 1%;
 }
 
+/* scrollbar table*/
+tbody {
+    display: block;
+    height: 200px;
+    overflow: auto;
+}
+
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    /* even columns width , fix width of table too*/
+}
+
+thead {
+    width: calc( 100% - 1em);/* scrollbar is average 1em/16px width, remove it from thead width */
+    border-top: 1px solid rgb(22, 24, 26);
+    border-bottom: 1px solid rgb(22, 24, 26);
+}
+
+
 .list-group-item {
     background-color: #1D1F20;
     border-color: rgb(22, 24, 26);
     text-align: left;
     padding-left: 5%;
 }
+
+/* Navbar */
+
+.navbar {
+    position: relative;
+}
+
+#navbar-main {
+    display: inline;
+}
+
+.navbar-header {
+    display: inline-block;
+}
+
+/* map */
+#map {
+    margin-top: 30px;
+    margin-top: 10px;
+    margin-left: 35px;
+    height: 250px;
+    width: 500px;
+    width: 400px;
+    box-shadow: 3px 3px 10px gray;
+    float: left;
+}
+
