@@ -8,9 +8,8 @@
         var vm = this;
 
         vm.user = {}; //Current user data
-        vm.unapprovedParkings = [];
-        vm.allParkingsComp = [];
-
+        vm.unapprovedParkings = []; //List of unapproved parkings
+        vm.approvedParkings = []; //List of approved parkings
 
         vm.newParking = {
             id: null,
@@ -61,6 +60,7 @@
             });
         };
 
+        //Retrieve and split approved/unapproved parkings
         function getUnapprovedParkings() {
             parkingService
                 .getParkings(vm.user.company)
@@ -68,26 +68,12 @@
                     result.forEach(parking => {
                         if (!parking.isApproved) {
                             vm.unapprovedParkings.push(parking);
+                        } else {
+                            vm.approvedParkings.push(parking);
                         }
                     });
                 });
         }
-
-        //See all parking spaces of the company
-
-        function getAllParkingsComp(){
-            console.log("controller vado");
-            parkingService
-                .getParkings(vm.user.company)
-                .then(function(result){
-                    result.forEach(parking => {
-                        vm.allParkingsComp.push(parking)});
-
-            });
-        }
-
-
-
     }
 })();
 
