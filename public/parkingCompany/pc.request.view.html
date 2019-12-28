@@ -11,7 +11,8 @@
     <!--CSS-->
     <link rel="stylesheet" href="../content/css/main.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
     <style>
         body {
             background-color: #303641;
@@ -19,136 +20,175 @@
     </style>
 </head>
 
+
+
 <navigation></navigation>
 
 <div class="flex-wrapper">
     <div id="container-main">
-
-    </div>
-    <!--column left-->
-
-    <div class="column" id="columnRight">
-        <!-- Parking Request Form-->
-        <div id="container-requestParking">
-            <div id="title">
-                Request Parking
+        <!-- Tab content -->
+        <div id="Home">
+            <div class="row" style="margin-left: 1%;">
+                <h3>Parking Requests</h3>
             </div>
 
-            <form ng-submit="vm.onSubmitRequest()">
+            <div class="row">
+                <!-- Unapproved parkings-->
+                <div class="column" id="columnLeft">
 
-                <div class="form-divider">
-                    <p class="hr-label">General</p>
-                    <hr style="width: 80%;">
-                </div>
-
-                <div class="row">
-                    <div class="column" id="columnLeft">
-                        <div class="input input-small input-left">
-                            <div class="input-addon">
-                                Parking ID
-                            </div>
-                            <input id="parkingID" type="number" required class="validate input-type-small"
-                                autocomplete="off" ng-model="vm.newParking.id" min="1">
+                    <div id="container-parkings">
+                        <div id="title">
+                            Unapproved Requests
                         </div>
-                    </div>
-
-                    <div class="column" id="columnRight">
-                        <div class="input input-small input-right">
-                            <div class="input-addon">
-                                City
-                            </div>
-                            <input id="city" type="text" required class="validate input-type-small" autocomplete="off"
-                                ng-model="vm.newParking.city">
-                        </div>
-                    </div>
-                </div>
-
-                <div class=" input input-large">
-                    <div class="input-addon">
-                        Address
-                    </div>
-                    <input id="address" type="text" required class="validate input-type-large" autocomplete="off"
-                        ng-model="vm.newParking.address">
-                </div>
-
-                <div class="form-divider">
-                    <span class="hr-label">
-                        <i class="material-icons lock hr-icon">gps_fixed</i>
-                        <p class="hr-text">Coordinates</p>
-                    </span>
-                    <hr style="width: 80%;">
-                </div>
-
-                <div class="row">
-                    <div class="column" id="columnLeft">
-                        <div class=" input input-small input-left">
-                            <div class="input-addon">
-                                Latitude
-                            </div>
-                            <input id="lat" type="number" step="0.000001" min="0.000000" required
-                                class="validate input-type-small" autocomplete="off" ng-model="vm.newParking.latitude">
-                        </div>
-                    </div>
-                    <div class="column" id="columnRight">
-                        <div class=" input input-small input-right">
-                            <div class="input-addon">
-                                Longitude
-                            </div>
-                            <input id="long" type="number" step="0.000001" min="0.000000" required
-                                class="validate input-type-small" autocomplete="off" ng-model="vm.newParking.longitude">
-                        </div>
+                        <table fixed-header>
+                            <thead>
+                                <tr>
+                                    <th>Parking ID</th>
+                                    <th>City</th>
+                                    <th>Address</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="parking in vm.unapprovedParkings">
+                                    <td>{{parking.id}}</td>
+                                    <td>{{parking.city}}</td>
+                                    <td>{{parking.address}}</td>
+                                    <td><a class="button1-delete" ng-click="vm.onSubmitDelete(parking.id)">Delete</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <div class="form-divider">
-                    <p class="hr-label">Rate and details</p>
-                    <hr style="width: 80%;">
-                </div>
-
-                <div class="row">
-                    <div class="column" id="columnLeft">
-                        <div class="input input input-small input-left">
-                            <div class="input-addon">
-                                &#8364;/hr.
-                            </div>
-                            <input id="price" type="number" step="0.1" required class="validate input-type-small"
-                                autocomplete="off" ng-model="vm.newParking.price">
+                <!--column left-->
+                <div class="column" id="columnRight">
+                    <!-- Parking Request Form-->
+                    <div id="container-requestParking">
+                        <div id="title">
+                            Request Parking
                         </div>
+
+                        <form ng-submit="vm.onSubmitRequest()">
+
+                            <div class="form-divider">
+                                <p class="hr-label">Generals</p>
+                                <hr style="width: 80%;">
+                            </div>
+
+                            <div class="row">
+                                <div class="column" id="columnLeft">
+                                    <div class="input input-small input-left">
+                                        <div class="input-addon">
+                                            Parking ID
+                                        </div>
+                                        <input id="parkingID" type="number" required class="validate input-type-small"
+                                            autocomplete="off" ng-model="vm.newParking.id" min="1">
+                                    </div>
+                                </div>
+
+                                <div class="column" id="columnRight">
+                                    <div class="input input-small input-right">
+                                        <div class="input-addon">
+                                            City
+                                        </div>
+                                        <input id="city" type="text" required class="validate input-type-small"
+                                            autocomplete="off" ng-model="vm.newParking.city">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=" input input-large">
+                                <div class="input-addon">
+                                    Address
+                                </div>
+                                <input id="address" type="text" required class="validate input-type-large"
+                                    autocomplete="off" ng-model="vm.newParking.address">
+                            </div>
+
+                            <div class="form-divider">
+                                <span class="hr-label">
+                                    <i class="material-icons lock hr-icon">gps_fixed</i>
+                                    <p class="hr-text">Coordinates</p>
+                                </span>
+                                <hr style="width: 80%;">
+                            </div>
+
+                            <div class="row">
+                                <div class="column" id="columnLeft">
+                                    <div class=" input input-small input-left">
+                                        <div class="input-addon">
+                                            Latitude
+                                        </div>
+                                        <input id="lat" type="number" step="0.000001" min="0.000000" required
+                                            class="validate input-type-small" autocomplete="off"
+                                            ng-model="vm.newParking.latitude">
+                                    </div>
+                                </div>
+                                <div class="column" id="columnRight">
+                                    <div class=" input input-small input-right">
+                                        <div class="input-addon">
+                                            Longitude
+                                        </div>
+                                        <input id="long" type="number" step="0.000001" min="0.000000" required
+                                            class="validate input-type-small" autocomplete="off"
+                                            ng-model="vm.newParking.longitude">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-divider">
+                                <p class="hr-label">Rate and details</p>
+                                <hr style="width: 80%;">
+                            </div>
+
+                            <div class="row">
+                                <div class="column" id="columnLeft">
+                                    <div class="input input input-small input-left">
+                                        <div class="input-addon">
+                                            &#8364;/hr.
+                                        </div>
+                                        <input id="price" type="number" step="0.1" required
+                                            class="validate input-type-small" autocomplete="off"
+                                            ng-model="vm.newParking.price">
+                                    </div>
+                                </div>
+
+                                <div class="column" id="columnRight">
+                                    <div class="row">
+                                        <div class="checkbox-right">
+                                            <input id="indoor" type="checkbox" class="validate" autocomplete="off"
+                                                ng-model="vm.newParking.indoor">
+                                            <span style="color: #DDD">Indoor</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="checkbox-right">
+                                            <input id="handicap" type="checkbox" class="validate" autocomplete="off"
+                                                ng-model="vm.newParking.handicap">
+                                            <span style="color: #DDD">Handicap</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row" style="margin-top: 5%;">
+                                <input type="submit" value="Submit Request" class="submit-button" />
+                            </div>
+
+                        </form>
+
                     </div>
 
-                    <div class="column" id="columnRight">
-                        <div class="row">
-                            <div class="checkbox-right">
-                                <input id="indoor" type="checkbox" class="validate" autocomplete="off"
-                                    ng-model="vm.newParking.indoor">
-                                <span style="color: #DDD">Indoor</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="checkbox-right">
-                                <input id="handicap" type="checkbox" class="validate" autocomplete="off"
-                                    ng-model="vm.newParking.handicap">
-                                <span style="color: #DDD">Handicap</span>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-                <div class="row" style="margin-top: 5%;">
-                    <input type="submit" value="Submit Request" class="submit-button" />
-                </div>
-
-            </form>
-
+                <!--column right-->
+            </div>
         </div>
-
     </div>
-    <!--column right-->
-</div>
-</div>
-</div>
 
-</div>
+    <navfooter></navfooter>
+</div> <!-- flex wrapper -->
 
 
 </body>
