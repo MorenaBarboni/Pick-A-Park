@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="60px"
+            android:textSize="32sp"
+            android:text="Log in" />
+
+
+        <EditText
+            android:id="@+id/phoneLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="30px"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/passwordLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="30px"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/buttonCompleteLogIn"
+            android:background="@drawable/selector_downloaded_file_button"
+            android:layout_width="400px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10px"
+            android:text="@string/log_in"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="35px"
+            android:textAllCaps="false" />
+        <TextView
+            android:id="@+id/notHaveAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="60px"
+            android:textSize="20sp"
+            android:textColor="#ff38ff"
+            android:text="I not have an account" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

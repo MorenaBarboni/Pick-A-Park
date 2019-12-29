@@ -1,0 +1,62 @@
+<head>
+    <link rel="stylesheet" href="../content/css/main.css">
+</head>
+
+<!--Footer -->
+<footer>
+    <div class="footer" id="footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3> Contact Us</h3>
+                    <ul>
+                        <li class="contacts"> admin@gmail.com</li>
+                        <li class="contacts"> admin2@gmail.com</li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3> Quick Links </h3>
+
+                    <!-- Parking Company-->
+                    <ul ng-show="navvm.token.role === 'ParkingCompany'">
+                        <li> <a href="parkingCompany"> {{vm.user.company}} </a> </li>
+                        <li> <a href="parkingCompany/requests"> Parking Requests </a> </li>
+                    </ul>
+                    <!-- Municipality-->
+                    <ul ng-show="navvm.token.role === 'Municipality'">
+                        <li> <a href="municipality"> Municipality </a> </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                    <h3> Credits </h3>
+
+                </div>
+                <div class="col-md-4  col-md-2 col-sm-4">
+                </div>
+                <div class="col-md-4  col-md-2 col-sm-4">
+                </div>
+                <div class="col-md-4  col-md-2 col-sm-4" style="text-align:right;">
+                    <!--Logo-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <p class="pull-left"> Copyright © Footer 2019. All right reserved. </p>
+            <div class="pull-right">
+                <ul class="social">
+                    <li> <a href="#"> <i class=" fa fa-facebook"> </i> </a> </li>
+                    <li> <a href="#"> <i class="fa fa-twitter"> </i> </a> </li>
+                    <li> <a href="#"> <i class="fa fa-google-plus"> </i> </a> </li>
+                    <li> <a href="#"> <i class="fa fa-youtube"> </i> </a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

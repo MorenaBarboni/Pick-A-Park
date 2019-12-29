@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../content/css/main.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -19,15 +20,16 @@
 
 <navigation></navigation>
 
-<div id="container-main">
-    <!-- Tab content -->
-    <div id="Home">
+<div class="flex-wrapper">
+    <div id="container-main">
+
         <h3>{{vm.user.company}}</h3>
+        
         <div class="row">
             <div class="column" id="columnLeft">
                 <div id="parcheggiComp">
                     <div id="titleComp" align="center">
-                       <h4>Parkings</h3> 
+                        <h4>Parkings</h3>
                     </div>
                     <table style="width: 100%">
                         <tr>
@@ -36,17 +38,18 @@
                             <th>City</th>
                             <th></th>
                         </tr>
-                        <tr ng-repeat="parking in vm.allParkingsComp">
+                        <tr ng-repeat="parking in vm.approvedParkings">
                             <td>{{parking.id}}</td>
                             <td>{{parking.address}}</td>
                             <td>{{parking.city}}</td>
-                            <td><a class="button1" ng-click="vm.showparkingDetailsComp(parking.id)" href="">Details</a></td>
+                            <td><a class="button1" ng-click="vm.showParkingDetailsComp(parking.id)" href="">Details</a>
+                            </td>
                         </tr>
                     </table>
-                   
+
                     <form action="" method="PATCH" name="formPriceChange">
-                    <input type="number" name="newPricePC" id="newPricePC" placeholder="Insert Price">
-                    <a class="button1">Update Price</a>
+                        <input type="number" name="newPricePC" id="newPricePC" placeholder="Insert Price">
+                        <a class="button1">Update Price</a>
                     </form>
                 </div>
             </div>
@@ -105,9 +108,10 @@
             </div>
         </div>
 
-
     </div>
-</div>
+
+    <navfooter></navfooter>
+</div> <!-- flex wrapper-->
 </body>
 
 </html>
