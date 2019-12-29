@@ -8,6 +8,9 @@
         var vm = this;
 
         vm.user = {}; //Current user data
+        
+        vm.parkingDetailsComp = null;
+
         vm.unapprovedParkings = []; //List of unapproved parkings
         vm.approvedParkings = []; //List of approved parkings
 
@@ -74,6 +77,33 @@
                     });
                 });
         }
+
+        //See all parking spaces of the company
+
+        function getAllParkingsComp(){
+            console.log("controller vado");
+            parkingService
+                .getParkings(vm.user.company)
+                .then(function(result){
+                    result.forEach(parking => {
+                        vm.allParkingsComp.push(parking)});
+
+            });
+        }
+
+        //See details of a parking space of the company
+        vm.showparkingDetailsComp = function (parkingId){
+            for (var index = 0; index < vm.allParkingsComp.length; index++) {
+                if (vm.allParkingsComp[index].id=== parkingId) {
+                    vm.parkingDetailsComp = vm.allParkingsComp[index];
+                    break;
+                }
+                
+            }
+        }
+
+
+
     }
 })();
 
