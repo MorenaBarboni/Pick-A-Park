@@ -23,69 +23,87 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60px"
+            android:layout_marginBottom="60dp"
             android:textSize="32sp"
             android:text="Registration" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/nameRegistration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_marginBottom="30px"
-            android:text="Name" />
+            android:layout_marginBottom="15dp"
+            android:hint="Name"/>
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/surnameRegistration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_marginBottom="30px"
-            android:text="Name" />
-
+            android:layout_marginBottom="15dp"
+            android:hint="Surname"/>
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/emailRegistation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:layout_marginBottom="30px"
-            android:inputType="textEmailAddress" />
+            android:layout_marginBottom="15dp"
+            android:inputType="textEmailAddress"
+            android:hint="e-mail"/>
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/phoneRegistation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:layout_marginBottom="30px"
-            android:inputType="phone" />
+            android:layout_marginBottom="15dp"
+            android:inputType="phone"
+            android:hint="phone number"/>
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/passwordRegistration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:layout_marginBottom="30px"
-            android:inputType="textPassword" />
+            android:layout_marginBottom="5dp"
+            android:inputType="textPassword"
+            android:hint="password"/>
 
+        <RelativeLayout
+            android:id="@+id/loadingPanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:layout_marginBottom="5dp"
+            android:gravity="center" >
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </RelativeLayout>
         <Button
             android:id="@+id/buttonCompleteRegistration"
             android:background="@drawable/selector_downloaded_file_button"
-            android:layout_width="400px"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="10px"
+            android:layout_marginLeft="10dp"
             android:text="@string/sign_in"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="35px"
+            android:layout_marginBottom="10dp"
             android:textAllCaps="false" />
+
+
+
         <TextView
             android:id="@+id/alredyHaveAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60px"
-            android:textSize="20sp"
+            android:layout_marginBottom="60dp"
+            android:textSize="15sp"
             android:textColor="#ff38ff"
             android:text="I already have an account" />
     </LinearLayout>
