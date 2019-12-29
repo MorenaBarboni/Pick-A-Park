@@ -11,6 +11,8 @@
         vm.unapprovedParkings = [];
         vm.allParkingsComp = [];
 
+        vm.parkingDetailsComp = null;
+
 
         vm.newParking = {
             id: null,
@@ -84,6 +86,17 @@
                         vm.allParkingsComp.push(parking)});
 
             });
+        }
+
+        //See details of a parking space of the company
+        vm.showparkingDetailsComp = function (parkingId){
+            for (var index = 0; index < vm.allParkingsComp.length; index++) {
+                if (vm.allParkingsComp[index].id=== parkingId) {
+                    vm.parkingDetailsComp = vm.allParkingsComp[index];
+                    break;
+                }
+                
+            }
         }
 
 

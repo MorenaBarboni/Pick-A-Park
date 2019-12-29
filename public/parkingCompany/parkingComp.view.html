@@ -36,11 +36,11 @@
                             <th>City</th>
                             <th></th>
                         </tr>
-                        <tr ng-repeat="parking in vm.allParkingsComp"><!-- TODO method -->
+                        <tr ng-repeat="parking in vm.allParkingsComp">
                             <td>{{parking.id}}</td>
                             <td>{{parking.address}}</td>
                             <td>{{parking.city}}</td>
-                            <td><a class="button1" ng-click="vm.showParkingDetailsComp(parking.id)" href="">Details</a></td><!-- TODO method -->
+                            <td><a class="button1" ng-click="vm.showparkingDetailsComp(parking.id)" href="">Details</a></td>
                         </tr>
                     </table>
                    
@@ -50,7 +50,57 @@
                     </form>
                 </div>
             </div>
+
+            <!--Parking Details section-->
+
             <div class="column" id="columnRight">
+                <div id="parcheggiCompDettagli">
+                    <div id="titleCompDetails" align="center">
+                        <i class="material-icons lock">description</i>Details
+                    </div>
+                    <ul>
+                        <li class="list-group-item list-group-item-success" ng-show="vm.parkingDetailsComp != null">
+                            <strong>Parking {{vm.parkingDetailsComp.id}}</strong>
+                        </li>
+                        <li class="list-group-item list-group-item-success" ng-show="vm.parkingDetailsComp === null">
+                            <strong>Select a parking to show details</strong>
+                        </li>
+                        <li class="list-group-item">
+                            <strong> City: </strong> {{vm.parkingDetailsComp.city}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Address: </strong>{{vm.parkingDetailsComp.address}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Latitude: </strong> {{vm.parkingDetailsComp.coordinates.latitude}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Longitude: </strong>{{vm.parkingDetailsComp.coordinates.longitude}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Indoor: </strong> {{vm.parkingDetailsComp.indoor}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Handicap Space: </strong> {{vm.parkingDetailsComp.handicap}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Hourly Rate: </strong> {{vm.parkingDetailsComp.price}}
+                        </li>
+                        <!--Dovrebbe essere approvato se la compagnia lo vede
+
+                        <li class="list-group-item">
+                            <strong> Approvato: </strong> {{vm.parkingDetailsComp.isApproved}}
+                        </li>-->
+                        <li class="list-group-item">
+                            <strong> Usable: </strong> {{vm.parkingDetailsComp.isUsable}}
+                        </li>
+                        <li class="list-group-item">
+                            <strong> Plate: </strong> {{vm.parkingDetailsComp.plate}}
+                        </li>
+    
+                    </ul>
+
+                </div>
              
             </div>
         </div>
