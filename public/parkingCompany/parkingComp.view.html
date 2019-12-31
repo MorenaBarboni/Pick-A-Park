@@ -24,7 +24,7 @@
     <div id="container-main">
 
         <h3>{{vm.user.company}}</h3>
-        
+
         <div class="row">
             <div class="column" id="columnLeft">
                 <div id="parcheggiComp">
@@ -42,7 +42,7 @@
                             <td>{{parking.id}}</td>
                             <td>{{parking.address}}</td>
                             <td>{{parking.city}}</td>
-                            <td><a class="button1" ng-click="vm.showParkingDetailsComp(parking.id)" href="">Details</a>
+                            <td><a class="button1" ng-click="vm.showparkingDetails(parking.id)">Details</a>
                             </td>
                         </tr>
                     </table>
@@ -56,55 +56,149 @@
 
             <!--Parking Details section-->
 
-            <div class="column" id="columnRight">
-                <div id="parcheggiCompDettagli">
-                    <div id="titleCompDetails" align="center">
-                        <i class="material-icons lock">description</i>Details
+            <div class="column" id="columnRight" style="width: 45%">
+                <div id="container-parkingDetails">
+                    <div id="title">
+                        Details <span ng-if="vm.parkingDetails != null"> - Parking {{vm.parkingDetails.id}} </span>
                     </div>
-                    <ul>
-                        <li class="list-group-item list-group-item-success" ng-show="vm.parkingDetailsComp != null">
-                            <strong>Parking {{vm.parkingDetailsComp.id}}</strong>
-                        </li>
-                        <li class="list-group-item list-group-item-success" ng-show="vm.parkingDetailsComp === null">
-                            <strong>Select a parking to show details</strong>
-                        </li>
-                        <li class="list-group-item">
-                            <strong> City: </strong> {{vm.parkingDetailsComp.city}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong> Address: </strong>{{vm.parkingDetailsComp.address}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong> Latitude: </strong> {{vm.parkingDetailsComp.coordinates.latitude}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong> Longitude: </strong>{{vm.parkingDetailsComp.coordinates.longitude}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong> Indoor: </strong> {{vm.parkingDetailsComp.indoor}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong> Handicap Space: </strong> {{vm.parkingDetailsComp.handicap}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong> Hourly Rate: </strong> {{vm.parkingDetailsComp.price}}
-                        </li>
-                        <!--Dovrebbe essere approvato se la compagnia lo vede
+                    <form>
 
-                        <li class="list-group-item">
-                            <strong> Approvato: </strong> {{vm.parkingDetailsComp.isApproved}}
-                        </li>-->
-                        <li class="list-group-item">
-                            <strong> Usable: </strong> {{vm.parkingDetailsComp.isUsable}}
-                        </li>
-                        <li class="list-group-item">
-                            <strong> Plate: </strong> {{vm.parkingDetailsComp.plate}}
-                        </li>
-    
-                    </ul>
+                        <!-- Tab links -->
+                        <div class="tab">
+                            <button class="tablinks active" onclick="openTab(event, 'General')">General</button>
+                            <button class="tablinks" onclick="openTab(event, 'Map')">Map</button>
+                            <button class="tablinks" onclick="openTab(event, 'Status')">Status</button>
+                        </div>
 
+                        <!-- Tab content -->
+
+                        <!-- General Tab-->
+                        <div id="General" class="tabcontent" style="display:block">
+                            <div ng-if="vm.parkingDetails != null" class="row">
+
+                                <div class="details details-large">
+                                    <p class="details-label">City</p>
+                                    <p class="details-text"> {{vm.parkingDetails.city}} </p>
+                                </div>
+
+                                <div class="details details-large">
+                                    <div class="details-label">Address</div>
+                                    <p class="details-text">{{vm.parkingDetails.address}}</p>
+                                </div>
+
+                                <div class="details details-large">
+                                    <div class="details-label">Rate</div>
+                                    <p class="details-text">{{vm.parkingDetails.price}} &#8364;/hr </p>
+                                </div>
+                            </div>
+                            <div ng-if="vm.parkingDetails != null" class="row">
+                                <ul class="details-list">
+                                    <li ng-show="!vm.parkingDetails.indoor && vm.parkingDetails!= null">Outdoor
+                                        Parking Space</li>
+                                    <li ng-show="vm.parkingDetails.indoor && vm.parkingDetails!= null">Indoor
+                                        Parking Space</li>
+                                    <li ng-show="vm.parkingDetails.handicap && vm.parkingDetails!= null">
+                                        Accessible Parking Space</li>
+                                </ul>
+                            </div>
+                            <div ng-if="vm.parkingDetails == null" class="row">
+                                <h3 id="noDetails"> Select a parking to show its details</h3>
+                            </div>
+
+                        </div>
+
+                        <!-- Coordinates Tab-->
+                        <div id="Map" class="tabcontent" style="display:none">
+                            <!--Map-->
+                            <div class="row" ng-show="vm.parkingDetails != null">
+                                <div id="map" style="text-align: right;"></div>
+                            </div>
+                            <div class="row" ng-if="vm.parkingDetails != null" style="margin-top: 10px;">
+                                <div class="column" id="columnLeft">
+                                    <div class="details">
+                                        <div class="details-label">Latitude</div>
+                                        <p class="details-text">{{vm.parkingDetails.coordinates.latitude}}</p>
+                                    </div>
+                                </div>
+                                <div class="column" id="columnRight">
+                                    <div class="details">
+                                        <div class="details-label">Longitude</div>
+                                        <p class="details-text">{{vm.parkingDetails.coordinates.longitude}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="vm.parkingDetails == null" class="row">
+                                <h3 id="noDetails"> Select a parking to show its details</h3>
+                            </div>
+
+                        </div>
+
+                        <!-- Status Tab-->
+                        <div id="Status" class="tabcontent" style="display:none">
+
+                            <div class="row" ng-if="vm.parkingDetails.isUsable && vm.parkingDetails!= null">
+                                <div class="col success" id="messagebox">
+                                    <div class="row">
+                                        <div id="messagebox-icon">
+                                            <span class="fa fa-lg fa-check text-success"></span>
+                                        </div>
+
+                                        <div id="messagebox-header">Enabled</div>
+                                    </div>
+                                    <div class="row">
+                                        <ul id="messagebox-ul">
+                                            <li> This parking space is enabled and can be used.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-if="!vm.parkingDetails.isUsable && vm.parkingDetails!= null">
+                                <div class="col fail" id="messagebox">
+                                    <div class="row">
+                                        <div id="messagebox-icon">
+                                            <span class="fa fa-lg fa-times text-danger"></span>
+                                        </div>
+                                        <div id="messagebox-header">Disabled</div>
+                                    </div>
+                                    <div class="row">
+                                        <ul id="messagebox-ul">
+                                            <li> This parking
+                                                space has been disabled and cannot be used. Please contact your
+                                                municipality.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-if=" vm.parkingDetails!= null && vm.parkingDetails.isUsable">
+                                <div class="col normal" id="messagebox">
+                                    <div class="row">
+
+                                        <div id="messagebox-icon">
+                                            <span class="fa fa-lg fa-car"></span>
+                                        </div>
+                                        <div ng-show="vm.parkingDetails.plate == null" id="messagebox-header">Free</div>
+                                        <div ng-show="vm.parkingDetails.plate != null" id="messagebox-header">Occupied
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <ul id="messagebox-ul">
+                                            <li ng-show="vm.parkingDetails.plate == null"> License Plate: None</li>
+                                            <li ng-show="vm.parkingDetails.plate != null"> License Plate:
+                                                {{vm.parkingDetails.plate}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="vm.parkingDetails == null" class="row">
+                                <h3 id="noDetails"> Select a parking to show its details</h3>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-             
+
             </div>
         </div>
 

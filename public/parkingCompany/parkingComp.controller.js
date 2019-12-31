@@ -2,17 +2,16 @@
 
     angular.module("pick-a-park").controller("parkingCompCtrl", parkingCompCtrl);
 
-    parkingCompCtrl.$inject = ["$http", "$window", "$location", "$scope", "authentication", "parkingService", "companyService"];
-    function parkingCompCtrl($http, $window, $location, $scope, authentication, parkingService, companyService) {
+    parkingCompCtrl.$inject = ["$http", "$window", "$location", "$scope", "authentication", "parkingService"];
+    function parkingCompCtrl($http, $window, $location, $scope, authentication, parkingService) {
 
         var vm = this;
 
         vm.user = {}; //Current user data
-        
-        vm.parkingDetailsComp = null;
 
         vm.unapprovedParkings = []; //List of unapproved parkings
         vm.approvedParkings = []; //List of approved parkings
+        vm.parkingDetails = null; //Parking to show details of
 
         vm.newParking = {
             id: null,
@@ -36,7 +35,6 @@
                     console.log(e);
                 }).then(function () {
                     getUnapprovedParkings();
-                    getAllParkingsComp();
                 })
         }
 
@@ -78,36 +76,90 @@
                 });
         }
 
-        //See all parking spaces of the company
 
-        function getAllParkingsComp(){
-            console.log("controller vado");
-            parkingService
-                .getParkings(vm.user.company)
-                .then(function(result){
-                    result.forEach(parking => {
-                        vm.allParkingsComp.push(parking)});
+        //Set current parking to show
+        vm.showparkingDetails = function (parkingId) {
 
-            });
-        }
-
-        //See details of a parking space of the company
-        vm.showparkingDetailsComp = function (parkingId){
-            for (var index = 0; index < vm.allParkingsComp.length; index++) {
-                if (vm.allParkingsComp[index].id=== parkingId) {
-                    vm.parkingDetailsComp = vm.allParkingsComp[index];
+            for (var i = 0; i < vm.approvedParkings.length; i++) {
+                if (vm.approvedParkings[i].id === parkingId) {
+                    vm.parkingDetails = vm.approvedParkings[i];
+                    console.log(vm.approvedParkings[i]);
                     break;
                 }
-                
             }
+            //If map has not already been initialized
+            if ($scope.map === undefined) {
+                initMap();
+            }
+            setParkingMarker()
         }
+
+        //Google Maps
+
+        var mapOptions = {
+            zoom: 15,
+            center: new google.maps.LatLng(43.139528, 13.0677438),
+            mapTypeId: google.maps.MapTypeId.SATELLITE
+        };
+
+        //Init the map when loading details
+        function initMap() {
+            $scope.map = new google.maps.Map(
+                document.getElementById("map"),
+                mapOptions
+            );
+            //Init marker
+            $scope.mapMarker = null;
+        }
+
+        var infoWindow = new google.maps.InfoWindow();
+
+        //Center map to coordinates
+        function moveToLocation(lat, lng) {
+            var center = new google.maps.LatLng(lat, lng);
+            $scope.map.panTo(center);
+        }
+
+        //Sets parking marker
+        function setParkingMarker() {
+
+            var id = vm.parkingDetails.id.toString();
+            var info =
+            {
+                desc: "Parking " + id,
+                lat: vm.parkingDetails.coordinates.latitude,
+                long: vm.parkingDetails.coordinates.longitude,
+            };
+
+            var marker = new google.maps.Marker({
+                map: $scope.map,
+                position: new google.maps.LatLng(info.lat, info.long),
+                title: info.desc
+            });
+
+            moveToLocation(info.lat, info.long)
+
+            //Open info window
+            google.maps.event.addListener(marker, "click", function () {
+                infoWindow.setContent(marker.title);
+                infoWindow.open($scope.map, marker);
+            });
+
+            //Replace marker
+            if ($scope.mapMarker != null) {
+                $scope.mapMarker.setMap(null);
+                $scope.mapMarker = null;
+            }
+            $scope.mapMarker = marker;
+        }
+
+        //Show info window
+        $scope.openInfoWindow = function (e, selectedMarker) {
+            e.preventDefault();
+            google.maps.event.trigger(selectedMarker, "click");
+        };
 
 
 
     }
-})();
-
-
-
-
-
+})(); 

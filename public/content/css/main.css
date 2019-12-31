@@ -91,10 +91,20 @@ a.button1-delete:hover {
     position: relative;
     top: 10%;
     margin: auto;
-    margin-bottom: 30px;
-    margin-top: 2.5%;
     width: 80%;
     height: 650px;
+    border-radius: 0.35em;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#container-parkingDetails {
+    background-color: #1D1F20;
+    position: relative;
+    top: 10%;
+    margin: auto;
+    width: 80%;
+    height: 455px;
     border-radius: 0.35em;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -104,7 +114,8 @@ a.button1-delete:hover {
     background-color: #1D1F20;
     position: relative;
     top: 10%;
-    margin: 2.5%;
+    margin: auto;
+    margin-left: 2.5%;
     width: auto;
     height: auto;
     border-radius: 0.35em;
@@ -423,12 +434,14 @@ input[type=submit]:hover {
     outline: none;
 }
 
+/* TABS */
+
 /* Style the tab */
 
 .tab {
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
+    border: 1px solid #918c8b;
+    background-color: #373b3d;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -441,27 +454,30 @@ input[type=submit]:hover {
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
+    letter-spacing: 0.5px;
 }
 
 /* Change background color of buttons on hover */
 
 .tab button:hover {
-    background-color: #ddd;
+    background-color: #a3a3a3;
 }
 
 /* Create an active/current tablink class */
 
 .tab button.active {
-    background-color: #ccc;
+    background-color: #a3a3a3;
 }
 
 /* Style the tab content */
 
 .tabcontent {
+    min-height: 333px;
     display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border: 1px solid #918c8b;
     border-top: none;
+    border-radius: 0.35em;
 }
 
 /* table */
@@ -484,14 +500,15 @@ th {
     text-align: center;
     padding-top: 1%;
     padding-bottom: 1%;
+    letter-spacing: 0.5px;
 }
 
 /* scrollbar table*/
 
 tbody {
     display: block;
-    height: 200px;
-    overflow: auto;
+    height: 380px;
+    overflow-y: scroll;
 }
 
 thead, tbody tr {
@@ -515,6 +532,150 @@ thead {
     padding-left: 5%;
 }
 
+/* Detail Form Labels */
+
+.details {
+    margin: auto;
+    width: 190px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #373b3d;
+    padding: 8px;
+    margin-top: 15px;
+    text-align: left;
+}
+
+.details-label {
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    float: left;
+    padding-top: 2px;
+    padding-left: 3px;
+    padding-right: 10px;
+    border-right: 1px solid rgba(255, 255, 255, 0.089);
+}
+
+.details-text {
+    margin-left: 2px;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    float: left;
+    padding-top: 2px;
+    padding-left: 5px;
+    border: 1px solid #373b3d;
+}
+
+.details-large {
+    width: 365px;
+    float: left;
+    margin-left: 10%;
+}
+
+.details-list {
+    margin-top: 5%;
+    margin-left: 10%;
+    text-align: left;
+    list-style-type: circle;
+}
+
+.details-list li {
+    margin-top: 2%;
+    letter-spacing: 0.5px;
+}
+
+/*No details h3*/
+
+#noDetails {
+    margin-top: 22%;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+/*Status messages */
+
+#messagebox {
+    margin-top: 12px;
+    min-height: 55px;
+    max-width: 430px;
+    color: #FFFFFF;
+    letter-spacing: 0.5px;
+}
+
+#messagebox.success {
+    margin-left: 4%;
+    border-left: solid 4px #00C851;
+}
+
+#messagebox.fail {
+    margin-left: 4%;
+    border-left: solid 4px #ff4444;
+}
+
+#messagebox.normal {
+    margin-top: 35px;
+    margin-left: 4%;
+    border-left: solid 4px #cecece;
+}
+
+#messagebox-icon {
+    float: left;
+    margin-top: 4px;
+    margin-left: 25px;
+    padding: 4px;
+}
+
+#messagebox-header {
+    float: left;
+    padding: 4px;
+    margin-top: 4px;
+    margin-left: 4px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+}
+
+#messagebox-ul {
+    margin-top: 2px;
+    max-width: 390px;
+    margin-left: 10%;
+    text-align: left;
+    list-style-type: circle;
+}
+
+/* Table search filters */
+
+.search input[type="text"], .search input[type="number"], .search select {
+    width: 100px;
+    height: 30px;
+    padding: 2%;
+    outline: 0 none;
+    border: 1px solid #918c8b;
+    transition: 0.1s;
+    font-size: 13px;
+    padding: 5%;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #373b3d;
+    color: #dadada;
+}
+
+.search input[type="text"]:focus, .search input[type="number"]:focus {
+    border: 1px solid #dadada;
+}
+
+.search ::placeholder {
+    color: #949494;
+    font-size: 13px;
+}
+
+.search-tr {
+    margin-bottom: 2px;
+    border-bottom: 1px solid rgb(22, 24, 26);
+}
+
+.search-th {
+    padding-bottom: 15px;
+}
+
 /* Navbar */
 
 .navbar {
@@ -535,16 +696,14 @@ thead {
     margin-top: 30px;
     margin-top: 10px;
     margin-left: 35px;
-    height: 250px;
-    width: 500px;
+    height: 230px;
     width: 400px;
-    box-shadow: 3px 3px 10px gray;
-    float: left;
 }
 
 /*footer*/
 
 /*wrapper for sticky footer*/
+
 .flex-wrapper {
     display: flex;
     min-height: 100vh;
