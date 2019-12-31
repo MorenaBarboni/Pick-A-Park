@@ -24,6 +24,15 @@
             handicap: false
         };
 
+        vm.newPrice = null; //New parking price
+
+        //Table filters
+        vm.filter = {
+            address: "",
+            location: "",
+            price: null,
+        };
+
         initController();
 
         function initController() {
@@ -61,6 +70,36 @@
             });
         };
 
+        //Set current parking to show
+        vm.showparkingDetails = function (parkingId) {
+
+            for (var i = 0; i < vm.approvedParkings.length; i++) {
+                if (vm.approvedParkings[i].id === parkingId) {
+                    vm.parkingDetails = vm.approvedParkings[i];
+                    break;
+                }
+            }
+            //If map has not already been initialized
+            if ($scope.map === undefined) {
+                initMap();
+            }
+            setParkingMarker()
+        }
+
+        //Update price of a parking
+        vm.onSubmitUpdate = function (newPrice) {
+            var answer = window.confirm("Sei sicuro di voler modificare la tariffa?")
+            if (answer) {
+                $scope.visibleParkings.forEach(parking => {
+                    parking.price = newPrice;
+                    parkingService.updateParking(vm.user.company, parking.id, parking);
+                });
+                window.alert("Modifica completata con successo!");
+                window.location.reload();
+            }
+
+        };
+
         //Retrieve and split approved/unapproved parkings
         function getUnapprovedParkings() {
             parkingService
@@ -76,23 +115,34 @@
                 });
         }
 
+        //Filters table elements to show
+        vm.filterTable = function () {
+            var result = []
 
-        //Set current parking to show
-        vm.showparkingDetails = function (parkingId) {
+            vm.approvedParkings.forEach(parking => {
 
-            for (var i = 0; i < vm.approvedParkings.length; i++) {
-                if (vm.approvedParkings[i].id === parkingId) {
-                    vm.parkingDetails = vm.approvedParkings[i];
-                    console.log(vm.approvedParkings[i]);
-                    break;
+                //Empty filters
+                if (vm.filter.address == "" && vm.filter.price == null && vm.filter.location == "") {
+                    result.push(parking)
+                } else {
+
+                    //Apply Filters
+                    var parkingAddress = parking.address.toLowerCase();
+                    var filterAddress = vm.filter.address.toLowerCase();
+
+                    var boolFilter = false;
+                    if (vm.filter.location == "true") {
+                        boolFilter = true;
+                    }
+
+                    if ((parking.price == vm.filter.price || vm.filter.price == null) && (parkingAddress.indexOf(filterAddress) !== -1 || filterAddress == "") && (parking.indoor == boolFilter || vm.filter.location == "")) {
+                        result.push(parking)
+                    }
                 }
-            }
-            //If map has not already been initialized
-            if ($scope.map === undefined) {
-                initMap();
-            }
-            setParkingMarker()
-        }
+            });
+            return result;
+        };
+
 
         //Google Maps
 
@@ -159,7 +209,10 @@
             google.maps.event.trigger(selectedMarker, "click");
         };
 
-
-
     }
-})(); 
+})();
+
+
+
+
+
