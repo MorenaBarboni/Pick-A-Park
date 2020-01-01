@@ -46,10 +46,15 @@
       }).then(handleSuccess, handleError);
     };
 
-
-    updateParking = function (company, updatedData) {
+    //Update Parking
+    updateParking = function (name, id, updatedData) {
+      console.log(name, id, updatedData);
       return $http
-        .patch("/api/parkings/" + company, updatedData).then(handleSuccess, handleError);
+        .patch("/api/companies/" + name + "/parkings/" + id, updatedData, {
+          headers: {
+            Authorization: "Bearer " + authentication.getToken()
+          }
+        }).then(handleSuccess, handleError);
     };
 
 

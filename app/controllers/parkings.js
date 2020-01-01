@@ -10,7 +10,7 @@ module.exports.getParkings = function (req, res) {
     });
   } else {
     Parking.find({ company: req.params.name })
-      .sort({ number: 1 })
+      .sort({ id: 1 })
       .exec(function (err, parkings) {
         if (!parkings.length) {
           res.status(404).json({
