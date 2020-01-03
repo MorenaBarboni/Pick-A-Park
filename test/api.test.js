@@ -1,12 +1,12 @@
 
+//Use test server and test DB environments
+const app = require('./testServer');
+app.listen(8080);
+
 //Import supertest for http requests
 const supertest = require('supertest');
 const request = supertest(app);
 jest.setTimeout(30000); //Set test timeout
-
-//Use test server and test DB environments
-const app = require('./testServer');
-app.listen(8080);
 
 const token = process.env.token; //JWT
 
@@ -30,6 +30,65 @@ beforeAll(async () => {
         const newParking = new Parking(p)
         await newParking.save()
     }
+})
+
+
+/**
+ * Testing get parkings endpoint
+ */
+describe('Get /PARKINGS', () => {
+    it('should return parkings of Company 1', async done => {
+        const res = await request.get('/api/companies/Company1/parkings').set('Authorization', 'Bearer ' + token)
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        done()
+    })
+})
+
+/**
+ * Testing get parkings endpoint for non-existent company
+ */
+describe('Get /PARKINGS', () => {
+    it('should return 404 status code', async done => {
+        const res = await request.get('/api/companies/Company10/parkings').set('Authorization', 'Bearer ' + token)
+        expect(res.status).toBe(404)
+        done()
+    })
+})
+
+/**
+ * Testing patch parking endpoint
+ */
+describe('Patch /PARKINGS', () => {
+    it('should patch a parking', async done => {
+        const res = await request.patch('/api/companies/Company1/parkings/2')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                price: 2.7
+            })
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        done()
+    })
+})
+
+/**
+ * Testing patch parking endpoint for non-existent parking
+ */
+describe('Patch /PARKINGS', () => {
+    it('should return 404', async done => {
+        const res = await request.patch('/api/companies/Company1/parkings/999')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                price: 2.7
+            })
+        expect(res.status).toBe(404)
+        done()
+    })
 })
 
 
