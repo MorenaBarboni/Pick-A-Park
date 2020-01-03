@@ -2,21 +2,32 @@
   "name": "pick-a-park",
   "version": "0.0.1",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "~1.10.2",
-    "bootstrap": "3.3.7",
+    "bootstrap": ">=4.3.1",
     "cookie-parser": "~1.3.3",
     "debug": "~4.1.1 ",
     "dotenv": "8.2.0",
     "express": "~4.11.1",
     "express-jwt": "^3.0.1",
-    "jquery": "3.3.1",
+    "jquery": ">=3.4.0",
     "jsonwebtoken": "^5.0.4",
     "mongoose": "^5.7.14",
     "morgan": "~1.9.1",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "supertest": "4.0.2"
   }
 }
