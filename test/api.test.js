@@ -1,4 +1,3 @@
-
 //Use test server and test DB environments
 const app = require('./testServer');
 app.listen(8080);
@@ -56,6 +55,109 @@ describe('Get /PARKINGS', () => {
         done()
     })
 })
+
+
+
+/**
+ * Testing post parking endpoint
+ */
+describe('Post /PARKINGS', () => {
+    it('should create a new parking', async done => {
+        const res = await request.post('/api/companies/Company1/parkings')
+            .set('Authorization', 'Bearer ' + token)
+            .send({
+                id: 18,
+                city: "Camerino",
+                address: "Madonna delle Carceri",
+                latitude: 43.99088,
+                longitude: 13.29177,
+                indoor: false,
+                handicap: false,
+                price: 2.0
+            })
+        expect(res.status).toBe(201)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        done()
+    })
+})
+
+/**
+ * Testing post parking endpoint for existing parking ID
+ */
+describe('Post /PARKINGS', () => {
+    it('should return existing parking error', async done => {
+        const res = await request.post('/api/companies/Company1/parkings')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                id: 1,
+                city: "Camerino",
+                address: "Madonna delle Carceri",
+                latitude: 43.77,
+                longitude: 13.77,
+                indoor: false,
+                handicap: false,
+                price: 2.0
+            })
+        expect(res.status).toBe(422)
+        expect(res.body.message).toBe("existingParkingError")
+        done()
+    })
+})
+
+/**
+ * Testing post parking endpoint for existing parking coordinates
+ */
+describe('Post /PARKINGS', () => {
+    it('should return existing coordinates error', async done => {
+        const res = await request.post('/api/companies/Company1/parkings')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                id: 77,
+                city: "Camerino",
+                address: "Madonna delle Carceri",
+                latitude: 43.139802,
+                longitude: 13.069174,
+                indoor: false,
+                handicap: false,
+                price: 2.0
+            })
+        expect(res.status).toBe(422)
+        expect(res.body.message).toBe("existingCoordError")
+        done()
+    })
+})
+
+
+
+/**
+ * Testing delete parking endpoint
+ */
+describe('Delete /PARKINGS', () => {
+    it('delete a parking request', async done => {
+        const res = await request.delete('/api/companies/Company1/parkings/3')
+            .set('Authorization', 'Bearer ' + token)
+        expect(res.status).toBe(204)
+        done()
+    })
+})
+
+
+/**
+ * Testing delete parking endpoint for non-existent parking
+ */
+describe('Delete /PARKINGS', () => {
+    it('should return 404', async done => {
+        const res = await request.delete('/api/companies/Company1/parkings/999')
+            .set('Authorization', 'Bearer ' + token)
+        expect(res.status).toBe(404)
+        done()
+    })
+})
+
+
 
 /**
  * Testing patch parking endpoint
