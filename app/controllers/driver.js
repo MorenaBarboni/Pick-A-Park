@@ -36,3 +36,23 @@ module.exports.register = function (req, res) {
      }
   });
 };
+
+//POST - Driver login
+module.exports.login = function (req, res) {
+  Driver.find({ phone: req.body.phone, password: req.body.password })
+    .exec(function (err, user) {
+      if (!user.length) {
+        res.status(404).json({
+          message: "The requested resource is not available"
+        });
+      } else {
+        res.status(200);
+        res.json({
+          code: "200",
+          status: "success",
+          message: "Resource successfully retrieved",
+          content: user
+        });
+      }
+    });
+};

@@ -25,6 +25,7 @@ router.post("/users", ctrlAuth.register);
 router.get("/users", auth, ctrlAuth.verify);
 
 //Driver
+router.post("/driver-login", ctrlDriver.login);
 router.post("/driver", ctrlDriver.register);
 
 //Parking Companies
