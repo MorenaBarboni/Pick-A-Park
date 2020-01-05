@@ -6,9 +6,10 @@ var jwt = require("express-jwt");
 var auth = require("../config/auth");
 
 //Import backend controllers
-var ctrlAuth = require("../controllers/authentication");
-var ctrlParking = require("../controllers/parkings");
-var ctrlCompany = require("../controllers/companies");
+const ctrlAuth = require("../controllers/authentication");
+const ctrlParking = require("../controllers/parkings");
+const ctrlCompany = require("../controllers/companies");
+const ctrlDriver = require("../controllers/driver");
 
 // Set default API response
 router.get('/', function (req, res) {
@@ -18,13 +19,15 @@ router.get('/', function (req, res) {
     });
 });
 
-// Authentication and Registration API
+// Webapp User
 router.post("/login", ctrlAuth.login);
 router.post("/users", ctrlAuth.register);
 router.get("/users", auth, ctrlAuth.verify);
 
-//Parking Companies
+//Driver
+router.post("/driver", ctrlDriver.register);
 
+//Parking Companies
 router.get("/companies", ctrlCompany.getCompanies);
 router.get("/companies/:name", ctrlCompany.getCompanyByName);
 
