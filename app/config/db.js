@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 require('../models/users');
 require('../models/companies');
 require('../models/parkings');
+require('../models/drivers');
 
 //Connection string
 
