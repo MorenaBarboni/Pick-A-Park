@@ -61,6 +61,17 @@
             setParkingMarker()
         }
 
+        //Enable/Disable parking
+        vm.onSubmitUpdate = function (isUsable) {
+            var answer = window.confirm("Sei sicuro di voler modificare il parcheggio?")
+            if (answer) {
+                var parking = vm.parkingDetails;
+                parking.isUsable = isUsable;
+                parkingService.updateParking(parking.company, parking.id, parking);
+                window.location.reload();
+            }
+        };
+
         //Filters table elements to show
         vm.filterTable = function () {
             var result = []
@@ -91,7 +102,7 @@
             });
             return result;
         };
-      
+
         //Google Maps
         var mapOptions = {
             zoom: 15,

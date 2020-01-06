@@ -38,6 +38,11 @@ a.button1-delete {
     transition: all 0.2s;
 }
 
+a.button1-big {
+    font-size: 14px;
+    letter-spacing: 0.8px;
+   }
+
 a.button1:hover {
     color: #000000;
     background-color: #FFFFFF;
