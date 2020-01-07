@@ -41,7 +41,7 @@ a.button1-delete {
 a.button1-big {
     font-size: 14px;
     letter-spacing: 0.8px;
-   }
+}
 
 a.button1:hover {
     color: #000000;
@@ -735,6 +735,18 @@ thead {
     display: inline-block;
 }
 
+.navbar-default .navbar-brand {
+    position: absolute;
+    left: 40px;
+    margin: auto;
+}
+
+.logo-image {
+    max-width: 50px;
+    overflow: hidden;
+    margin-top: -3px;
+}
+
 /* map */
 
 #map {
@@ -743,6 +755,12 @@ thead {
     margin-left: 35px;
     height: 230px;
     width: 400px;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 /*footer*/
@@ -769,19 +787,18 @@ thead {
 
 .footer-bottom p {
     margin: 0;
-    color: #54697e;
+    color: rgb(40, 106, 86);
 }
 
-.footer img {
-    margin-top: 50%;
-    max-width: 100%;
+.logo-footer {
+    margin-top: -30px;
 }
 
 .footer h3 {
     border-bottom: 1px solid #bac1c8;
-    color: #54697e;
-    font-size: 15px;
-    font-weight: 600;
+    color: rgb(40, 106, 86);
+    font-size: 17px;
+    font-weight: 700;
     line-height: 27px;
     padding: 10px 0 10px;
     text-transform: uppercase;
@@ -849,8 +866,8 @@ thead {
 }
 
 .social li:hover {
-    border: 2px solid #2c3e50;
-    background: #2c3e50;
+    border: 2px solid rgb(40, 106, 86);
+    background: rgb(40, 106, 86);
 }
 
 .social li a i {
@@ -868,4 +885,9 @@ thead {
 
 .footer-bottom p.pull-left {
     padding-top: 6px;
+}
+
+.footer img {
+    margin-top: 50%;
+    max-width: 100%;
 }

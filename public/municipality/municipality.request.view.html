@@ -1,0 +1,173 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Parking Requests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../content/css/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #303641;
+        }
+    </style>
+</head>
+
+<navigation></navigation>
+
+<div class="flex-wrapper">
+    <div id="container-main">
+        <!-- Tab content -->
+        <div id="Home">
+            <div class="row" style="margin-left: 1%; margin-bottom: 0.6%;">
+                <h3>Parking Requests</h3>
+            </div>
+
+            <div class="row">
+                <!-- Unapproved parkings-->
+                <div class="column" id="columnLeft">
+
+                    <div id="container-parkings">
+                        <div id="title">
+                            Pending Requests
+                        </div>
+                        <table fixed-header>
+                            <thead>
+                                <tr>
+                                    <th>Parking ID</th>
+                                    <th>Company</th>
+                                    <th>Address</th>
+                                    <th></th>
+                                </tr>
+                                <tr class="search-tr">
+                                    <th style="width: 15%;"> </th>
+                                    <th class="search search-th">
+                                        <input class="search" type="text" name="companyFilter" id="companyFilter"
+                                            placeholder="Search" ng-model="vm.filter.company" style="width: 100px;">
+                                    </th>
+                                    <th class="search search-th">
+                                        <input class="search" type="text" name="addressFilter" id="addressFilter"
+                                            placeholder="Search" ng-model="vm.filter.address" style="width: 100px;">
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody style="height: 295px;">
+                                <tr ng-repeat="parking in visibleParkings = vm.filterTable(vm.unapprovedParkings)">
+                                    <td>{{parking.id}}</td>
+                                    <td>{{parking.company}}</td>
+                                    <td>{{parking.address}}</td>
+                                    <td><a class="button1" ng-click="vm.showParkingDetails(parking.id)">Details</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--column left-->
+
+
+                <div class="column" id="columnRight">
+                    <!-- Pending Request Details and Management-->
+                    <div id="container-parkingDetails">
+                        <div id="title">
+                            Details <span ng-if="vm.parkingDetails != null"> - Parking {{vm.parkingDetails.id}} </span>
+                        </div>
+                        <form>
+
+                            <!-- Tab links -->
+                            <div class="tab">
+                                <button class="tablinks active" onclick="openTab(event, 'General')">General</button>
+                                <button class="tablinks" onclick="openTab(event, 'Map')">Map</button>
+                            </div>
+
+                            <!-- Tab content -->
+                            <!-- General Tab-->
+                            <div id="General" class="tabcontent" style="display:block">
+                                <div ng-if="vm.parkingDetails != null" class="row">
+
+                                    <div class="details details-large">
+                                        <p class="details-label">Company</p>
+                                        <p class="details-text"> {{vm.parkingDetails.company}} </p>
+                                    </div>
+                                    <div class="details details-large">
+                                        <p class="details-label">City</p>
+                                        <p class="details-text"> {{vm.parkingDetails.city}} </p>
+                                    </div>
+
+                                    <div class="details details-large">
+                                        <div class="details-label">Address</div>
+                                        <p class="details-text">{{vm.parkingDetails.address}}</p>
+                                    </div>
+                                </div>
+                                <div ng-if="vm.parkingDetails != null" class="row">
+                                    <ul class="details-list">
+                                        <li ng-show="!vm.parkingDetails.indoor && vm.parkingDetails!= null">Outdoor
+                                            Parking Space</li>
+                                        <li ng-show="vm.parkingDetails.indoor && vm.parkingDetails!= null">Indoor
+                                            Parking Space</li>
+                                        <li ng-show="vm.parkingDetails.handicap && vm.parkingDetails!= null">
+                                            Accessible Parking Space</li>
+                                    </ul>
+                                </div>
+                                <div ng-if="vm.parkingDetails != null" class="row center" style="margin-top: 12px;">
+                                    <div class="column" id="columnLeft">
+                                        <a class="button1 button1-big" ng-click="vm.acceptRequest()">Accept Request</a>
+
+                                    </div>
+                                    <div class="column" id="columnRight">
+                                        <a class="button1-delete button1-big" ng-click="vm.deleteRequest()">Delete
+                                            Request</a>
+                                    </div>
+                                </div>
+                                <div ng-if="vm.parkingDetails == null" class="row">
+                                    <h3 id="noDetails"> Select a request to show its details</h3>
+                                </div>
+
+                            </div>
+
+                            <!-- Coordinates Tab-->
+                            <div id="Map" class="tabcontent" style="display:none">
+                                <!--Map-->
+                                <div class="row center" ng-show="vm.parkingDetails != null">
+                                    <div id="map" style="margin-left: 51px;"></div>
+                                </div>
+                                <div class="row" ng-if="vm.parkingDetails != null" style="margin-top: 10px;">
+                                    <div class="column" id="columnLeft">
+                                        <div class="details">
+                                            <div class="details-label">Latitude</div>
+                                            <p class="details-text">{{vm.parkingDetails.coordinates.latitude}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="column" id="columnRight">
+                                        <div class="details">
+                                            <div class="details-label">Longitude</div>
+                                            <p class="details-text">{{vm.parkingDetails.coordinates.longitude}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if="vm.parkingDetails == null" class="row">
+                                    <h3 id="noDetails"> Select a request to show its details</h3>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+                <!--column right-->
+            </div>
+        </div>
+    </div>
+
+    <navfooter></navfooter>
+</div> <!-- flex wrapper -->
+</body>
+
+</html>

@@ -65,7 +65,7 @@
                                 </tr>
                             </thead>
                             <tbody style="height: 295px;">
-                                <tr ng-repeat="parking in visibleParkings = vm.filterTable()">
+                                <tr ng-repeat="parking in visibleParkings = vm.filterTable(vm.approvedParkings)">
                                     <td style="width: 15%;">{{parking.id}}</td>
                                     <td>{{parking.company}}</td>
                                     <td>{{parking.address}}</td>

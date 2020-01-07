@@ -11,6 +11,10 @@
         templateUrl: "municipality/municipality.view.html",
         controller: "municipalityCtrl",
         controllerAs: "vm"
+      }).when("/municipality/requests", {
+        templateUrl: "municipality/municipality.request.view.html",
+        controller: "municipalityCtrl",
+        controllerAs: "vm"
       }).when("/parkingCompany", {
         templateUrl: "parkingCompany/parkingComp.view.html",
         controller: "parkingCompCtrl",
