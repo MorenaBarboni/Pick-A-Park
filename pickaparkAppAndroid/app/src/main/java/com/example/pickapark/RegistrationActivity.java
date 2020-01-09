@@ -13,6 +13,9 @@ import 	java.util.regex.*;
 
 import android.os.Handler;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     private TextView goBackToMainView;
@@ -135,6 +138,22 @@ public class RegistrationActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(phone);
         return matcher.matches();
+    }
+
+    public JSONObject jsonFormat(){
+        JSONObject registrationJSON = new JSONObject();
+        try {
+            registrationJSON.put("name",nameField.getText().toString());
+            registrationJSON.put("surname",surNameField.getText().toString());
+            registrationJSON.put("phone",phoneField.getText().toString());
+            registrationJSON.put("password",passwordField.getText().toString());
+            registrationJSON.put("email",eMailField.getText().toString());
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return registrationJSON;
     }
 
 

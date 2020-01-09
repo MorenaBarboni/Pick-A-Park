@@ -144,7 +144,7 @@ module.exports.deleteParking = function (req, res) {
 };
 
 
-//Patch parking by id (update price, update isUsable)
+//Patch parking by id (update price, isUsable, isApproved)
 module.exports.updateParking = function (req, res) {
   Parking.findOneAndUpdate(
     {
@@ -154,7 +154,8 @@ module.exports.updateParking = function (req, res) {
     {
       $set: {
         price: req.body.price,
-        isUsable: req.body.isUsable
+        isUsable: req.body.isUsable,
+        isApproved: req.body.isApproved
       }
     },
     {
