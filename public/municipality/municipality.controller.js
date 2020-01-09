@@ -80,6 +80,24 @@
             }
         };
 
+        //Delete parking request
+        vm.deleteRequest = function () {
+            var answer = window.confirm("Sei sicuro di voler eliminare la richiesta?")
+            if (answer) {
+                parkingService.deleteParking(vm.parkingDetails.company, vm.parkingDetails.id);
+            }
+        };
+
+        //Accept parking request
+        vm.acceptRequest = function () {
+            var answer = window.confirm("Sei sicuro di voler accettare la richiesta?")
+            if (answer) {
+                vm.parkingDetails.isApproved = true;
+                parkingService.updateParking(vm.parkingDetails.company, vm.parkingDetails.id, vm.parkingDetails);
+                window.location.reload();
+            }
+        };
+
         //Filters table elements to show
         vm.filterTable = function (elements) {
             var result = []
@@ -177,8 +195,3 @@
 
     }
 })();
-
-
-
-
-
