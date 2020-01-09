@@ -7,19 +7,14 @@ module.exports.register = function (req, res) {
   driver.name = req.body.name;
   driver.surname = req.body.surname;
   driver.email = req.body.email;
-  driver.username = req.body.username;
   driver.phone = req.body.phone;
   driver.password = req.body.password;
   driver.address = {};
   driver.payment = null;
-  console.log(driver)
-
   Driver.findOne({
     $or: [
       { email: driver.email },
-      { phone: driver.phone },
-      { username: driver.username }
-    ]
+      { phone: driver.phone }]
   }, function (err, existingDriver) {
     if (existingDriver) {
       res.status(422);
@@ -33,7 +28,7 @@ module.exports.register = function (req, res) {
           message: "User successfully registered"
         });
       });
-     }
+    }
   });
 };
 
