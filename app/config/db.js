@@ -17,7 +17,8 @@ const local_Url = 'mongodb://localhost/pickapark';
 mongoose.connect(Atlas_Uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useFindAndModify: false
 })
   .then(() => console.log('connected to Mongo DB'))
   .catch(err => {

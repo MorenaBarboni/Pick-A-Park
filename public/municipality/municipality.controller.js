@@ -8,7 +8,8 @@
         var vm = this;
 
         vm.companyNames = []
-        vm.allParkings = []
+        vm.approvedParkings = []; //List of approved parkings
+        vm.unapprovedParkings = []; //List of unapproved parking requests
 
         //Parking to show details of
         vm.parkingDetails = null;
@@ -34,26 +35,33 @@
             })
         }
 
-        //Retrieve parkings for each company
+        //Retrieve approved parkings for each company
+        //Init list of unapproved parking requests
         function getAllParkings() {
             for (i = 0; i < vm.companyNames.length; i++) {
                 parkingService
                     .getParkings(vm.companyNames[i])
                     .then(function (result) {
                         result.forEach(parking => {
-                            vm.allParkings.push(parking);
+                            if (parking.isApproved) {
+                                vm.approvedParkings.push(parking);
+                            } else {
+                                vm.unapprovedParkings.push(parking);
+                            }
                         });
                     });
             }
         }
 
         vm.showParkingDetails = function (parkingId) {
-            for (var i = 0; i < vm.allParkings.length; i++) {
-                if (vm.allParkings[i].id === parkingId) {
-                    vm.parkingDetails = vm.allParkings[i];
+            var allParkings = vm.approvedParkings.concat(vm.unapprovedParkings);
+            for (var i = 0; i < allParkings.length; i++) {
+                if (allParkings[i].id === parkingId) {
+                    vm.parkingDetails = allParkings[i];
                     break;
                 }
             }
+
             //If map has not already been initialized
             if ($scope.map === undefined) {
                 initMap();
@@ -72,12 +80,28 @@
             }
         };
 
+        //Delete parking request
+        vm.deleteRequest = function () {
+            var answer = window.confirm("Sei sicuro di voler eliminare la richiesta?")
+            if (answer) {
+                parkingService.deleteParking(vm.parkingDetails.company, vm.parkingDetails.id);
+            }
+        };
+
+        //Accept parking request
+        vm.acceptRequest = function () {
+            var answer = window.confirm("Sei sicuro di voler accettare la richiesta?")
+            if (answer) {
+                vm.parkingDetails.isApproved = true;
+                parkingService.updateParking(vm.parkingDetails.company, vm.parkingDetails.id, vm.parkingDetails);
+                window.location.reload();
+            }
+        };
+
         //Filters table elements to show
-        vm.filterTable = function () {
+        vm.filterTable = function (elements) {
             var result = []
-
-            vm.allParkings.forEach(parking => {
-
+            elements.forEach(parking => {
                 //Empty filters
                 if (vm.filter.address == "" && vm.filter.company == "" && vm.filter.status == "") {
                     result.push(parking)
@@ -171,8 +195,3 @@
 
     }
 })();
-
-
-
-
-

@@ -17,7 +17,8 @@ const Atlas_Uri = "mongodb+srv://morena:" + process.env.Atlas_Pass + "@cluster0-
 mongoose.connect(Atlas_Uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useFindAndModify: false
 })
   .then(() => console.log('Mongoose Connected'))
   .catch(err => {
