@@ -7,6 +7,8 @@ var mongoose = require('mongoose');
 require('../models/users');
 require('../models/companies');
 require('../models/parkings');
+require('../models/drivers');
+
 
 //Test DB Connection string
 const Atlas_Uri = "mongodb+srv://morena:" + process.env.Atlas_Pass + "@cluster0-eshef.gcp.mongodb.net/testing?retryWrites=true&w=majority";
@@ -15,7 +17,8 @@ const Atlas_Uri = "mongodb+srv://morena:" + process.env.Atlas_Pass + "@cluster0-
 mongoose.connect(Atlas_Uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true
+  useCreateIndex: true,
+  useFindAndModify: false
 })
   .then(() => console.log('Mongoose Connected'))
   .catch(err => {

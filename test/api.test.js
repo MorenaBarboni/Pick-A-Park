@@ -12,7 +12,7 @@ const token = process.env.token; //JWT
 const mongoose = require('mongoose');
 const Company = require('../app/models/companies')
 const Parking = require('../app/models/parkings')
-
+const Driver = require('../app/models/drivers')
 
 //Before testing removes all entries from db and seeds db with test data
 beforeAll(async () => {
@@ -29,8 +29,15 @@ beforeAll(async () => {
         const newParking = new Parking(p)
         await newParking.save()
     }
+
+    for (const d of drivers) {
+        const newDriver = new Driver(d)
+        await newDriver.save()
+    }
 })
 
+
+// PARKINGS
 
 /**
  * Testing get parkings endpoint
@@ -193,6 +200,79 @@ describe('Patch /PARKINGS', () => {
     })
 })
 
+/**
+ * Testing post endpoint for driver login
+ */
+
+describe('Post /DRIVER', () => {
+    it('should return 200 and user data', async done => {
+        const res = await request.post('/api/driver-login')
+            .type('form')
+            .send({
+                phone: "3339393399",
+                password: "pass"
+            })
+        expect(res.status).toBe(200)
+        expect(res.body).toHaveProperty('content')
+        done()
+    })
+})
+
+
+/**
+ * Testing post endpoint for driver login with wrong credentials
+ */
+describe('Post /DRIVER', () => {
+    it('should return 404', async done => {
+        const res = await request.post('/api/driver-login')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                phone: "3337773456",
+                password: "password"
+            })
+        expect(res.status).toBe(404)
+        done()
+    })
+})
+
+/**
+ * Testing post to register driver
+ */
+describe('Post /DRIVER', () => {
+    it('should create a new driver', async done => {
+        const res = await request.post('/api/driver')
+            .type('form')
+            .send({
+                name: "Morena",
+                surname: "Barboni",
+                email: "morena@gmail.com",
+                password: "password",
+                phone: "333888456",
+            })
+        expect(res.status).toBe(200)
+        done()
+    })
+})
+
+/**
+ * Testing post to register already existing driver
+ */
+describe('Post /DRIVER', () => {
+    it('should return 422 status code ', async done => {
+        const res = await request.post('/api/driver')
+            .type('form')
+            .send({
+                name: "Lorenzo",
+                surname: "Matteucci",
+                email: "lorenzo@gmail.com",
+                password: "password",
+                phone: "3339393399",
+            })
+        expect(res.status).toBe(422)
+        done()
+    })
+})
 
 afterAll(async () => {
     // Closes the Mongoose connection
@@ -258,5 +338,16 @@ const parkings = [
         price: 3.0,
         isApproved: false,
         isUsable: true
+    }
+]
+
+const drivers = [
+    {
+        email: "lorenzo@gmail.com",
+        name: "Lorenzo",
+        surname: "Matteucci",
+        password: "pass",
+        phone: "3339393399",
+        address: {},
     }
 ]
