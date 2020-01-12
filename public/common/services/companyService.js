@@ -1,8 +1,8 @@
 (function () {
   angular.module("pick-a-park").service("companyService", companyService);
 
-  companyService.$inject = ["$http", "$window", "$location"];
-  function companyService($http, $window, $location) {
+  companyService.$inject = ["$http", "$window", "$location", "authentication"];
+  function companyService($http, $window, $location, authentication) {
 
     //Get all companies
     getCompanies = function () {
@@ -11,9 +11,19 @@
         .then(handleSuccess, handleError);
     };
 
-    getCompanyByName = function () {
+    getCompanyByName = function (name) {
       return $http
-        .get("/api/companies/:name")
+        .get("/api/companies/" + name)
+        .then(handleSuccess, handleError);
+    };
+
+    deleteCompany = function (name) {
+      return $http
+        .delete("/api/companies/" + name, {
+          headers: {
+            Authorization: "Bearer " + authentication.getToken()
+          }
+        })
         .then(handleSuccess, handleError);
     };
 
@@ -28,7 +38,8 @@
 
     return {
       getCompanies: getCompanies,
-      getCompanyByName: getCompanyByName
+      getCompanyByName: getCompanyByName,
+      deleteCompany: deleteCompany
     };
   }
 })();

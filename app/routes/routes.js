@@ -31,6 +31,7 @@ router.post("/driver", ctrlDriver.register);
 //Parking Companies
 router.get("/companies", ctrlCompany.getCompanies);
 router.get("/companies/:name", ctrlCompany.getCompanyByName);
+router.delete("/companies/:name", auth, ctrlCompany.deleteCompany);
 
 //Parkings
 router.get("/companies/:name/parkings", auth, ctrlParking.getParkings);

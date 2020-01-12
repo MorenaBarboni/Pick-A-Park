@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Company = mongoose.model("Company");
-
+var Parking = mongoose.model("Parking");
 
 //Get all companies
 module.exports.getCompanies = function (req, res) {
@@ -44,6 +44,42 @@ module.exports.getCompanyByName = function (req, res) {
         });
       }
     });
+};
+
+
+//Delete Company and its resources
+module.exports.deleteCompany = function (req, res) {
+  Company.findOneAndRemove(
+    {
+      name: req.params.name
+    },
+    function (err, parking) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (!parking) {
+          res.status(404).json({
+            code: 404,
+            message: "The resource is not available"
+          });
+        } else {
+          res.status(204).json({
+            code: "204",
+            status: "success",
+            message: "Resource successfully deleted",
+          });
+        }
+      }
+    } //Delete all parkings of company
+  ).then(Parking.deleteMany(
+    {
+      company: req.params.name
+    }, function (err, parking) {
+      if (err) {
+        console.log(err);
+      }
+    }
+  ))
 };
 
 
