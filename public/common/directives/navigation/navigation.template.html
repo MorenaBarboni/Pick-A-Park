@@ -12,19 +12,46 @@
             <img class="logo-image" src="../../../content/img/logo2.png" class="img-fluid">
           </a>
         </div>
+        <div class="collapse navbar-collapse">
+          <!-- Main Pages -->
+          <ul class="nav navbar-nav">
+            <li ng-show="navvm.token.role === 'Municipality'"><a href="municipality">{{ navvm.token.role }}</a></li>
+            <li ng-show="navvm.token.role === 'ParkingCompany'"><a href="parkingCompany">{{ navvm.token.company }}</a>
+            </li>
+            <li ng-show="navvm.token.role === 'Police'"><a href="municipalPolice">{{ navvm.token.role }}</a></li>
+
+          </ul>
+        </div>
       </ul>
+
       <ul class="nav navbar-nav navbar-right">
-        <!-- Main Pages -->
-        <li ng-show="navvm.token.role === 'Municipality'"><a href="municipality">{{ navvm.token.role }}</a></li>
-        <li ng-show="navvm.token.role === 'Municipality'"><a href="municipality/requests">Parking Requests</a></li>
-        <li ng-show="navvm.token.role === 'ParkingCompany'"><a href="parkingCompany">{{ navvm.token.company }}</a></li>
-        <li ng-show="navvm.token.role === 'ParkingCompany'"><a href="parkingCompany/requests">Parking Requests</a></li>
-        <li ng-show="navvm.token.role === 'Police'"><a href="municipalPolice">{{ navvm.token.role }}</a></li>
+        <!-- Municipality links -->
+        <li class="dropdown" ng-show="navvm.token.role === 'Municipality'">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Parkings <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="municipality">Parkings</a></li>
+            <li><a href="municipality/requests">Parking Requests</a></li>
+          </ul>
+        </li>
+        <li ng-show="navvm.token.role === 'Municipality'"><a href="municipality/companies">Companies</a></li>
+
+        <!-- Parking Company links -->
+        <li class="dropdown" ng-show="navvm.token.role === 'ParkingCompany'">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Parkings <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="parkingCompany">Parkings</a></li>
+            <li><a href="parkingCompany/requests">Parking Requests</a></li>
+          </ul>
+        </li>
+
+
         <!--Logout -->
         <li><a href="logout"><span class="glyphicon glyphicon-log-out"></span>&nbspLogout</a>
         </li>
 
       </ul>
+
+
     </div>
   </div>
 </div>

@@ -103,6 +103,30 @@ a.button1-delete:hover {
     text-align: center;
 }
 
+#container-requestCompany {
+    background-color: #1D1F20;
+    position: relative;
+    top: 10%;
+    margin: auto;
+    width: 80%;
+    height: 650px;
+    border-radius: 0.35em;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#container-companies {
+    background-color: #1D1F20;
+    position: relative;
+    top: 10%;
+    margin: auto;
+    width: 80%;
+    height: 455px;
+    border-radius: 0.35em;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
 #container-parkingDetails {
     background-color: #1D1F20;
     position: relative;
@@ -128,18 +152,6 @@ a.button1-delete:hover {
     text-align: center;
 }
 
-#parcheggi {
-    background-color: #1D1F20;
-    position: relative;
-    top: 10%;
-    margin: 2.5%;
-    width: auto;
-    height: auto;
-    border-radius: 0.35em;
-    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
 #title {
     position: relative;
     background-color: #1A1C1D;
@@ -150,14 +162,20 @@ a.button1-delete:hover {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* material icons */
+
 .lock {
     position: relative;
     top: 2px;
 }
 
+.fa-plus {
+    margin-right: 2px;
+    margin-bottom: 2px;
+}
+
 .form-divider {
     margin-top: 25px;
-    margin-bottom: 10px;
 }
 
 .hr {
@@ -197,6 +215,10 @@ a.button1-delete:hover {
 
 .input-large {
     width: 420px;
+}
+
+.input-medium {
+    width: 396px;
 }
 
 .input-left {
@@ -478,6 +500,7 @@ input[type=submit]:hover {
 
 .tabcontent {
     min-height: 333px;
+    background-color: #1D1F20;
     display: none;
     padding: 12px;
     border: 1px solid #918c8b;
@@ -620,6 +643,13 @@ thead {
 
 .details-list li {
     margin-top: 2%;
+    letter-spacing: 0.5px;
+}
+
+/*details h3*/
+
+#details {
+    font-size: 18px;
     letter-spacing: 0.5px;
 }
 
