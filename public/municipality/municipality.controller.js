@@ -20,6 +20,18 @@
             company: "",
         };
 
+        vm.newCompany = {
+            name: "",
+            email: "",
+            telephone: null,
+            street: "",
+            city: "",
+            postalCode: null,
+            partitaIVA:""
+
+
+        }
+
 
         initController();
 
@@ -191,7 +203,19 @@
             google.maps.event.trigger(selectedMarker, "click");
         };
 
+        //Parking Company management methods
 
+        vm.onSubmitNewCompany= function (params) {
+            companyService.newCompany(vm.newCompany).then(function (response) {
+                if (response === "existingCompanyError") {
+                    window.alert("Esiste già una compagnia con questo nome");
+                }else{
+                    window.alert("Richiesta di nuova compagnia inviata con succeso");
+                    window.location.reload();
+                }
+            })
+            
+        }
 
     }
 })();

@@ -31,6 +31,7 @@ router.post("/driver", ctrlDriver.register);
 //Parking Companies
 router.get("/companies", ctrlCompany.getCompanies);
 router.get("/companies/:name", ctrlCompany.getCompanyByName);
+router.post("/companies", ctrlCompany.newCompany); //da fare metodo
 
 //Parkings
 router.get("/companies/:name/parkings", auth, ctrlParking.getParkings);
