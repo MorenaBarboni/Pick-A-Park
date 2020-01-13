@@ -7,12 +7,13 @@
 
         var vm = this;
 
-        vm.companyNames = []
+        vm.companies = [] //List of companies
         vm.approvedParkings = []; //List of approved parkings
         vm.unapprovedParkings = []; //List of unapproved parking requests
 
-        //Parking to show details of
-        vm.parkingDetails = null;
+
+        vm.companyDetails = null;  //Company to show details of
+        vm.parkingDetails = null; //Parking to show details of
         //Table filters
         vm.filter = {
             address: "",
@@ -40,7 +41,7 @@
             companyService.getCompanies().then(function (result) {
                 var companies = result;
                 for (var i = 0; i < companies.length; i++) {
-                    vm.companyNames.push(companies[i].name);
+                    vm.companies.push(companies[i]);
                 }
             }).then(function () {
                 getAllParkings()
@@ -50,9 +51,9 @@
         //Retrieve approved parkings for each company
         //Init list of unapproved parking requests
         function getAllParkings() {
-            for (i = 0; i < vm.companyNames.length; i++) {
+            for (i = 0; i < vm.companies.length; i++) {
                 parkingService
-                    .getParkings(vm.companyNames[i])
+                    .getParkings(vm.companies[i].name)
                     .then(function (result) {
                         result.forEach(parking => {
                             if (parking.isApproved) {
@@ -73,12 +74,21 @@
                     break;
                 }
             }
-
             //If map has not already been initialized
             if ($scope.map === undefined) {
                 initMap();
             }
             setParkingMarker()
+        }
+
+        vm.showCompanyDetails = function (companyName) {
+            for (var i = 0; i < vm.companies.length; i++) {
+                if (vm.companies[i].name === companyName) {
+                    console.log(vm.companies[i].name);
+                    vm.companyDetails = vm.companies[i];
+                    break;
+                }
+            }
         }
 
         //Enable/Disable parking
@@ -97,6 +107,15 @@
             var answer = window.confirm("Sei sicuro di voler eliminare la richiesta?")
             if (answer) {
                 parkingService.deleteParking(vm.parkingDetails.company, vm.parkingDetails.id);
+            }
+        };
+
+        //Delete company
+        vm.deleteCompany = function (name) {
+            var answer = window.confirm("Sei sicuro di voler eliminare la parking company?")
+            if (answer) {
+                companyService.deleteCompany(name);
+                window.location.reload();
             }
         };
 

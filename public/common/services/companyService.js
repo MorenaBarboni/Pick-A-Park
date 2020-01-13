@@ -11,9 +11,19 @@
         .then(handleSuccess, handleError);
     };
 
-    getCompanyByName = function () {
+    getCompanyByName = function (name) {
       return $http
-        .get("/api/companies/:name")
+        .get("/api/companies/" + name)
+        .then(handleSuccess, handleError);
+    };
+
+    deleteCompany = function (name) {
+      return $http
+        .delete("/api/companies/" + name, {
+          headers: {
+            Authorization: "Bearer " + authentication.getToken()
+          }
+        })
         .then(handleSuccess, handleError);
     };
 
@@ -38,7 +48,8 @@
 
     return {
       getCompanies: getCompanies,
-      getCompanyByName: getCompanyByName
+      getCompanyByName: getCompanyByName,
+      deleteCompany: deleteCompany
     };
   }
 })();
