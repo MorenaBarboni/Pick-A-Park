@@ -20,14 +20,13 @@ public class UserData {
     boolean hadAtLeastACar = false;
     boolean hadAPayementMethod=false;
 
-    public UserData(String strID, String name, String surname, String email, String phone, String password, String payment, String lat, String lon) {
+    public UserData(String strID, String name, String surname, String email, String phone, String password, String lat, String lon) {
         this.strID = strID;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.payment = payment;
         this.address = new Coordinates(lat,lon);
     }
 

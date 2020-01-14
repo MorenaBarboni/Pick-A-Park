@@ -1,8 +1,15 @@
 package com.example.pickapark;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,11 +21,14 @@ public class HomeActivity extends AppCompatActivity {
     ImageView notice;
     ImageView settings;
     ImageView logOut;
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mContext = this;
 
         findAPark = findViewById(R.id.findAParkHIV);
         details = findViewById(R.id.detailsHIV);
@@ -27,9 +37,23 @@ public class HomeActivity extends AppCompatActivity {
         settings = findViewById(R.id.settingHIV);
         logOut = findViewById(R.id.logoutHIV);
 
+        findAPark.setAlpha((float) 1);
+        details.setAlpha((float) 1);
+        payment.setAlpha((float) 1);
+        notice.setAlpha((float) 1);
+        settings.setAlpha((float) 1);
+        logOut.setAlpha((float) 1);
+
         findAPark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                findAPark.setAlpha((float) 0.55);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        findAPark.setAlpha((float) 1);
+                    }
+                }, 200);
                 //CODE
             }
         });
@@ -37,27 +61,58 @@ public class HomeActivity extends AppCompatActivity {
         details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                details.setAlpha((float) 0.55);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        details.setAlpha((float) 1);
+                    }
+                }, 200);
                 //CODE
             }
         });
+
 
         payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                payment.setAlpha((float) 0.55);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        payment.setAlpha((float) 1);
+                    }
+                }, 200);
                 //CODE
             }
         });
+
 
         notice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                notice.setAlpha((float) 0.55);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        notice.setAlpha((float) 1);
+                    }
+                }, 200);
                 //CODE
             }
         });
 
+
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                settings.setAlpha((float) 0.55);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        settings.setAlpha((float) 1);
+                    }
+                }, 200);
                 //CODE
             }
         });
@@ -65,10 +120,23 @@ public class HomeActivity extends AppCompatActivity {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //CODE
+                logOut.setAlpha((float) 0.55);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        logOut.setAlpha((float) 1);
+                    }
+                }, 200);
+
             }
         });
 
 
+
+    }
+
+    public void goToMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

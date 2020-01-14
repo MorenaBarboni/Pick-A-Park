@@ -46,6 +46,20 @@
             android:inputType="textPassword"
             android:hint="password"/>
 
+        <RelativeLayout
+            android:id="@+id/loadingPanelLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:layout_marginBottom="5dp"
+            android:gravity="center" >
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </RelativeLayout>
+
         <Button
             android:id="@+id/buttonCompleteLogIn"
             android:background="@drawable/selector_downloaded_file_button"
@@ -55,8 +69,19 @@
             android:layout_marginLeft="10px"
             android:text="@string/log_in"
             android:textColor="#FFFFFF"
-            android:layout_marginBottom="35px"
+            android:layout_marginBottom="5dp"
             android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/errorLogIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px"
+            android:layout_marginBottom="30px"
+            android:textSize="15sp"
+            android:textColor="#FF0000"
+            android:text="" />
+
         <TextView
             android:id="@+id/notHaveAccount"
             android:layout_width="wrap_content"
@@ -66,4 +91,6 @@
             android:textColor="#ff38ff"
             android:text="I not have an account" />
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
