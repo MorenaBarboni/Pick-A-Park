@@ -46,7 +46,7 @@ module.exports.getCompanyByName = function (req, res) {
     });
 };
 
-module.exports.newCompany = function(req, res){
+module.exports.newCompany = function (req, res) {
   var newCompany = new Company();
   newCompany.name = req.body.name;
   newCompany.email = req.body.email;
@@ -55,29 +55,21 @@ module.exports.newCompany = function(req, res){
   newCompany.address.street = req.body.street;
   newCompany.address.city = req.body.city;
   newCompany.address.postalCode = req.body.postalCode;
-  
   Company.findOne({
-    $or:[
-      {
-        name: newCompany.name
-      }
-    ]
-  },function (err,data) {
-    if(data){
-      if(data.name===newCompany.name){
-        res.status(422);
-        res.json({
-          code:"422",
-          message: "existingCompanyError"
-        })
-      }
-    }else{
+    name: newCompany.name
+  }, function (err, data) {
+    if (data) {
+      res.status(422);
+      res.json({
+        message: "existingCompanyError"
+      })
+    } else {
       newCompany.save(function (err) {
         res.status(201);
         res.json({
           code: "201",
-          status: "success", 
-          message: "Company successfully added",
+          status: "success",
+          message: "Resource successfully created",
           content: newCompany
         });
       });

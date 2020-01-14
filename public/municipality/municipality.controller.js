@@ -28,9 +28,7 @@
             street: "",
             city: "",
             postalCode: null,
-            partitaIVA:""
-
-
+            partitaIVA: ""
         }
 
 
@@ -101,6 +99,18 @@
                 window.location.reload();
             }
         };
+
+        //Register new parking company
+        vm.onSubmitCreateCompany = function () {
+            companyService.newCompany(vm.newCompany).then(function (response) {
+                if (response === "existingCompanyError") {
+                    window.alert("Esiste già una compagnia con questo nome");
+                } else {
+                    window.alert("Registrazione eseguita con succeso");
+                    window.location.reload();
+                }
+            })
+        }
 
         //Delete parking request
         vm.deleteRequest = function () {
@@ -221,20 +231,6 @@
             e.preventDefault();
             google.maps.event.trigger(selectedMarker, "click");
         };
-
-        //Parking Company management methods
-
-        vm.onSubmitNewCompany= function (params) {
-            companyService.newCompany(vm.newCompany).then(function (response) {
-                if (response === "existingCompanyError") {
-                    window.alert("Esiste già una compagnia con questo nome");
-                }else{
-                    window.alert("Richiesta di nuova compagnia inviata con succeso");
-                    window.location.reload();
-                }
-            })
-            
-        }
 
     }
 })();

@@ -52,7 +52,8 @@
                                     <td>{{company.address.street}}</td>
                                     <td style="width: 16%;"><a class="button1"
                                             ng-click="vm.showCompanyDetails(company.name)">Details</a>
-                                    <td style="width: 16%;"><a class="button1-delete" ng-click="vm.deleteCompany(company.name)">Delete</a>
+                                    <td style="width: 16%;"><a class="button1-delete"
+                                            ng-click="vm.deleteCompany(company.name)">Delete</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -61,8 +62,151 @@
                 </div>
                 <!--column left-->
 
+
+                <div class="column" id="columnRight" style="margin-bottom: 50px; ">
+                    <!-- Companies details and registrations-->
+                    <div id="container-companies">
+                        <div id="title">
+                            Company </span>
+                        </div>
+
+                        <!-- Tab links -->
+                        <div class="tab">
+                            <button class="tablinks active " onclick="openTab(event, 'Details')">Details</button>
+                            <button class="tablinks " onclick="openTab(event, 'RegisterCompany')"><i
+                                    class="fa fa-plus fa-sm"></i>
+                                <span>Register</span></button>
+
+                        </div>
+
+                        <!-- Details Tab-->
+                        <div id="Details" class="tabcontent" style="display:block;">
+                            <div ng-if="vm.companyDetails != null" class="row">
+                                <h3 id="details"> {{vm.companyDetails.name}}</h3>
+                                <div class="details details-large">
+                                    <div class="details-label">City</div>
+                                    <p class="details-text">{{vm.companyDetails.address.city}}</p>
+                                </div>
+                                <div class="details details-large">
+                                    <div class="details-label">Address</div>
+                                    <p class="details-text">{{vm.companyDetails.address.street}}</p>
+                                </div>
+                                <div class="details details-large">
+                                    <p class="details-label">Phone</p>
+                                    <p class="details-text"> {{vm.companyDetails.telephone}} </p>
+                                </div>
+
+                                <div class="details details-large">
+                                    <div class="details-label">Email</div>
+                                    <p class="details-text">{{vm.companyDetails.email}}
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div ng-if="vm.companyDetails == null" class="row">
+                                <h3 id="noDetails"> Select a company to show its details</h3>
+                            </div>
+                        </div>
+
+                        <!-- Register Tab-->
+                        <div id="RegisterCompany" class="tabcontent" style="display:none;">
+                            <div id=" container-requestCompany">
+                                <form ng-submit="vm.onSubmitCreateCompany()">
+                                    <div class="form-divider">
+                                        <p class="hr-label">General</p>
+                                        <hr style="width: 80%;">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="column" id="columnLeft">
+                                            <div class="input input-small input-left">
+                                                <div class="input-addon">
+                                                    Name
+                                                </div>
+                                                <input id="name" type="text" required class="validate input-type-small"
+                                                    autocomplete="off" ng-model="vm.newCompany.name">
+                                            </div>
+                                        </div>
+
+                                        <div class="column" id="columnRight">
+                                            <div class="input input-small input-right">
+                                                <div class="input-addon">
+                                                    Phone
+                                                </div>
+                                                <input id="phone" type="text" required class="validate input-type-small"
+                                                    autocomplete="off" ng-model="vm.newCompany.telephone">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class=" input input-medium">
+                                        <div class="input-addon">
+                                            Email
+                                        </div>
+                                        <input id="address" type="email" required class="validate input-type-large"
+                                            autocomplete="off" ng-model="vm.newCompany.email">
+                                    </div>
+                                    <div class=" input input-medium">
+                                        <div class="input-addon">
+                                            P. IVA
+                                        </div>
+                                        <input id="iva" type="text" required class="validate input-type-large"
+                                            autocomplete="off" ng-model="vm.newCompany.partitaIVA" minlength="11" maxlength="11">
+                                    </div>
+
+                                    <div class="form-divider">
+                                        <span class="hr-label">
+                                            <p>Address</p>
+                                        </span>
+                                        <hr style="width: 80%;">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="column" id="columnLeft">
+                                            <div class=" input input-small input-left">
+                                                <div class="input-addon">
+                                                    City
+                                                </div>
+                                                <input id="city" type="text" required class="validate input-type-small"
+                                                    autocomplete="off" ng-model="vm.newCompany.city">
+                                            </div>
+                                        </div>
+                                        <div class="column" id="columnRight">
+                                            <div class=" input input-small input-right">
+                                                <div class="input-addon">
+                                                    Cap
+                                                </div>
+                                                <input id="cap" type="text" required class="validate input-type-small"
+                                                    autocomplete="off" ng-model="vm.newCompany.postalCode" minlength="5" maxlength="5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class=" input input-medium">
+                                            <div class="input-addon">
+                                                Street
+                                            </div>
+                                            <input id="street" type="text" required class="validate input-type-large"
+                                                autocomplete="off" ng-model="vm.newCompany.street">
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 5%;">
+                                        <input type="submit" value="Register" class="submit-button" />
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
             </div>
             <!--column right-->
+
         </div>
     </div>
 </div>

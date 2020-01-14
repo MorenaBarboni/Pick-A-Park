@@ -27,14 +27,15 @@
         .then(handleSuccess, handleError);
     };
 
-    newCompany = function ( company) {
+    //New company
+    newCompany = function (company) {
       return $http
-      .post("/api/companies", company,{
-        headers:{
-          Authorization: "Bearer" +authentication.getToken()
-        }
-      })
-      .then(handleSuccess,handleError);
+        .post("/api/companies", company, {
+          headers: {
+            Authorization: "Bearer " + authentication.getToken()
+          }
+        })
+        .then(handleSuccess, handleError);
     };
 
     //Private functions to handle response
@@ -43,13 +44,14 @@
     }
 
     function handleError(res) {
-      console.log(res.data.message);
+      return res.data.message;
     }
 
     return {
       getCompanies: getCompanies,
       getCompanyByName: getCompanyByName,
-      deleteCompany: deleteCompany
+      deleteCompany: deleteCompany,
+      newCompany: newCompany
     };
   }
 })();
