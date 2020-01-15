@@ -127,7 +127,25 @@ public class HomeActivity extends AppCompatActivity {
                         logOut.setAlpha((float) 1);
                     }
                 }, 200);
+                AlertDialog.Builder altdial = new AlertDialog.Builder(HomeActivity.this);
+                altdial.setMessage("Do you want to log out ?").setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SessionData.clear(mContext);
+                                goToMainActivity();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
 
+                AlertDialog alert = altdial.create();
+                alert.setTitle("Dialog Header");
+                alert.show();
             }
         });
 
