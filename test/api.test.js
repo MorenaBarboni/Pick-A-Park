@@ -37,7 +37,7 @@ beforeAll(async () => {
 })
 
 
-// PARKINGS
+// PARKING ENDPOINTS
 
 /**
  * Testing get parkings endpoint
@@ -200,6 +200,122 @@ describe('Patch /PARKINGS', () => {
     })
 })
 
+// COMPANIES ENDPOINTS
+
+/**
+ * Testing get companies endpoint for all companies
+ */
+describe('Get /COMPANIES', () => {
+    it('should return all companies ', async done => {
+        const res = await request.get('/api/companies')
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        done()
+    });
+});
+
+
+/**
+ * Testing get companies endpoint for specific company
+ */
+describe('Get /COMPANIES', () => {
+    it('should return the requested company', async done => {
+        const res = await request.get('/api/companies/Company1')
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        done()
+    });
+});
+
+/**
+ * Testing get companies endpoint for non-existent company
+ */
+describe('Get /COMPANIES', () => {
+    it('should return 404 status code', async done => {
+        const res = await request.get('/api/companies/CompanyOmega')
+        expect(res.status).toBe(404)
+        done()
+    });
+});
+
+/**
+ * Testing post company endpoint to register a new company
+ */
+describe('Post /COMPANIES', () => {
+    it('should add a new company', async done => {
+        const res = await request.post('/api/companies')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                name: 'CompagniaAlfa',
+                email: 'alfa@companyalfa.it',
+                telephone: 3338656789,
+                street: 'via 1 Marzo 34',
+                city: 'Camerino',
+                postalCode: 12345,
+                partitaIVA: '567534'
+            })
+        expect(res.status).toBe(201)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        done()
+    });
+});
+
+/**
+ * Testing post company endpoint to register already existing company
+  */
+describe('Post /COMPANIES', () => {
+    it('should return existingCompanyError', async done => {
+        const res = await request.post('/api/companies')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                name: 'Company1',
+                email: 'company1@company1.it',
+                telephone: 366123456,
+                partitaIVA: '123456',
+                street: 'Via Buozzi 3',
+                city: 'Genova',
+                postalCode: 12452,
+            })
+        expect(res.status).toBe(422)
+        expect(res.body.message).toBe("existingCompanyError")
+        done()
+    });
+});
+
+
+/**
+ * Testing delete company endpoint
+ */
+
+describe('Delete /COMPANIES', () => {
+    it('should delete Company2', async done => {
+        const res = await request.delete('/api/companies/Company2')
+            .set('Authorization', 'Bearer ' + token)
+        expect(res.status).toBe(204)
+        done()
+    })
+})
+
+/**
+ * Testing delete on not-existing company endpoint
+ */
+describe('Delete /COMPANIES', () => {
+    it('should return 404 status code', async done => {
+        const res = await request.delete('/api/companies/CompanyBeta')
+            .set('Authorization', 'Bearer ' + token)
+        expect(res.status).toBe(404)
+        done()
+    })
+})
+
+
+//DRIVER ENDPOINTS
+
 /**
  * Testing post endpoint for driver login
  */
@@ -283,8 +399,28 @@ afterAll(async () => {
 
 //Seed test db data
 const companies = [
-    { name: 'Company1' },
-    { name: 'Company2' }
+    {
+        name: 'Company2',
+        email: 'company2@company2.it',
+        telephone: 366905463,
+        partitaIVA: '202020',
+        address: {
+            street: 'Via Marchetti 31',
+            city: 'Roma',
+            postalCode: 14567,
+        }
+    },
+    {
+        name: 'Company1',
+        email: 'company1@company1.it',
+        telephone: 366123456,
+        partitaIVA: '123456',
+        address: {
+            street: 'Via Buozzi 3',
+            city: 'Genova',
+            postalCode: 12452
+        }
+    }
 ]
 
 const parkings = [
