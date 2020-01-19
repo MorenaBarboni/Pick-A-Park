@@ -62,9 +62,14 @@ module.exports.newParking = function (req, res) {
   parking.id = req.body.id;
   parking.city = req.body.city;
   parking.address = req.body.address;
-  parking.coordinates.latitude = req.body.latitude;
-  parking.coordinates.longitude = req.body.longitude;
-  parking.indoor = req.body.indoor;
+
+  parking.location = {
+    type: "Point",
+    coordinates: [
+      req.body.longitude,
+      req.body.latitude]
+  },
+    parking.indoor = req.body.indoor;
   parking.handicap = req.body.handicap;
   parking.price = req.body.price;
   parking.isUsable = true;
@@ -78,10 +83,7 @@ module.exports.newParking = function (req, res) {
     $or: [
       { id: parking.id, company: parking.company },
       {
-        coordinates: {
-          latitude: parking.coordinates.latitude,
-          longitude: parking.coordinates.longitude
-        }
+        location: parking.location
       }
     ]
   }, function (err, data) {
@@ -114,6 +116,7 @@ module.exports.newParking = function (req, res) {
     }
   })
 }
+
 
 //Delete Parking
 module.exports.deleteParking = function (req, res) {

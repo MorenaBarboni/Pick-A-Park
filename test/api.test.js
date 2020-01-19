@@ -125,8 +125,8 @@ describe('Post /PARKINGS', () => {
                 id: 77,
                 city: "Camerino",
                 address: "Madonna delle Carceri",
-                latitude: 43.139802,
-                longitude: 13.069174,
+                latitude:  43.139370,
+                longitude: 13.068363,
                 indoor: false,
                 handicap: false,
                 price: 2.0
@@ -428,9 +428,11 @@ const parkings = [
         id: 1,
         city: "Camerino",
         address: "Madonna delle Carceri",
-        coordinates: {
-            latitude: 43.139802,
-            longitude: 13.069174
+        location: {
+            type: "Point",
+            coordinates: [
+                13.068363,
+                43.139370]
         },
         company: "Company1",
         plate: null,
@@ -445,9 +447,11 @@ const parkings = [
         id: 2,
         city: "Camerino",
         address: "Madonna delle Carceri",
-        coordinates: {
-            latitude: 43.139370,
-            longitude: 13.068363
+        location: {
+            type: "Point",
+            coordinates: [
+                13.066542,
+                43.144359]
         },
         company: "Company1",
         plate: null,
@@ -462,9 +466,11 @@ const parkings = [
         id: 3,
         city: "Camerino",
         address: "Madonna delle Carceri",
-        coordinates: {
-            latitude: 43.139285,
-            longitude: 43.139285
+        location: {
+            type: "Point",
+            coordinates: [
+                13.068391,
+                43.139420]
         },
         company: "Company1",
         plate: null,

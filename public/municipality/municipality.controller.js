@@ -200,8 +200,8 @@
             var info =
             {
                 desc: "Parking " + id,
-                lat: vm.parkingDetails.coordinates.latitude,
-                long: vm.parkingDetails.coordinates.longitude,
+                lat: vm.parkingDetails.location.coordinates[1],
+                long: vm.parkingDetails.location.coordinates[0],
             };
 
             var marker = new google.maps.Marker({

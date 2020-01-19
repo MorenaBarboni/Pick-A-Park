@@ -20,15 +20,13 @@
     </style>
 </head>
 
-
-
 <navigation></navigation>
 
 <div class="flex-wrapper">
     <div id="container-main">
         <!-- Tab content -->
         <div id="Home">
-            <div class="row" style="margin-left: 1%;">
+            <div class="row" style="margin-left: 1%; margin-bottom: 0.6%;">
                 <h3>Parking Requests</h3>
             </div>
 
@@ -149,7 +147,7 @@
                                         <div class="input-addon">
                                             &#8364;/hr.
                                         </div>
-                                        <input id="price" type="number" step="0.1" required
+                                        <input id="price" type="number" step="0.1" min="0.0" required
                                             class="validate input-type-small" autocomplete="off"
                                             ng-model="vm.newParking.price">
                                     </div>

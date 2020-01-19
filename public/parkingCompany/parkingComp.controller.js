@@ -177,8 +177,8 @@
             var info =
             {
                 desc: "Parking " + id,
-                lat: vm.parkingDetails.coordinates.latitude,
-                long: vm.parkingDetails.coordinates.longitude,
+                long: vm.parkingDetails.location.coordinates[0],
+                lat: vm.parkingDetails.location.coordinates[1],
             };
 
             var marker = new google.maps.Marker({

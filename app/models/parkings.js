@@ -18,9 +18,9 @@ var parkingSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    coordinates: {
-        latitude: { type: Number, required: true },
-        longitude: { type: Number, required: true }
+    location: {
+        type: { type: String },
+        coordinates: [{ type: "Number"}]
     },
     isFree: {
         type: Boolean,
@@ -56,5 +56,5 @@ var parkingSchema = new mongoose.Schema({
     });
 
 
-
+parkingSchema.index({ location: "2dsphere" });
 const Parking = (module.exports = mongoose.model("Parking", parkingSchema));
