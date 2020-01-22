@@ -1,12 +1,12 @@
 //Mongoose configuration
 var mongoose = require('mongoose');
 
-
 //Schemas
 require('../models/users');
 require('../models/companies');
 require('../models/parkings');
 require('../models/drivers');
+require('../models/stops');
 
 //Connection string
 
@@ -24,6 +24,4 @@ mongoose.connect(Atlas_Uri, {
   .catch(err => {
     console.log('Mongoose error:' + err);
   });
-
-
 
