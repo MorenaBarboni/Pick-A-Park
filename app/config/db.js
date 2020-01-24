@@ -7,6 +7,7 @@ require('../models/companies');
 require('../models/parkings');
 require('../models/drivers');
 require('../models/stops');
+require('../models/bookings');
 
 //Connection string
 
