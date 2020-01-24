@@ -45,5 +45,9 @@ router.patch("/companies/:name/parkings/:id", auth, ctrlParking.updateParking);
 //Stops
 router.get("/companies/:name/stops", ctrlStop.getStops);
 
+//Stops simulation
+router.post("/companies/:name/stops/start", ctrlStop.stopArrival);
+router.patch("/companies/:name/stops/end", ctrlStop.stopDeparture);
+
 // Export API routes
 module.exports = router;
