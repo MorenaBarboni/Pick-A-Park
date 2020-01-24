@@ -10,6 +10,7 @@ const ctrlAuth = require("../controllers/authentication");
 const ctrlParking = require("../controllers/parkings");
 const ctrlCompany = require("../controllers/companies");
 const ctrlDriver = require("../controllers/driver");
+const ctrlStop = require("../controllers/stops");
 
 // Set default API response
 router.get('/', function (req, res) {
@@ -40,6 +41,13 @@ router.get("/companies/:name/parkings/:id", auth, ctrlParking.getParkingById);
 router.post("/companies/:name/parkings", auth, ctrlParking.newParking);
 router.delete("/companies/:name/parkings/:id", auth, ctrlParking.deleteParking);
 router.patch("/companies/:name/parkings/:id", auth, ctrlParking.updateParking);
+
+//Stops
+router.get("/companies/:name/stops", ctrlStop.getStops);
+
+//Stops simulation
+router.post("/companies/:name/stops/start", ctrlStop.stopArrival);
+router.patch("/companies/:name/stops/end", ctrlStop.stopDeparture);
 
 // Export API routes
 module.exports = router;

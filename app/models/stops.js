@@ -35,9 +35,6 @@ var stopSchema = new mongoose.Schema({
   paid: {
     type: Boolean,
     default: false
-  },
-  expiry: {
-    type: Date,
   }
 },
   {
