@@ -53,5 +53,8 @@ router.get("/companies/:name/stops", ctrlStop.getStops);
 router.post("/companies/:name/stops/start", ctrlStop.stopArrival);
 router.patch("/companies/:name/stops/end", ctrlStop.stopDeparture);
 
+//Destination
+router.get("/destination/:lat/:long", ctrlParking.getDestination);
+
 // Export API routes
 module.exports = router;

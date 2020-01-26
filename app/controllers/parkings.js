@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Parking = mongoose.model("Parking");
+var Booking = mongoose.model("Booking");
 
 
 //Get all parkings
@@ -183,6 +184,88 @@ module.exports.updateParking = function (req, res) {
           });
 
         }
+      }
+    });
+};
+
+
+//Get closest available parking to destination
+module.exports.getDestination = function (req, res) {
+  var destLat = parseFloat(req.params.lat);
+  var destLong = parseFloat(req.params.long);
+
+  var IsAccessible = req.query.access;
+  var isIndoor = req.query.indoor;
+  var maxDistance = 1000; //m
+  if (req.query.maxDistance) {
+    maxDistance = parseInt(req.query.maxDistance);
+  }
+  var query = {
+    handicap: false,
+    plate: null,
+    isUsable: true,
+    isApproved: true
+  };
+  //If indoor parameter is present add it to query
+  if (isIndoor) {
+    var setIndoor = (isIndoor == 'true');
+    query.indoor = setIndoor;
+  }
+  //If isAccessible parameter is present add it to query
+  if (IsAccessible) {
+    var setAccessible = (IsAccessible == 'true');
+    query.handicap = setAccessible;
+  }
+
+  Parking.aggregate(
+    [{
+      $geoNear: {
+        near: {
+          type: "Point",
+          coordinates: [destLong, destLat]
+        },
+        distanceField: "distance",
+        maxDistance: maxDistance,
+        spherical: true,
+        query: query
+      }
+    }])
+    .exec(function (err, parkings) {
+      if (parkings.length == 0) {
+        res.status(404).json({
+          message: "No available parkings"
+        });
+      } else {
+        //Remove booked parkings from results
+        Booking.find({})
+          .exec(function (err, bookings) {
+
+            var bookingIds = [];
+            var result = null;
+
+            bookings.forEach(b => {
+              bookingIds.push(b.parkingId);
+            });
+            for (i = 0; i < parkings.length; i++) {
+                if (!bookingIds.includes(parkings[i].id)) {
+                result = parkings[i];
+                break;
+              }
+            }
+            if (result) {
+              res.status(200);
+              res.json({
+                code: "200",
+                status: "success",
+                message: "Resource successfully retrieved",
+                content: result
+              });
+            } else {
+              res.status(404).json({
+                message: "No available parkings"
+              });
+            }
+          });
       }
     });
 };
