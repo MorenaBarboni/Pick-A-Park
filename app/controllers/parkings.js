@@ -76,7 +76,6 @@ module.exports.newParking = function (req, res) {
   parking.isUsable = true;
   parking.isApproved = false;
   parking.plate = null;
-  parking.isFree = true;
 
   //Check that parking id is unique for the company
   //Check that coordinates are unique
@@ -231,7 +230,7 @@ module.exports.getDestination = function (req, res) {
       }
     }])
     .exec(function (err, parkings) {
-      if (parkings.length == 0) {
+      if (!parkings) {
         res.status(404).json({
           message: "No available parkings"
         });
@@ -247,7 +246,7 @@ module.exports.getDestination = function (req, res) {
               bookingIds.push(b.parkingId);
             });
             for (i = 0; i < parkings.length; i++) {
-                if (!bookingIds.includes(parkings[i].id)) {
+              if (!bookingIds.includes(parkings[i].id)) {
                 result = parkings[i];
                 break;
               }

@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
 var Booking = mongoose.model("Booking");
+var Parking = mongoose.model("Parking");
+
 
 module.exports.newBooking = function (req, res) {
   var booking = new Booking();
@@ -19,16 +21,32 @@ module.exports.newBooking = function (req, res) {
         message: "The requested parking has already been booked"
       })
     } else {
-      booking.save(function (err) {
-        res.status(201);
-        res.json({
-          code: "201",
-          status: "success",
-          message: "Resource successfully created",
-          content: booking
-        });
-      });
+      //Check that requested parking exists and is available
+      Parking.findOne({
+        id: booking.parkingId,
+        company: booking.company,
+        isUsable: true,
+        isApproved: true,
+        plate: null
+      }, function (err, data) {
+        if (data) {
+          booking.save(function (err) {
+            res.status(201);
+            res.json({
+              code: "201",
+              status: "success",
+              message: "Resource successfully created",
+              content: booking
+            });
+          });
+        } else {
+          res.status(422);
+          res.json({
+            code: "422",
+            message: "The requested resource is not available"
+          })
+        }
+      })
     }
   })
 }
-

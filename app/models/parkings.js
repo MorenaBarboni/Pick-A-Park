@@ -22,10 +22,6 @@ var parkingSchema = new mongoose.Schema({
         type: { type: String },
         coordinates: [{ type: "Number"}]
     },
-    isFree: {
-        type: Boolean,
-        default: true
-    },
     handicap: {
         type: Boolean,
         default: false

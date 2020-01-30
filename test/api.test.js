@@ -10,9 +10,12 @@ jest.setTimeout(30000); //Set test timeout
 const token = process.env.token; //JWT
 
 const mongoose = require('mongoose');
-const Company = require('../app/models/companies')
-const Parking = require('../app/models/parkings')
-const Driver = require('../app/models/drivers')
+var moment = require("moment");
+const Company = require('../app/models/companies');
+const Parking = require('../app/models/parkings');
+const Driver = require('../app/models/drivers');
+const Booking = require('../app/models/bookings');
+
 
 //Before testing removes all entries from db and seeds db with test data
 beforeAll(async () => {
@@ -29,10 +32,13 @@ beforeAll(async () => {
         const newParking = new Parking(p)
         await newParking.save()
     }
-
     for (const d of drivers) {
         const newDriver = new Driver(d)
         await newDriver.save()
+    }
+    for (const b of bookings) {
+        const newBooking = new Booking(b)
+        await newBooking.save()
     }
 })
 
@@ -125,7 +131,7 @@ describe('Post /PARKINGS', () => {
                 id: 77,
                 city: "Camerino",
                 address: "Madonna delle Carceri",
-                latitude:  43.139370,
+                latitude: 43.139370,
                 longitude: 13.068363,
                 indoor: false,
                 handicap: false,
@@ -199,6 +205,61 @@ describe('Patch /PARKINGS', () => {
         done()
     })
 })
+
+// PARKING DESTINATION ENDPOINT
+
+/**
+ * Testing get destination endpoint
+ */
+describe('Get /DESTINATIONS', () => {
+    it('should return closest available parking to coordinates ', async done => {
+        const res = await request.get('/api/destination/43.145164/13.070039')
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        expect(res.body.content).toHaveProperty('distance')
+        done()
+    })
+})
+
+/**
+ * Testing get destination endpoint for custom max distance
+ */
+describe('Get /DESTINATIONS', () => {
+    it('should return closest available parking to coordinates (for max 200 m) ', async done => {
+        const res = await request.get('/api/destination/43.145164/13.070039?maxDistance=200')
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        expect(res.body.content).toHaveProperty('distance')
+        done()
+    })
+})
+
+/**
+ * Testing get destination endpoint for unavailable parking
+ * (destination is too far from closest parking)
+ */
+describe('Get /DESTINATIONS', () => {
+    it('should return 404 status code ', async done => {
+        const res = await request.get('/api/destination/43.387712/12.933535')
+        expect(res.status).toBe(404)
+        done()
+    })
+})
+
+/**
+ * Testing get destination endpoint for unavailable parking
+ * (only available parkings have already been booked)
+ */
+describe('Get /DESTINATIONS', () => {
+    it('should return 404 status code ', async done => {
+        const res = await request.get('/api/destination/43.144310/13.066325?maxDistance=100')
+        expect(res.status).toBe(404)
+        done()
+    })
+})
+
 
 // COMPANIES ENDPOINTS
 
@@ -390,12 +451,66 @@ describe('Post /DRIVER', () => {
     })
 })
 
+
+//BOOKING ENDPOINTS
+/**
+ * Testing post to create new booking for available parking
+ */
+describe('Post /BOOKING', () => {
+    it('should return 201 status code ', async done => {
+        const res = await request.post('/api/companies/Company1/bookings')
+            .type('form')
+            .send({
+                parkingId: 1,
+                email: "lorenzo@gmail.com",
+                plate: "AB333CD"
+            })
+        expect(res.status).toBe(201)
+        done()
+    })
+})
+
+/**
+ * Testing post to create new booking for not-existing company and parking
+ */
+describe('Post /BOOKING', () => {
+    it('should return 422 status code ', async done => {
+        const res = await request.post('/api/companies/CompanyBeta/bookings')
+            .type('form')
+            .send({
+                parkingId: 99,
+                email: "lorenzo@gmail.com",
+                plate: "AB333CD"
+            })
+        expect(res.status).toBe(422)
+        done()
+    })
+})
+
+/**
+ * Testing post to create new booking for already booked parking
+ */
+describe('Post /BOOKING', () => {
+    it('should return 422 status code ', async done => {
+        const res = await request.post('/api/companies/Company1/bookings')
+            .type('form')
+            .send({
+                parkingId: 1,
+                email: "lorenzo@gmail.com",
+                plate: "AB333CD"
+            })
+        expect(res.status).toBe(422)
+        done()
+    })
+})
+
+
+
 afterAll(async () => {
     // Closes the Mongoose connection
     await mongoose.connection.close()
     console.log("Mongoose State:" + mongoose.connection.readyState);
 })
-
 
 //Seed test db data
 const companies = [
@@ -403,7 +518,7 @@ const companies = [
         name: 'Company2',
         email: 'company2@company2.it',
         telephone: 366905463,
-        partitaIVA: '202020',
+        partitaIVA: '20202023498',
         address: {
             street: 'Via Marchetti 31',
             city: 'Roma',
@@ -414,7 +529,18 @@ const companies = [
         name: 'Company1',
         email: 'company1@company1.it',
         telephone: 366123456,
-        partitaIVA: '123456',
+        partitaIVA: '12345645578',
+        address: {
+            street: 'Via Buozzi 3',
+            city: 'Genova',
+            postalCode: 12452
+        }
+    },
+    {
+        name: 'Company3',
+        email: 'company3@company3.it',
+        telephone: 366883456,
+        partitaIVA: '56856375869',
         address: {
             street: 'Via Buozzi 3',
             city: 'Genova',
@@ -427,7 +553,7 @@ const parkings = [
     {
         id: 1,
         city: "Camerino",
-        address: "Madonna delle Carceri",
+        address: "Via Le Mosse",
         location: {
             type: "Point",
             coordinates: [
@@ -436,11 +562,10 @@ const parkings = [
         },
         company: "Company1",
         plate: null,
-        isFree: true,
         handicap: false,
         indoor: false,
         price: 2.0,
-        isApproved: false,
+        isApproved: true,
         isUsable: true
     },
     {
@@ -455,30 +580,46 @@ const parkings = [
         },
         company: "Company1",
         plate: null,
-        isFree: true,
         handicap: false,
         indoor: false,
         price: 2.0,
-        isApproved: false,
+        isApproved: true,
         isUsable: true
     },
     {
         id: 3,
         city: "Camerino",
-        address: "Madonna delle Carceri",
+        address: "Piazzale della Vittoria",
         location: {
             type: "Point",
             coordinates: [
-                13.068391,
-                43.139420]
+                13.063263,
+                43.131306]
         },
         company: "Company1",
         plate: null,
-        isFree: true,
         handicap: false,
         indoor: false,
         price: 3.0,
-        isApproved: false,
+        isApproved: true,
+        isUsable: true
+    },
+    {
+        id: 4,
+        city: "Camerino",
+        address: "Via Luigi Allevi",
+        location: {
+            type: "Point",
+            coordinates: [
+                13.070916,
+                43.145485]
+        },
+        company: "Company1",
+        plate: null,
+        handicap: false,
+        indoor: false,
+        price: 0.5,
+        isApproved: true,
         isUsable: true
     }
 ]
@@ -491,5 +632,16 @@ const drivers = [
         password: "pass",
         phone: "3339393399",
         address: {},
+    }
+]
+
+const bookings = [
+    {
+        company: "Company2",
+        parkingId: 2,
+        driverEmail: "morena@gmail.com",
+        plate: "AB111CD",
+        address: {},
+        expireAt: moment(new Date()).add(10, 'm').toDate()
     }
 ]

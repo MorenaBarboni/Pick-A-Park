@@ -8,6 +8,8 @@ require('../models/users');
 require('../models/companies');
 require('../models/parkings');
 require('../models/drivers');
+require('../models/bookings');
+require('../models/stops');
 
 
 //Test DB Connection string
