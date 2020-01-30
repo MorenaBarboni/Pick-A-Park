@@ -1,0 +1,246 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stop List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../content/css/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #303641;
+        }
+    </style>
+</head>
+
+<navigation></navigation>
+
+<div class="flex-wrapper">
+    <div id="container-main">
+
+        <div class="row" style="margin-left: 1%; margin-bottom: 0.6%;">
+            <h3>Stops management</h3>
+        </div>
+
+        <div class="row">
+            <div class="column" id="columnLeft" style="width: 55%">
+                <div id="container-parkings">
+                    <div id="title">
+                        Pending stops
+                    </div>
+                    <table style="width: 100%" fixed-header>
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Parking ID</th>
+                                <th>Start</th>
+                                <th> End</th>
+                                <th> Paid</th>
+                                <th> Valid</th>
+                                <th></th>
+                            </tr>
+                            <tr class="search-tr">
+                                <th style="width: 15%;"> </th>
+                                <th class="search search-th">
+                                    <input class="search" type="text" name="startFilter" id="startFilter"
+                                        placeholder="Search" ng-model="vm.stopFilter.start" style="width: 100px;">
+                                </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        <tbody style="height: 285px;">
+                            <tr ng-repeat="stop in visibleStops = vm.filterStopTable()">
+                                <td style="width: 15%;">{{stop.parkingId}}</td>
+                                <td>{{stop.start}}</td>
+                                <td ng-if="stop.end != null">{{stop.end}}</td>
+                                <td ng-if="stop.end == null"> - </td>
+                                <td ng-if="stop.paid"><i class="material-icons ">check</i></td>
+                                <td ng-if="!stop.paid"><i class="material-icons">close</i></td>
+                                <td ng-if="stop.valid"><i class="material-icons ">check</i></td>
+                                <td ng-if="!stop.valid"><i class="material-icons">close</i></td>
+                                <td><a class="button1"
+                                        ng-click="vm.showStopDetails(stop._id); vm.showparkingDetails(stop.parkingId)">Details</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <!--Stop Details section-->
+
+            <div class="column" id="columnRight" style="width: 45%">
+                <div id="container-parkingDetails">
+                    <div id="title">
+                        Details </span>
+                    </div>
+                    <form>
+
+                        <!-- Tab links -->
+                        <div class="tab">
+                            <button class="tablinks active" onclick="openTab(event, 'StopDetails')">Stop
+                                Details</button>
+                            <button class="tablinks" onclick="openTab(event, 'StopStatus')">Stop Status</button>
+                            <button class="tablinks" onclick="openTab(event, 'Parking')">Parking Details</button>
+                            <button class="tablinks" onclick="openTab(event, 'Map')">Map</button>
+                        </div>
+
+                        <!-- Tab content -->
+
+                        <!-- Parking Tab-->
+                        <div id="Parking" class="tabcontent" style="display:none">
+                            <div ng-if="vm.stopDetails != null" class="row">
+
+                                <div class="details details-large">
+                                    <p class="details-label">Parking ID</p>
+                                    <p class="details-text"> {{vm.parkingDetails.id}} </p>
+                                </div>
+                                <div class="details details-large">
+                                    <p class="details-label">City</p>
+                                    <p class="details-text"> {{vm.parkingDetails.city}} </p>
+                                </div>
+                                <div class="details details-large">
+                                    <p class="details-label">Address</p>
+                                    <p class="details-text"> {{vm.parkingDetails.address}} </p>
+                                </div>
+                                <div class="details details-large">
+                                    <div class="details-label">Rate</div>
+                                    <p class="details-text">{{vm.parkingDetails.price}} &#8364;/hr </p>
+                                </div>
+                            </div>
+                            <div ng-if="vm.parkingDetails != null" class="row">
+                                <ul class="details-list">
+                                    <li ng-show="!vm.parkingDetails.indoor && vm.parkingDetails!= null">Outdoor
+                                        Parking Space</li>
+                                    <li ng-show="vm.parkingDetails.indoor && vm.parkingDetails!= null">Indoor
+                                        Parking Space</li>
+                                    <li ng-show="vm.parkingDetails.handicap && vm.parkingDetails!= null">
+                                        Accessible Parking Space</li>
+                                </ul>
+                            </div>
+                            <div ng-if="vm.stopDetails == null" class="row">
+                                <h3 id="noDetails"> Select a stop to show its details</h3>
+                            </div>
+
+                        </div>
+                        <!-- Coordinates Tab-->
+                        <div id="Map" class="tabcontent" style="display:none">
+                            <!--Map-->
+                            <div class="row" ng-show="vm.parkingDetails != null">
+                                <div id="map" style="text-align: right;"></div>
+                            </div>
+                            <div class="row" ng-if="vm.parkingDetails != null" style="margin-top: 10px;">
+                                <div class="column" id="columnLeft">
+                                    <div class="details">
+                                        <div class="details-label">Latitude</div>
+                                        <p class="details-text">{{vm.parkingDetails.location.coordinates[1]}}</p>
+                                    </div>
+                                </div>
+                                <div class="column" id="columnRight">
+                                    <div class="details">
+                                        <div class="details-label">Longitude</div>
+                                        <p class="details-text">{{vm.parkingDetails.location.coordinates[0]}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="vm.parkingDetails == null" class="row">
+                                <h3 id="noDetails"> Select a stop to show its details</h3>
+                            </div>
+                        </div>
+                        <!--Stop Details-->
+                        <div id="StopDetails" class="tabcontent" style="display:block">
+                            <div ng-if="vm.stopDetails != null" class="row">
+                                <div class="details details-large">
+                                    <p class="details-label">Stop start</p>
+                                    <p class="details-text"> {{vm.stopDetails.start}} </p>
+                                </div>
+
+                                <div ng-if="vm.stopDetails.end != null" class="details details-large">
+                                    <div class="details-label">Stop end</div>
+                                    <p class="details-text">{{vm.stopDetails.end}}</p>
+                                </div>
+                                <div ng-if="vm.stopDetails.end == null" class="details details-large">
+                                    <div class="details-label">Stop end</div>
+                                    <p class="details-text"> - </p>
+                                </div>
+
+                                <div ng-if="vm.stopDetails.end != null" class="details details-large">
+                                    <div class="details-label">Stop duration</div>
+                                    <p class="details-text"> {{vm.stopDetails.duration}} hr </p>
+                                </div>
+                                <div ng-if="vm.stopDetails.end == null" class="details details-large">
+                                    <div class="details-label">Stop duration</div>
+                                    <p class="details-text"> - </p>
+                                </div>
+                                <div ng-if="vm.stopDetails.end != null" class="details details-large">
+                                    <div class="details-label">Total cost</div>
+                                    <p class="details-text">{{vm.stopDetails.cost}} &euro;</p>
+                                </div>
+                                <div ng-if="vm.stopDetails.end == null" class="details details-large">
+                                    <div class="details-label">Total cost</div>
+                                    <p class="details-text"> - </p>
+                                </div>
+
+                            </div>
+                            <div ng-if="vm.stopDetails == null" class="row">
+                                <h3 id="noDetails"> Select a stop to show its details</h3>
+                            </div>
+
+                        </div>
+                        <!-- Stop Status -->
+                        <div id="StopStatus" class="tabcontent" style="display:none">
+                            <div ng-if="vm.stopDetails != null" class="row">
+                                <div class="details details-large">
+                                    <p class="details-label">Plate</p>
+                                    <p class="details-text"> {{vm.stopDetails.plate}} </p>
+                                </div>
+                                <div ng-if="vm.stopDetails.driverEmail != null" class="details details-large">
+                                    <p class="details-label">Driver Email</p>
+                                    <p class="details-text"> {{vm.stopDetails.driverEmail}} </p>
+                                </div>
+                                <div ng-if="vm.stopDetails.driverEmail == null" class="details details-large">
+                                    <p class="details-label">Driver Email</p>
+                                    <p class="details-text"> Not Available </p>
+                                </div>
+
+                            </div>
+                            <div ng-if="vm.stopDetails != null" class="row">
+                                <ul class="details-list">
+                                    <li ng-show="vm.stopDetails.paid != null">Payment received:
+                                        {{vm.stopDetails.paid}}</li>
+                                    <li ng-show="vm.stopDetails.paid == null">Payment not received</li>
+                                    <li ng-show="vm.stopDetails.driverEmail != null"> Valid stop</li>
+                                    <li ng-show="vm.stopDetails.driverEmail == null"> Invalid stop</li>
+                                </ul>
+                            </div>
+                            <div ng-if="vm.stopDetails == null" class="row">
+                                <h3 id="noDetails"> Select a stop to show its details</h3>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+    <navfooter></navfooter>
+</div> <!-- flex wrapper-->
+</body>
+
+</html>

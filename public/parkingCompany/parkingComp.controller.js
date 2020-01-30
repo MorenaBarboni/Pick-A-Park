@@ -2,16 +2,18 @@
 
     angular.module("pick-a-park").controller("parkingCompCtrl", parkingCompCtrl);
 
-    parkingCompCtrl.$inject = ["$http", "$window", "$location", "$scope", "authentication", "parkingService"];
-    function parkingCompCtrl($http, $window, $location, $scope, authentication, parkingService) {
+    parkingCompCtrl.$inject = ["$window", "$location", "$scope", "authentication", "parkingService", "stopService"];
+    function parkingCompCtrl($window, $location, $scope, authentication, parkingService, stopService) {
 
         var vm = this;
-
         vm.user = {}; //Current user data
 
         vm.unapprovedParkings = []; //List of unapproved parkings
         vm.approvedParkings = []; //List of approved parkings
         vm.parkingDetails = null; //Parking to show details of
+        vm.pendingStops = []; //list of both invalid and unpaid stops
+        vm.archivedStops = [];//list of valid and paid stops
+        vm.stopDetails = null; //stop to show details of
 
         vm.newParking = {
             id: null,
@@ -26,12 +28,17 @@
 
         vm.newPrice = null; //New parking price
 
-        //Table filters
+        //Table filters for parkings
         vm.filter = {
             address: "",
             location: "",
             price: null,
         };
+        //Table filters for stops
+        vm.stopFilter = {
+            start: ""
+        };
+
 
         initController();
 
@@ -44,6 +51,37 @@
                     console.log(e);
                 }).then(function () {
                     getUnapprovedParkings();
+                    getAllStops();
+                })
+        }
+
+
+        //Get all stops
+        function getAllStops() {
+            stopService
+                .getStops(vm.user.company)
+                .then(function (result) {
+                    result.forEach(stop => {
+                        //Retrieve pending invalid stops (Not ended)
+                        if (stop.valid == false && stop.end == null) {
+                            stop.start = new Date(stop.start).toLocaleString();
+                            vm.pendingStops.push(stop);
+                        }
+                        //Retrieve pending valid and invalid stops (ended)
+                        else if (stop.end != null) {
+                            stop.duration = (Math.abs(new Date(stop.end) - new Date(stop.start)) / 3600000).toFixed(2);
+                            stop.start = new Date(stop.start).toLocaleString();
+                            stop.end = new Date(stop.end).toLocaleString();
+                            if (stop.paid != null) {
+                                stop.paid = new Date(stop.paid).toLocaleString();
+                            }
+                            if (stop.paid == null || stop.email == null) {
+                                vm.pendingStops.push(stop)
+                            } else {
+                                vm.archivedStops.push(stop)
+                            }
+                        }
+                    })
                 })
         }
 
@@ -86,6 +124,17 @@
             setParkingMarker()
         }
 
+        //Set current stop to show
+        vm.showStopDetails = function (stopId) {
+
+            for (var i = 0; i < vm.pendingStops.length; i++) {
+                if (vm.pendingStops[i]._id === stopId) {
+                    vm.stopDetails = vm.pendingStops[i];
+                    break;
+                }
+            }
+        }
+
         //Update price of a parking
         vm.onSubmitUpdate = function (newPrice) {
             var answer = window.confirm("Sei sicuro di voler modificare la tariffa?")
@@ -115,10 +164,9 @@
                 });
         }
 
-        //Filters table elements to show
+        //Filters parking table elements to show
         vm.filterTable = function () {
             var result = []
-
             vm.approvedParkings.forEach(parking => {
 
                 //Empty filters
@@ -143,6 +191,24 @@
             return result;
         };
 
+        //Filters stop table elements to show
+        vm.filterStopTable = function () {
+            var result = []
+            vm.pendingStops.forEach(stop => {
+                //Empty filters
+                if (vm.stopFilter.start == "") {
+                    result.push(stop)
+                } else {
+                    //Apply Filters
+                    var startDate = stop.start.toString();
+
+                    if (startDate.startsWith(vm.stopFilter.start)) {
+                        result.push(stop)
+                    }
+                }
+            });
+            return result;
+        };
 
         //Google Maps
 
@@ -211,8 +277,3 @@
 
     }
 })();
-
-
-
-
-

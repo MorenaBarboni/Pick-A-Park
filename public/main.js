@@ -29,6 +29,10 @@
         templateUrl: "parkingCompany/pc.request.view.html",
         controller: "parkingCompCtrl",
         controllerAs: "vm"
+      }).when("/parkingCompany/stops", {
+        templateUrl: "parkingCompany/pc.stops.view.html",
+        controller: "parkingCompCtrl",
+        controllerAs: "vm"
       })
       .when("/municipalPolice", {
         templateUrl: "police/police.view.html",
@@ -83,4 +87,3 @@
     .config(["$routeProvider", "$locationProvider", config])
     .run(["$rootScope", "$location", "authentication", run]);
 })();
-
