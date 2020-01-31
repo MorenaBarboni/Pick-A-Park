@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Stop = mongoose.model("Stop");
 var Booking = mongoose.model("Booking");
+var Parking = mongoose.model("Parking");
 var moment = require("moment");
 
 //Get all stops for a company
@@ -34,7 +35,7 @@ module.exports.stopArrival = function (req, res) {
       stop.plate = req.body.plate;
       stop.start = new Date();
       stop.end = null;
-      stop.paid = false;
+      stop.paid = null;
       stop.cost = null;
       if (!booking) {
         //If there is no booking -> Create new invalid stop
@@ -107,15 +108,11 @@ module.exports.stopDeparture = function (req, res) {
               var stopEnd = new Date();
               //Optional end param for testing
               if (req.body.end) {
-                stopEnd = (req.body.end);
+                stopEnd = (new Date(req.body.end));
               }
-
-              var diffMs = (stopEnd - stop.start);
-              var diffHrs = Math.ceil((diffMs % 86400000) / 3600000);
+              var diffHrs = Math.ceil((Math.abs(new Date(stopEnd) - new Date(stop.start)) / 3600000));
               var stopCost = parking.price * diffHrs;
-
-              //random function to simulate payment
-              var stopPaid = (Math.random() < 0.5) ? true : false;
+              var stopPaid = null;
 
               Stop.findOneAndUpdate(
                 {

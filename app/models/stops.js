@@ -33,9 +33,9 @@ var stopSchema = new mongoose.Schema({
     default: false
   },
   paid: {
-    type: Boolean,
-    default: false
-  }
+    type: Date,
+    default: null
+  },
 },
   {
     versionKey: false
