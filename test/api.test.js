@@ -15,6 +15,7 @@ const Company = require('../app/models/companies');
 const Parking = require('../app/models/parkings');
 const Driver = require('../app/models/drivers');
 const Booking = require('../app/models/bookings');
+const Stop = require('../app/models/stops');
 
 
 //Before testing removes all entries from db and seeds db with test data
@@ -39,6 +40,10 @@ beforeAll(async () => {
     for (const b of bookings) {
         const newBooking = new Booking(b)
         await newBooking.save()
+    }
+    for (const s of stops) {
+        const newStop = new Stop(s)
+        await newStop.save()
     }
 })
 
@@ -352,7 +357,7 @@ describe('Post /COMPANIES', () => {
 /**
  * Testing delete company endpoint
  */
-
+/*
 describe('Delete /COMPANIES', () => {
     it('should delete Company2', async done => {
         const res = await request.delete('/api/companies/Company2')
@@ -360,7 +365,7 @@ describe('Delete /COMPANIES', () => {
         expect(res.status).toBe(204)
         done()
     })
-})
+})*/
 
 /**
  * Testing delete on not-existing company endpoint
@@ -447,6 +452,85 @@ describe('Post /DRIVER', () => {
                 phone: "3339393399",
             })
         expect(res.status).toBe(422)
+        done()
+    })
+})
+
+//STOP ENDPOINTS
+/**
+ * Testing get stops endpoint to retrieve all stops for a specific company
+ */
+describe('Get /STOPS', () => {
+    it('should return all stops of Company1 ', async done => {
+        const res = await request.get('/api/companies/Company1/stops')
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        done()
+    });
+});
+
+/**
+ * Testing get stops endpoint for non existing company
+ */
+describe('Get /STOPS', () => {
+    it('should return 404 status code ', async done => {
+        const res = await request.get('/api/companies/CompanyBeta/stops')
+        expect(res.status).toBe(404)
+        done()
+    });
+});
+
+/**
+ * Testing post to simulate driver arrival for existing booking
+ */
+describe('Post /STOPS', () => {
+    it('should create a new valid stop', async done => {
+        const res = await request.post('/api/companies/Company1/stops/start')
+            .type('form')
+            .send({
+                parking: 2,
+                plate: "AB111CD"
+            })
+        expect(res.status).toBe(201)
+        expect(res.body).toHaveProperty('content')
+        expect(res.body.content.valid).toBe(true)
+        done()
+    })
+})
+
+/**
+ * Testing post to simulate driver arrival for non existing booking
+ */
+describe('Post /STOPS', () => {
+    it('should create a new invalid stop', async done => {
+        const res = await request.post('/api/companies/Company1/stops/start')
+            .type('form')
+            .send({
+                parking: 5,
+                plate: "FF567GG"
+            })
+        expect(res.status).toBe(201)
+        expect(res.body).toHaveProperty('content')
+        expect(res.body.content.valid).toBe(false)
+        done()
+    })
+})
+
+/**
+ * Testing post to simulate driver departure
+ */
+describe('Patch /STOPS', () => {
+    it('should update the stop', async done => {
+        const res = await request.patch('/api/companies/Company1/stops/end')
+            .type('form')
+            .send({
+                parking: 6,
+                plate: "RR145GG"
+            })
+        expect(res.status).toBe(200)
+        expect(res.body).toHaveProperty('content')
+        expect(res.body.content.cost).not.toBeNull()
         done()
     })
 })
@@ -621,6 +705,67 @@ const parkings = [
         price: 0.5,
         isApproved: true,
         isUsable: true
+    },
+    {
+        id: 5,
+        city: "Camerino",
+        address: "Via Le Mosse",
+        location: {
+            type: "Point",
+            coordinates: [
+                13.081280,
+                43.143679]
+        },
+        company: "Company1",
+        plate: null,
+        handicap: false,
+        indoor: false,
+        price: 0.5,
+        isApproved: true,
+        isUsable: true
+    },
+    {
+        id: 6,
+        city: "Camerino",
+        address: "Via Aldo Moro",
+        location: {
+            type: "Point",
+            coordinates: [
+                13.067815,
+                43.141491]
+        },
+        company: "Company1",
+        plate: "RR145GG",
+        handicap: false,
+        indoor: false,
+        price: 0.5,
+        isApproved: true,
+        isUsable: true
+    }
+]
+
+const stops = [
+    {
+        driverEmail: "nicola@gmail.com",
+        start: new Date(),
+        end: null,
+        valid: true,
+        paid: null,
+        parkingId: 6,
+        company: "Company1",
+        plate: "RR145GG",
+        cost: null
+    },
+    {
+        driverEmail: "lorenzo@gmail.com",
+        start: new Date(2020, 0, 28, 9, 56),
+        end: new Date(2020, 0, 28, 10, 40),
+        valid: true,
+        paid: null,
+        parkingId: 3,
+        company: "Company1",
+        plate: "AB333CD",
+        cost: 3
     }
 ]
 
@@ -637,7 +782,7 @@ const drivers = [
 
 const bookings = [
     {
-        company: "Company2",
+        company: "Company1",
         parkingId: 2,
         driverEmail: "morena@gmail.com",
         plate: "AB111CD",
