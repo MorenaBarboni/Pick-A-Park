@@ -46,6 +46,12 @@
             })
         }
 
+        //Go to analytics page
+        $scope.goToAnalytics = function (name, id) {
+            $location.url("/municipality/analytics/company/" + name + "/parking/" + id);
+        };
+
+
         //Retrieve approved parkings for each company
         //Init list of unapproved parking requests
         function getAllParkings() {

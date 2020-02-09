@@ -75,10 +75,10 @@
                             if (stop.paid != null) {
                                 stop.paid = new Date(stop.paid).toLocaleString();
                             }
-                            if (stop.paid == null || stop.email == null) {
-                                vm.pendingStops.push(stop)
+                            if (stop.paid == null || stop.driverEmail == null) {
+                                vm.pendingStops.push(stop);
                             } else {
-                                vm.archivedStops.push(stop)
+                                vm.archivedStops.push(stop);
                             }
                         }
                     })
