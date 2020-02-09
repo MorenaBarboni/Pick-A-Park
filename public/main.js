@@ -20,6 +20,10 @@
         templateUrl: "municipality/municipality.companies.view.html",
         controller: "municipalityCtrl",
         controllerAs: "vm"
+      }).when("/municipality/analytics/company/:name/parking/:id", {
+        templateUrl: "municipality/municipality.analytics.view.html",
+        controller: "municipalityAnalyticsCtrl",
+        controllerAs: "vm"
       }).when("/parkingCompany", {
         templateUrl: "parkingCompany/parkingComp.view.html",
         controller: "parkingCompCtrl",

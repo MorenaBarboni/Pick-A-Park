@@ -5,19 +5,26 @@
   <title>Pick-A-Park</title>
   <base href="/">
 
-  <!-- angular -->
+  <!-- Angular JS -->
   <script src="lib/angular/angular.min.js"></script>
   <script src="lib/angular/angular-route.min.js"></script>
-
   <!-- google maps api-->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCG__N4fC-Eq4YuGUvXko4GEgWgmiyGzzc"> </script>
- 
 </head>
 
 <body ng-view>
 
   <!-- routeProvider -->
   <script src="main.js"></script>
+
+
+  <!-- FusionCharts JavaScript Package File -->
+  <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+  <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.charts.js"></script>
+  <!-- FusionCharts AngularJS Chart Plugin -->
+  <script type="text/javascript" src="./lib/angular-plugin/wrappers/angularjs/angular-fusioncharts.min.js"></script>
+  <!-- FusionCharts Themes-->
+  <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.candy.js"></script>
 
   <!-- Services -->
   <script src="./common/services/authenticationService.js"></script>
@@ -31,6 +38,8 @@
 
   <!-- municipality -->
   <script src="./municipality/municipality.controller.js"></script>
+  <script src="./municipality/municipality.analytics.controller.js"></script>
+
   <!-- parking Company -->
   <script src="./parkingCompany/parkingComp.controller.js"></script>
   <!-- municipal police -->

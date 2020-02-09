@@ -921,3 +921,29 @@ thead {
     margin-top: 50%;
     max-width: 100%;
 }
+
+/*Header*/
+
+.dm-banner-title {
+    text-align: right;
+    padding: 10px 0px;
+}
+
+.dm-banner-title .front-text-box {
+    position: relative;
+    z-index: 1;
+}
+
+.dm-banner-title h3 {
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid #5b945b;
+    padding-bottom: 14px;
+}
+
+.dm-banner-text {
+    padding: 107px 0px;
+    font-size: 15px;
+    font-weight: 450;
+    color: #34945c;
+}
