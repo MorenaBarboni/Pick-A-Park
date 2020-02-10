@@ -55,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }, 200);
                 //CODE
+                goToFindAParkSelection();
             }
         });
 
@@ -144,7 +145,7 @@ public class HomeActivity extends AppCompatActivity {
                         });
 
                 AlertDialog alert = altdial.create();
-                alert.setTitle("Dialog Header");
+                alert.setTitle("Log out");
                 alert.show();
             }
         });
@@ -155,6 +156,11 @@ public class HomeActivity extends AppCompatActivity {
 
     public void goToMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToFindAParkSelection(){
+        Intent intent = new Intent(this, FindAParkSelectionActivity.class);
         startActivity(intent);
     }
 }

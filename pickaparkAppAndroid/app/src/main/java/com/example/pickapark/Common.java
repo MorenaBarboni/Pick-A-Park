@@ -1,7 +1,7 @@
 package com.example.pickapark;
 
 public class Common {
-    public static  String domain ="10.0.1.60";
+    public static  String domain ="192.168.1.118";
     public static String urlGENERIC = "";
     public static  String urlLOGIN ="";
     public static  String urlREGISTRATION = "";

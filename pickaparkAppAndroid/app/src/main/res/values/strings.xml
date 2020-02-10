@@ -3,4 +3,6 @@
     <string name="logo">logo</string>
     <string name="log_in">Log In</string>
     <string name="sign_in">Sign In</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="google_directions_key">AIzaSyATqDVMrdfDU2pr3xvHmbOnH_gjSqovm9s</string>
 </resources>
