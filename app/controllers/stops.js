@@ -25,6 +25,43 @@ module.exports.getStops = function (req, res) {
     });
 };
 
+//Pay stop
+module.exports.updateStop = function (req, res) {
+  Stop.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    {
+      $set: {
+        paid: Date.now()
+      }
+    },
+    {
+      new: true
+    },
+    function (err, stop) {
+      if (err) {
+        console.log(err);
+      } else {
+        if (!stop) {
+          res.status(404).json({
+            code: 404,
+            message: "The resource is not available"
+          });
+        } else {
+          res.status(200);
+          res.json({
+            code: "200",
+            status: "success",
+            message: "Resource successfully updated",
+            content: stop
+          });
+
+        }
+      }
+    });
+};
+
 //Simulates driver arrival
 module.exports.stopArrival = function (req, res) {
   Booking.findOne({ company: req.params.name, parkingId: req.body.parking, plate: req.body.plate })

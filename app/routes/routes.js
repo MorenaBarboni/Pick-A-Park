@@ -48,6 +48,7 @@ router.post("/companies/:name/bookings", ctrlBooking.newBooking);
 
 //Stops
 router.get("/companies/:name/stops", ctrlStop.getStops);
+router.patch("/companies/:name/stops/:id", ctrlStop.updateStop); 
 
 //Stops simulation
 router.post("/companies/:name/stops/start", ctrlStop.stopArrival);
