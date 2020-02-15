@@ -4,9 +4,26 @@ var Booking = mongoose.model("Booking");
 var Parking = mongoose.model("Parking");
 var moment = require("moment");
 
-//Get all stops for a company
+
+//Get all stops (for a company or driver)
 module.exports.getStops = function (req, res) {
-  Stop.find({ company: req.params.name })
+
+  var company = req.query.company;
+  var plate = req.query.plate;
+  var email = req.query.email; //driverEmail
+
+  var query = {};
+
+  if (company) {
+    query.company = company;
+  }
+  if (plate) {
+    query.plate = plate;
+  }
+  if (email) {
+    query.driverEmail = email;
+  }
+  Stop.find(query)
     .sort({ parkingId: 1 })
     .exec(function (err, stops) {
       if (!stops.length) {
@@ -24,6 +41,7 @@ module.exports.getStops = function (req, res) {
       }
     });
 };
+
 
 //Pay stop
 module.exports.updateStop = function (req, res) {
@@ -64,11 +82,11 @@ module.exports.updateStop = function (req, res) {
 
 //Simulates driver arrival
 module.exports.stopArrival = function (req, res) {
-  Booking.findOne({ company: req.params.name, parkingId: req.body.parking, plate: req.body.plate })
+  Booking.findOne({ company: req.body.company, parkingId: req.body.parking, plate: req.body.plate })
     .exec(function (err, booking) {
       var stop = new Stop();
       stop.parkingId = req.body.parking;
-      stop.company = req.params.name;
+      stop.company = req.body.company;
       stop.plate = req.body.plate;
       stop.start = new Date();
       stop.end = null;
@@ -86,7 +104,7 @@ module.exports.stopArrival = function (req, res) {
       Parking.findOneAndUpdate(
         {
           id: req.body.parking,
-          company: req.params.name
+          company: req.body.company
         },
         {
           $set: {
@@ -114,7 +132,7 @@ module.exports.stopArrival = function (req, res) {
 
 //Simulates driver departure
 module.exports.stopDeparture = function (req, res) {
-  Parking.findOneAndUpdate({ company: req.params.name, id: req.body.parking }, {
+  Parking.findOneAndUpdate({ company: req.body.company, id: req.body.parking }, {
     $set: {
       plate: null
     }
@@ -128,7 +146,7 @@ module.exports.stopDeparture = function (req, res) {
         });
       } else {
         Stop.findOne({
-          company: req.params.name,
+          company: req.body.company,
           parkingId: req.body.parking,
           start: { $ne: null },
           end: null,
