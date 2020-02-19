@@ -12,6 +12,7 @@ const ctrlCompany = require("../controllers/companies");
 const ctrlDriver = require("../controllers/driver");
 const ctrlStop = require("../controllers/stops");
 const ctrlBooking = require("../controllers/bookings");
+const ctrlNotice = require("../controllers/notices");
 
 // Set default API response
 router.get('/', function (req, res) {
@@ -56,6 +57,9 @@ router.patch("/stops/:id", ctrlStop.updateStop); //Pay stop
 
 //Destination
 router.get("/destination/:lat/:long", ctrlParking.getDestination);
+
+//Notices
+router.post("/notices", auth, ctrlNotice.newNotice);
 
 // Export API routes
 module.exports = router;
