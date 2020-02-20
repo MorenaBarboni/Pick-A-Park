@@ -16,6 +16,7 @@ const Parking = require('../app/models/parkings');
 const Driver = require('../app/models/drivers');
 const Booking = require('../app/models/bookings');
 const Stop = require('../app/models/stops');
+const Notice = require('../app/models/notices');
 
 
 //Before testing removes all entries from db and seeds db with test data
@@ -44,6 +45,10 @@ beforeAll(async () => {
     for (const s of stops) {
         const newStop = new Stop(s)
         await newStop.save()
+    }
+    for (const n of notices) {
+        const newNotice = new Notice(n)
+        await newNotice.save()
     }
 })
 
@@ -639,6 +644,45 @@ describe('Post /BOOKING', () => {
     })
 })
 
+//NOTICES ENDPOINTS
+
+/**
+ * Testing post to create new notice for invalid stop
+ */
+describe('Post /NOTICE', () => {
+    it('should create a new notice ', async done => {
+        const res = await request.post('/api/notices')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                stopId: "5e4d15a7be996a3c9c30a2c4",
+                company: "Company1",
+                email: "company1@company1.it"
+            })
+        expect(res.status).toBe(201)
+        done()
+    })
+})
+
+/**
+ * Testing post to create already existing notice
+ */
+describe('Post /NOTICE', () => {
+    it('should return existingNoticeError ', async done => {
+        const res = await request.post('/api/notices')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                stopId: "5e4d65932e10970ae4d33333",
+                company: "Company1",
+                email: "company1@company1.it"
+            })
+        expect(res.status).toBe(422)
+        expect(res.body.message).toBe("existingNoticeError")
+        done()
+    })
+})
+
 
 
 afterAll(async () => {
@@ -840,5 +884,15 @@ const bookings = [
         plate: "AB111CD",
         address: {},
         expireAt: moment(new Date()).add(10, 'm').toDate()
+    }
+]
+
+const notices = [
+    {
+        stopId: "5e4d65932e10970ae4d33333",
+        company: "Company1",
+        sentBy: "company1@company1.it",
+        solved: false,
+        timestamp: Date.now()
     }
 ]
