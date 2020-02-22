@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 public class HomeActivity extends AppCompatActivity {
 
     ImageView findAPark;
@@ -43,6 +45,8 @@ public class HomeActivity extends AppCompatActivity {
         notice.setAlpha((float) 1);
         settings.setAlpha((float) 1);
         logOut.setAlpha((float) 1);
+
+        fillUserData();
 
         findAPark.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +164,28 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void goToFindAParkSelection(){
-        Intent intent = new Intent(this, FindAParkSelectionActivity.class);
+        //StartAndDestinationActivity
+        //Intent intent = new Intent(this, FindAParkSelectionActivity.class);
+        Intent intent = new Intent(this, StartAndDestinationActivity.class);
         startActivity(intent);
+    }
+
+    public void fillUserData(){
+        ArrayList<String> carList = new ArrayList<>();
+        ArrayList<String> paymentList = new ArrayList<>();
+
+
+        carList.add("AA001AA");
+        carList.add("AA002AA");
+
+        paymentList.add(" ... 0000");
+        paymentList.add(" ... 0001");
+        paymentList.add(" ... 0002");
+
+        SingletoonFindAPark.get().setCarPlates(carList);
+        SingletoonFindAPark.get().setPaymentCards(paymentList);
+
+        SingletoonFindAPark.get().setUserEmail("555email@test.it");
+
     }
 }

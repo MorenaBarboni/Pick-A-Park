@@ -3,7 +3,8 @@ package com.example.pickapark;
 import androidx.fragment.app.FragmentActivity;
 
 import android.animation.ValueAnimator;
-import android.graphics.Camera;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,8 +13,12 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.Toast;
-import android.location.Location.*;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.pickapark.Remote.CommonGoogleMaps;
 import com.example.pickapark.Remote.IGoogleApi;
 import com.google.android.gms.maps.CameraUpdate;
@@ -31,9 +36,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -42,8 +47,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.google.android.gms.maps.model.JointType.ROUND;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -57,16 +60,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng startPositon,endPosition;
     private int index,next;
     private Button btnGo;
+    private Button btnNewRoute;
     private String destination;
     private PolylineOptions polylineOptions,blackPolylineOptions;
     private Polyline blackPolyline, greyPolyline;
+    private boolean buttonClicked = false;
 
+    private int realDuration;
     private int duration;
 
-    private LatLng myLocation;
+    private LatLng currentPos;
+
+
+    // From the get
+    private LatLng lastNearestParkRetrived;
+    double newPrice = 0;
+    String newCompanyId = "";
+    int newParkId = 0;
+    String newCity = "";
+    String newAddress = "";
+    int newDistance = 0;
+
+
+    private Handler mHandler = new Handler();
 
     IGoogleApi mService;
 
+
+    private RequestQueue mQueue;
+    Context mContext;
 
 
     @Override
@@ -78,16 +100,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         //mapFragment.getMapAsync(this);
 
+        mContext = this;
+        mQueue = Volley.newRequestQueue(this);
+
+        currentPos = SingletoonFindAPark.get().getStartCoordinates();
+
         polylineList = new ArrayList<>();
         btnGo = findViewById(R.id.startNavigationMap);
+        btnNewRoute = findViewById(R.id.getNewDestinationButton);
+
+        btnNewRoute.setEnabled(false);
 
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                destination = "Via Pallotta 2 Camerino MC";
-                destination = destination.replace(" ","+");
-                mapFragment.getMapAsync(MapsActivity.this);
+                if(!buttonClicked){
+                    btnGo.setText("Cancel");
+                    buttonClicked =true;
+                    startRepeating();
+                    mapFragment.getMapAsync(MapsActivity.this);
+                }
+                else{
+                    buttonClicked =true;
+                    stopRepeating();
+                    goToHomeActivity();
+                }
+            }
+        });
 
+        btnNewRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopRepeating();
+                goToBooking();
             }
         });
 
@@ -155,6 +200,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+
+
         mMap = googleMap;
 
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -181,8 +229,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             requestUrl = "https://maps.googleapis.com/maps/api/directions/json?"+
                     "mode=driving&"+
                     "transit_routing_preference=less_driving&"+
-                    "origin="+sidney.latitude+","+sidney.longitude+"&"+
-                    "destination="+destination+"&"+
+                    "origin="+SingletoonFindAPark.get().getStartCoordinates().latitude+","+SingletoonFindAPark.get().getStartCoordinates().longitude+"&"+
+                    "destination="+SingletoonFindAPark.get().getDestinationCoordinates().latitude+","+SingletoonFindAPark.get().getDestinationCoordinates().longitude+"&"+
+                    //"destination="+destination+"&"+
                     "key="+getResources().getString(R.string.google_directions_key);
             Log.d("URL",requestUrl);
             mService.getDataFromGoogleApi(requestUrl)
@@ -199,6 +248,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     JSONArray legs = route.getJSONArray("legs");
                                     JSONObject legsObj = legs.getJSONObject(0);
                                     int seconds = legsObj.getJSONObject("duration").getInt("value");
+                                    realDuration = seconds;
                                     int minutes = (int) Math.ceil(seconds/60)+1;
                                     duration = minutes * 60;
 
@@ -241,7 +291,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 //Animator
 
                                 final ValueAnimator polylineAnimator = ValueAnimator.ofInt(0,100);
-                                polylineAnimator.setDuration(duration*1000);
+                                polylineAnimator.setDuration(realDuration*1000);
                                 polylineAnimator.setInterpolator(new LinearInterpolator());
                                 polylineAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                                     @Override
@@ -287,6 +337,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                 Log.d("position", "long: "+lng+"lat: "+lat);
 
                                                 LatLng newPos = new LatLng(lat,lng);
+                                                //currentPos = newPos;
                                                 marker.setPosition(newPos);
                                                 marker.setAnchor(0.5f,0.5f);
                                                 //marker.setRotation(getBearing(startPositon,newPos));
@@ -323,15 +374,115 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    public void goToHomeActivity(){
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToBooking(){
+        Intent intent = new Intent(this, BookingConfirmationActivity.class);
+        startActivity(intent);
+    }
 
 
 
 
+    public String urlAPIDestination(){
+        String urlDestination ="";
+        Common com = new Common();
+        urlDestination = urlDestination + com.urlDESTINATION;
+        urlDestination = urlDestination + SingletoonFindAPark.get().getDestinationCoordinates().latitude + "/" + SingletoonFindAPark.get().getDestinationCoordinates().longitude;
+        urlDestination = urlDestination + "?indoor=" + SingletoonFindAPark.get().isCoveredPark() + "&access=" + SingletoonFindAPark.get().isHandicap() + "&maxDistance=" + SingletoonFindAPark.get().getDistanceMax();
+
+        return urlDestination;
+    }
 
 
 
+    private void GETRequestDestination(){
 
 
+        String urlGET = urlAPIDestination();
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, urlGET, null,
+                new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject content = response.getJSONObject("content");
+                            JSONObject location = content.getJSONObject("location");
+                            JSONArray coordinates = location.getJSONArray("coordinates");
+
+                            double coordinatesLat = coordinates.getDouble(1);
+                            double coordinatesLon = coordinates.getDouble(0);
+
+                            LatLng newParkingCoordinates = new LatLng(coordinatesLat,coordinatesLon);
+                            lastNearestParkRetrived = newParkingCoordinates;
+
+                            newPrice = content.getDouble("price");
+                            newCompanyId = content.getString("company");
+                            newParkId = content.getInt("id");
+                            newCity = content.getString("city");
+                            newAddress = content.getString("address");
+                            newDistance = (int) Math.ceil(content.getDouble("distance"));
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("VOLLEY", e.getMessage());
+                            //getDestinationSucceeded = false;
+                            //errorMessage.setText("json error");
+                        }
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //getDestinationSucceeded = false;
+                //errorMessage.setText("communication error");
+                Log.e("ErrorVOLLEY",error.getMessage());
+            }
+        });
+
+        mQueue.add(request);
+
+    }
+
+
+    public void startRepeating() {
+        searchForNearestPark.run();
+    }
+
+    public void stopRepeating() {
+        mHandler.removeCallbacks(searchForNearestPark);
+    }
+
+    private Runnable searchForNearestPark = new Runnable() {
+        @Override
+        public void run() {
+            GETRequestDestination();
+            //Toast.makeText(MapsActivity.this, "Searching nearest park", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MapsActivity.this, "la"+currentPos.latitude+"lo"+currentPos.longitude, Toast.LENGTH_SHORT).show();
+            mHandler.postDelayed(new Runnable() {
+                public void run() {
+                    if(!lastNearestParkRetrived.equals(SingletoonFindAPark.get().getDestinationCoordinates())){
+                        SingletoonFindAPark.get().setStartCoordinates(currentPos);
+                        SingletoonFindAPark.get().setDestinationCoordinates(lastNearestParkRetrived);
+
+                        SingletoonFindAPark.get().setPrice(newPrice);
+                        SingletoonFindAPark.get().setCompanyId(newCompanyId);
+                        SingletoonFindAPark.get().setParkId(newParkId);
+                        SingletoonFindAPark.get().setCity(newCity);
+                        SingletoonFindAPark.get().setAddress(newAddress);
+                        SingletoonFindAPark.get().setDistanceMax(newDistance);
+
+                        btnNewRoute.setEnabled(true);
+                    }
+                }
+            }, 1000);
+
+            mHandler.postDelayed(this, 5000);
+        }
+    };
 
 
 

@@ -136,10 +136,7 @@ public class RegistrationActivity extends AppCompatActivity {
         return allCorrect;
     }
 
-    public boolean checkConsistencyDatabase(){
-        boolean rtnvalue = true;
-        return rtnvalue;
-    }
+
 
     public static boolean isEmailValid(String email) {
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";

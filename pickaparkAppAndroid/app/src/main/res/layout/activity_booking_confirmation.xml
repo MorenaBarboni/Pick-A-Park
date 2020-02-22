@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FindAParkSelectionActivity">
+    tools:context=".BookingConfirmationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,93 +28,89 @@
             app:srcCompat="@drawable/logo" />
 
         <TextView
-            android:id="@+id/textDescription1"
+            android:id="@+id/data1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15pt"
-            android:layout_marginBottom="1pt"
-            android:textSize="15sp"
+            android:layout_marginTop="20pt"
+            android:layout_marginBottom="3pt"
+            android:text="Park"
             android:textColor="#356635"
-            android:text="Select the car" />
-
-        <Spinner
-            android:id="@+id/spinnerCar"
-            android:layout_width="match_parent"
-            android:layout_height="20pt"
-            android:layout_marginBottom="10pt"
-            android:layout_marginTop="1pt"/>
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/textDescription2"
+            android:id="@+id/data2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1pt"
-            android:layout_marginBottom="1pt"
-            android:textSize="15sp"
+            android:layout_marginTop="3pt"
+            android:layout_marginBottom="3pt"
+            android:text="Park"
             android:textColor="#356635"
-            android:text="Select the credit card" />
-
-        <Spinner
-            android:id="@+id/spinnerPayment"
-            android:layout_width="match_parent"
-            android:layout_height="20pt"
-            android:layout_marginBottom="10pt" />
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/textDescription3"
+        android:id="@+id/data3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3pt"
+        android:layout_marginBottom="3pt"
+        android:text="Park"
+        android:textColor="#356635"
+        android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/data4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1pt"
-            android:layout_marginBottom="1pt"
-            android:textSize="15sp"
+            android:layout_marginTop="3pt"
+            android:layout_marginBottom="3pt"
+            android:text="Park"
             android:textColor="#356635"
-            android:text="Maximum distance" />
+            android:textSize="20sp" />
 
-        <Spinner
-            android:id="@+id/spinnerMaxDistance"
-            android:layout_width="match_parent"
-            android:layout_height="20pt"
-            android:layout_marginBottom="20pt" />
-
-
-
-        <CheckBox android:id="@+id/checkbox_handicap"
+        <TextView
+            android:id="@+id/parkidtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10pt"
-            android:text="Handicap bearer"
-            android:onClick="onCheckboxClicked"/>
+            android:layout_marginTop="3pt"
+            android:layout_marginBottom="3pt"
+            android:text="Park"
+            android:textColor="#356635"
+            android:textSize="20sp" />
 
-        <CheckBox android:id="@+id/checkbox_coveredParking"
+        <TextView
+            android:id="@+id/data5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20pt"
-            android:text="Covered parking"
-            android:onClick="onCheckboxClicked"/>
+            android:layout_marginTop="40pt"
+            android:layout_marginBottom="3pt"
+            android:text="Touch the button to confirm park booking"
+            android:lines="2"
+            android:textAlignment="center"
+            android:textColor="#356635"
+            android:textSize="15sp" />
 
         <Button
-            android:id="@+id/buttonGoToPark"
-            android:background="@drawable/selector_downloaded_file_button"
+            android:id="@+id/buttonBookingPark"
             android:layout_width="400px"
             android:layout_height="wrap_content"
             android:layout_marginTop="10pt"
-            android:layout_weight="1"
-            android:text="Find your park"
-            android:textColor="#FFFFFF"
             android:layout_marginBottom="5dp"
-            android:textAllCaps="false" />
+            android:layout_weight="1"
+            android:background="@drawable/selector_downloaded_file_button"
+            android:text="Go !"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF" />
 
         <TextView
-            android:id="@+id/errorSearchingPark"
+            android:id="@+id/errorBookingPark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30px"
             android:layout_marginBottom="30px"
-            android:textSize="15sp"
+            android:text=""
             android:textColor="#FF0000"
-            android:text="" />
+            android:textSize="15sp" />
 
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
