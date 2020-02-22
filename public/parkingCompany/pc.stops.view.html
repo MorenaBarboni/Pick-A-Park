@@ -231,6 +231,12 @@
                                     <li ng-show="vm.stopDetails.driverEmail == null"> Invalid stop</li>
                                 </ul>
                             </div>
+                            <div ng-if="vm.stopDetails != null && vm.stopDetails.valid == false" class="row center" style="margin-top: 50px;">
+                                <div class="column" id="columnLeft">
+                                    <a class="button1-delete button1-big" ng-click="vm.onSubmitNotify()">Notify Stop
+                                    </a>
+                                </div>
+                            </div>
                             <div ng-if="vm.stopDetails == null" class="row">
                                 <h3 id="noDetails"> Select a stop to show its details</h3>
                             </div>

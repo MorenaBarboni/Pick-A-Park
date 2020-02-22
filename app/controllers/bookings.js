@@ -30,6 +30,21 @@ module.exports.newBooking = function (req, res) {
         plate: null
       }, function (err, data) {
         if (data) {
+          //Delete any previous booking for the user
+          Booking.findOneAndRemove(
+            {
+              driverEmail: booking.driverEmail,
+            },
+            function (err, booking) {
+              if (err) {
+                console.log(err);
+              } else {
+                if (booking) {
+                  console.log("Previous booking deleted.");
+                }
+              }
+            }
+          );
           booking.save(function (err) {
             res.status(201);
             res.json({

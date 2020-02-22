@@ -10,6 +10,7 @@ require('../models/parkings');
 require('../models/drivers');
 require('../models/bookings');
 require('../models/stops');
+require('../models/notices');
 
 
 //Test DB Connection string

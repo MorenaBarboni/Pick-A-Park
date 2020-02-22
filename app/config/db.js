@@ -8,6 +8,8 @@ require('../models/parkings');
 require('../models/drivers');
 require('../models/stops');
 require('../models/bookings');
+require('../models/notices');
+
 
 //Connection string
 

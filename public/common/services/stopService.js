@@ -7,7 +7,7 @@
     //Get all stops of a company
     getStops = function (name) {
       return $http
-        .get("/api/companies/" + name + "/stops", {
+        .get("/api/stops/?company=" + name, {
           headers: {
             Authorization: "Bearer " + authentication.getToken()
           }

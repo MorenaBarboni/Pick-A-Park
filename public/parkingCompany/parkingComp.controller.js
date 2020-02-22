@@ -2,8 +2,8 @@
 
     angular.module("pick-a-park").controller("parkingCompCtrl", parkingCompCtrl);
 
-    parkingCompCtrl.$inject = ["$window", "$location", "$scope", "authentication", "parkingService", "stopService"];
-    function parkingCompCtrl($window, $location, $scope, authentication, parkingService, stopService) {
+    parkingCompCtrl.$inject = ["$window", "$location", "$scope", "authentication", "parkingService", "stopService", "noticeService"];
+    function parkingCompCtrl($window, $location, $scope, authentication, parkingService, stopService, noticeService) {
 
         var vm = this;
         vm.user = {}; //Current user data
@@ -24,6 +24,12 @@
             price: null,
             indoor: false,
             handicap: false
+        };
+
+        vm.newNotice = {
+            stopId: null,
+            company: "",
+            email: ""
         };
 
         vm.newPrice = null; //New parking price
@@ -147,6 +153,27 @@
                 window.location.reload();
             }
 
+        };
+
+        //Send invalid parking notification
+        vm.onSubmitNotify = function () {
+            var answer = window.confirm("Sei sicuro di voler notificare la sosta alla polizia?")
+            if (answer) {
+                vm.newNotice.stopId = vm.stopDetails._id;
+                vm.newNotice.company = vm.stopDetails.company;
+                vm.newNotice.email = vm.user.email;
+                console.log(vm.newNotice);
+
+                noticeService.newNotice(vm.newNotice).then(function (response) {
+                    if (response === "existingNoticeError") {
+                        window.alert("Notifica già inviata!");
+                    }
+                    else {
+                        window.alert("Notifica inviata con successo!");
+                        window.location.reload();
+                    }
+                });                
+            }
         };
 
         //Retrieve and split approved/unapproved parkings

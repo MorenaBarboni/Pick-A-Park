@@ -16,6 +16,7 @@ const Parking = require('../app/models/parkings');
 const Driver = require('../app/models/drivers');
 const Booking = require('../app/models/bookings');
 const Stop = require('../app/models/stops');
+const Notice = require('../app/models/notices');
 
 
 //Before testing removes all entries from db and seeds db with test data
@@ -44,6 +45,10 @@ beforeAll(async () => {
     for (const s of stops) {
         const newStop = new Stop(s)
         await newStop.save()
+    }
+    for (const n of notices) {
+        const newNotice = new Notice(n)
+        await newNotice.save()
     }
 })
 
@@ -462,7 +467,7 @@ describe('Post /DRIVER', () => {
  */
 describe('Get /STOPS', () => {
     it('should return all stops of Company1 ', async done => {
-        const res = await request.get('/api/companies/Company1/stops')
+        const res = await request.get('/api/stops/?company=Company1')
         expect(res.status).toBe(200)
         expect(res.body.status).toBe("success")
         expect(res.body).toHaveProperty('content')
@@ -475,7 +480,31 @@ describe('Get /STOPS', () => {
  */
 describe('Get /STOPS', () => {
     it('should return 404 status code ', async done => {
-        const res = await request.get('/api/companies/CompanyBeta/stops')
+        const res = await request.get('/api/stops/?company=CompanyBeta')
+        expect(res.status).toBe(404)
+        done()
+    });
+});
+
+/**
+ * Testing get stops endpoint for existing driver
+ */
+describe('Get /STOPS', () => {
+    it('should return all the stops of the driver ', async done => {
+        const res = await request.get('/api/stops/?email=lorenzo@gmail.com')
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe("success")
+        expect(res.body).toHaveProperty('content')
+        done()
+    });
+});
+
+/**
+ * Testing get stops endpoint for non existing driver
+ */
+describe('Get /STOPS', () => {
+    it('should return 404 status code ', async done => {
+        const res = await request.get('/api/stops/?email=test@gmail.com')
         expect(res.status).toBe(404)
         done()
     });
@@ -486,11 +515,12 @@ describe('Get /STOPS', () => {
  */
 describe('Post /STOPS', () => {
     it('should create a new valid stop', async done => {
-        const res = await request.post('/api/companies/Company1/stops/start')
+        const res = await request.post('/api/stops/start')
             .type('form')
             .send({
                 parking: 2,
-                plate: "AB111CD"
+                plate: "AB111CD",
+                company: "Company1"
             })
         expect(res.status).toBe(201)
         expect(res.body).toHaveProperty('content')
@@ -504,11 +534,12 @@ describe('Post /STOPS', () => {
  */
 describe('Post /STOPS', () => {
     it('should create a new invalid stop', async done => {
-        const res = await request.post('/api/companies/Company1/stops/start')
+        const res = await request.post('/api/stops/start')
             .type('form')
             .send({
                 parking: 5,
-                plate: "FF567GG"
+                plate: "FF567GG",
+                company: "Company1"
             })
         expect(res.status).toBe(201)
         expect(res.body).toHaveProperty('content')
@@ -522,15 +553,40 @@ describe('Post /STOPS', () => {
  */
 describe('Patch /STOPS', () => {
     it('should update the stop', async done => {
-        const res = await request.patch('/api/companies/Company1/stops/end')
+        const res = await request.patch('/api/stops/end')
             .type('form')
             .send({
                 parking: 6,
-                plate: "RR145GG"
+                plate: "RR145GG",
+                company: "Company1"
             })
         expect(res.status).toBe(200)
         expect(res.body).toHaveProperty('content')
         expect(res.body.content.cost).not.toBeNull()
+        done()
+    })
+})
+
+/**
+ * Testing patch to pay for a stop
+ */
+describe('Patch /STOPS', () => {
+    it('should pay the stop', async done => {
+        const res = await request.patch('/api/stops/5e348bc69693e831dcab4828')
+        expect(res.status).toBe(200)
+        expect(res.body).toHaveProperty('content')
+        expect(res.body.content.paid).not.toBeNull()
+        done()
+    })
+})
+
+/**
+ * Testing patch to pay for a non existing stop
+ */
+describe('Patch /STOPS', () => {
+    it('should return 404 status code', async done => {
+        const res = await request.patch('/api/stops/66748bc69693e831dcab4828')
+        expect(res.status).toBe(404)
         done()
     })
 })
@@ -579,11 +635,50 @@ describe('Post /BOOKING', () => {
         const res = await request.post('/api/companies/Company1/bookings')
             .type('form')
             .send({
-                parkingId: 1,
+                parkingId: 2,
                 email: "lorenzo@gmail.com",
                 plate: "AB333CD"
             })
         expect(res.status).toBe(422)
+        done()
+    })
+})
+
+//NOTICES ENDPOINTS
+
+/**
+ * Testing post to create new notice for invalid stop
+ */
+describe('Post /NOTICE', () => {
+    it('should create a new notice ', async done => {
+        const res = await request.post('/api/notices')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                stopId: "5e4d15a7be996a3c9c30a2c4",
+                company: "Company1",
+                email: "company1@company1.it"
+            })
+        expect(res.status).toBe(201)
+        done()
+    })
+})
+
+/**
+ * Testing post to create already existing notice
+ */
+describe('Post /NOTICE', () => {
+    it('should return existingNoticeError ', async done => {
+        const res = await request.post('/api/notices')
+            .set('Authorization', 'Bearer ' + token)
+            .type('form')
+            .send({
+                stopId: "5e4d65932e10970ae4d33333",
+                company: "Company1",
+                email: "company1@company1.it"
+            })
+        expect(res.status).toBe(422)
+        expect(res.body.message).toBe("existingNoticeError")
         done()
     })
 })
@@ -757,6 +852,7 @@ const stops = [
         cost: null
     },
     {
+        _id: "5e348bc69693e831dcab4828",
         driverEmail: "lorenzo@gmail.com",
         start: new Date(2020, 0, 28, 9, 56),
         end: new Date(2020, 0, 28, 10, 40),
@@ -788,5 +884,15 @@ const bookings = [
         plate: "AB111CD",
         address: {},
         expireAt: moment(new Date()).add(10, 'm').toDate()
+    }
+]
+
+const notices = [
+    {
+        stopId: "5e4d65932e10970ae4d33333",
+        company: "Company1",
+        sentBy: "company1@company1.it",
+        solved: false,
+        timestamp: Date.now()
     }
 ]
