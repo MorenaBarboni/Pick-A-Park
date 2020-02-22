@@ -635,7 +635,7 @@ describe('Post /BOOKING', () => {
         const res = await request.post('/api/companies/Company1/bookings')
             .type('form')
             .send({
-                parkingId: 1,
+                parkingId: 2,
                 email: "lorenzo@gmail.com",
                 plate: "AB333CD"
             })
